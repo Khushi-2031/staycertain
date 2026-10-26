@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StayCertain – Booking Cancellation Risk</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <h1>StayCertain</h1>
+    <p class="intro">Enter one booking to see how likely it is to be cancelled and what to do about it.</p>
+
+    <form id="booking-form" novalidate>
+      <div id="fields"></div>
+      <button type="submit">Check risk</button>
+      <p id="form-error" class="error" role="alert"></p>
+    </form>
+
+    <section id="result" aria-live="polite" hidden></section>
+
+    <footer>
+      <p><strong>About this tool:</strong> trained on 87,216 bookings from two hotels in Portugal (2015–2017).
+      It has not been tested on Indian hotels. It correctly ranks a cancelled booking above a kept one about 80% of the time,
+      and at the Medium threshold it catches about 7 in 10 cancellations. Costs behind the thresholds are assumptions.
+      Use it as a guide alongside your own judgement.</p>
+    </footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

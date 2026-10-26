@@ -1,0 +1,58 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #f6f7f9;
+}
+main { max-width: 640px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { margin: 0 0 4px; font-size: 28px; }
+.intro { margin: 0 0 24px; color: #444; }
+
+.field { margin-bottom: 16px; }
+.field label { display: block; font-weight: 600; margin-bottom: 4px; }
+.field .hint { font-weight: 400; color: #555; font-size: 14px; }
+.field input, .field select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 16px;
+  border: 1px solid #9aa0a6;
+  border-radius: 6px;
+  background: #fff;
+}
+.field input:focus, .field select:focus { outline: 2px solid #1f4e78; border-color: #1f4e78; }
+.field.invalid input, .field.invalid select { border-color: #b00020; }
+.error { color: #b00020; font-size: 14px; margin: 4px 0 0; min-height: 0; }
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  background: #1f4e78;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover { background: #173b5a; }
+
+#result {
+  margin-top: 24px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-left: 8px solid #999;
+  border-radius: 6px;
+}
+#result.low { border-left-color: #2e7d32; }
+#result.medium { border-left-color: #e0a100; }
+#result.high { border-left-color: #c62828; }
+#result p { margin: 0 0 8px; }
+#result .headline { font-size: 18px; font-weight: 700; }
+#result .action { font-weight: 700; }
+#result .note { font-size: 14px; color: #555; margin: 0; }
+
+footer { margin-top: 32px; font-size: 14px; color: #444; border-top: 1px solid #ddd; padding-top: 16px; }
