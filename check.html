@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StayCertain – Booking Cancellation Risk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <span class="logo" aria-hidden="true">S</span>
+      <div>
+        <div class="brand">StayCertain</div>
+        <div class="tagline">Booking cancellation risk for independent hotels</div>
+      </div>
+      <nav class="nav"><a href="index.html">Dashboard</a><a href="check.html" aria-current="page">Check one booking</a></nav>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel" aria-labelledby="form-title">
+      <div class="panel-head">
+        <div>
+          <h1 id="form-title">Check a booking</h1>
+          <p class="muted">Enter the booking details. Fields marked “pre-filled” can usually stay as they are.</p>
+        </div>
+        <div class="tools">
+          <label for="example" class="sr-only">Load a test booking</label>
+          <select id="example" class="compact">
+            <option value="">Load test booking…</option>
+          </select>
+          <button type="button" id="reset" class="ghost">Clear</button>
+        </div>
+      </div>
+
+      <form id="booking-form" novalidate>
+        <div id="groups"></div>
+        <p id="form-error" class="form-error" role="alert"></p>
+        <button type="submit" class="primary">Check cancellation risk</button>
+      </form>
+    </section>
+
+    <aside class="side">
+      <section id="result" class="panel result empty" aria-live="polite">
+        <h2 class="result-title">Result</h2>
+        <p class="muted">Fill in the booking and press <strong>Check cancellation risk</strong>. The risk and the action to take will appear here.</p>
+      </section>
+
+      <section class="panel guide">
+        <h2>How to read the result</h2>
+        <ul class="tiers">
+          <li><span class="badge low">Low</span><span>Below 30%. About 1 in 8 similar bookings cancel. No action.</span></li>
+          <li><span class="badge medium">Medium</span><span>30–59%. About 2 in 5 cancel. Send a reminder a week before arrival.</span></li>
+          <li><span class="badge high">High</span><span>60% and above. About 4 in 5 cancel. Ask for a deposit or phone to confirm.</span></li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="about">
+    <p><strong>About this tool:</strong> trained on 87,216 bookings from two hotels in Portugal (2015–2017).
+    It has not been tested on Indian hotels. It correctly ranks a cancelled booking above a kept one about 80% of the time,
+    and at the Medium threshold it catches about 7 in 10 cancellations. Costs behind the thresholds are assumptions.
+    Use it as a guide alongside your own judgement.</p>
+  </footer>
+
+  <script type="module" src="check.js"></script>
+</body>
+</html>

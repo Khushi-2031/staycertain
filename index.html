@@ -3,29 +3,68 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>StayCertain – Booking Cancellation Risk</title>
+  <title>StayCertain – Protect every booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="app.css">
 </head>
 <body>
-  <main>
-    <h1>StayCertain</h1>
-    <p class="intro">Enter one booking to see how likely it is to be cancelled and what to do about it.</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <span class="logo" aria-hidden="true">S</span>
+      <div>
+        <div class="brand">StayCertain</div>
+        <div class="tagline" id="hotelLine">Protect every booking</div>
+      </div>
+      <nav class="nav"><a href="index.html" aria-current="page">Dashboard</a><a href="check.html">Check one booking</a></nav>
+    </div>
+  </header>
 
-    <form id="booking-form" novalidate>
-      <div id="fields"></div>
-      <button type="submit">Check risk</button>
-      <p id="form-error" class="error" role="alert"></p>
-    </form>
+  <div class="databar">
+    <div class="databar-inner">
+      <span id="dataStatus" class="muted">Loading bookings…</span>
+      <span class="spacer"></span>
+      <label class="ghost file-btn" for="file">Upload bookings (Excel/CSV)</label>
+      <input id="file" type="file" accept=".xlsx,.xls,.csv" class="sr-only">
+      <button type="button" class="ghost" id="loadSample">Use sample hotel</button>
+    </div>
+  </div>
 
-    <section id="result" aria-live="polite" hidden></section>
+  <main class="shell">
+    <section id="kpis" class="kpis" aria-label="Key numbers"></section>
 
-    <footer>
-      <p><strong>About this tool:</strong> trained on 87,216 bookings from two hotels in Portugal (2015–2017).
-      It has not been tested on Indian hotels. It correctly ranks a cancelled booking above a kept one about 80% of the time,
-      and at the Medium threshold it catches about 7 in 10 cancellations. Costs behind the thresholds are assumptions.
-      Use it as a guide alongside your own judgement.</p>
-    </footer>
+    <div class="tabs" role="tablist">
+      <button role="tab" data-tab="actions" class="tab active">Today's actions</button>
+      <button role="tab" data-tab="revenue" class="tab">Revenue & forecast</button>
+      <button role="tab" data-tab="overbook" class="tab">Safe overbooking</button>
+      <button role="tab" data-tab="channels" class="tab">Channels</button>
+      <button role="tab" data-tab="savings" class="tab">Savings report</button>
+      <button role="tab" data-tab="automations" class="tab">Automations</button>
+      <button role="tab" data-tab="settings" class="tab">Settings</button>
+    </div>
+
+    <section id="tab-actions" class="tabpanel"></section>
+    <section id="tab-revenue" class="tabpanel" hidden></section>
+    <section id="tab-overbook" class="tabpanel" hidden></section>
+    <section id="tab-channels" class="tabpanel" hidden></section>
+    <section id="tab-savings" class="tabpanel" hidden></section>
+    <section id="tab-automations" class="tabpanel" hidden></section>
+    <section id="tab-settings" class="tabpanel" hidden></section>
   </main>
+
+  <div id="drawerBackdrop" class="backdrop" hidden></div>
+  <aside id="drawer" class="drawer" hidden aria-modal="true" role="dialog" aria-labelledby="drawerTitle"></aside>
+
+  <footer class="about">
+    <p><strong>About the score:</strong> a Logistic Regression model trained in Orange on 87,216 bookings from two hotels in Portugal (2015–2017);
+    it ranks a cancelled booking above a kept one about 80% of the time and has not yet been tested on Indian hotels.
+    The probability comes only from that formula — no AI decides the score. Deposit levels, reconfirmation rules and savings figures are
+    business assumptions you can change in Settings. Sample data is fictional.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>
