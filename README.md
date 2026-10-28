@@ -1,13 +1,21 @@
-# StayCertain — protect every booking
+# StayCertain — protect every booking (v2, after peer review)
 
 A cancellation-risk platform for small hotels. Plain HTML/CSS/JS, no build step; deploys on Vercel as a static site.
 The risk score comes only from the Logistic Regression model trained in Orange (`predict.js`). No AI decides the score.
 
+## v2 changes after peer review
+- Model retrained without leaky inputs (parking, booking changes, special requests, deposit type) and without hotel type: 13 inputs, AUC 0.73 (was 0.80, inflated).
+- One decision rule everywhere: Low <30% no action · Medium 30–54% WhatsApp reconfirmation · High 55%+ 50% advance + reconfirmation, call if no reply.
+- Risk today = model probability updated for days left before arrival (`timing.js`, back-tested). The model score is never changed by business rules; replies/payments are status labels.
+- Non-refundable and paid bookings are shown as protected, not at risk; advances collected are shown.
+- Savings shown as a range, each booking counted once; channel view labelled as correlation; overbooking treats group bookings as one unit.
+- Impossible bookings rejected (0 nights, no adults, >10 adults, free rooms); rupees everywhere; simpler booking panel; all tabs visible on phones.
+
 ## Pages
 - `index.html` — **Dashboard** (loads the sample hotel automatically; upload your own Excel/CSV)
   - **Today's actions**: every upcoming booking scored, with the reasons ("High risk: booked 244 days ahead, via OTA, …"),
-    the suggested advance (Low 0% / Medium 25% / High 50%) and a booking panel with:
-    why-this-score (each line is a term of the model's formula + the pattern from 87,216 past bookings),
+    the next step (High: 50% advance) and a booking panel with:
+    why-this-score (each line is a term of the model's formula + the pattern from 85,370 past bookings),
     UPI payment link, WhatsApp reconfirmation messages (7 and 2 days before), AI voice-call prompt (smallest.ai),
     and buttons to record outcomes (confirmed / no reply / deposit paid / cancelled).
   - **Revenue & forecast**: per night — booked rooms, expected cancellations, expected occupancy, ₹ at risk, push-sales / hold-rates signal.

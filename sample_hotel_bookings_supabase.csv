@@ -1,0 +1,521 @@
+booking_ref,guest_name,guest_phone,hotel,booking_date,checkin_date,checkout_date,adults,children,meal,market_segment,customer_type,deposit_type,adr_inr,booking_changes,required_car_parking_spaces,total_of_special_requests,is_repeated_guest,previous_cancellations,previous_bookings_not_canceled,advance_paid_inr,status
+SC-24029,Aarav Pillai,910000000029,Resort Hotel,2026-10-24,2026-10-28,2026-10-29,1,0,BB,Corporate,Transient,No Deposit,10600,0,0,0,0,0,0,0,confirmed
+SC-24035,Meera Nair,910000000035,Resort Hotel,2026-10-20,2026-10-28,2026-10-31,2,0,BB,Online TA,Transient,No Deposit,4300,0,0,1,0,0,0,0,confirmed
+SC-24042,Arjun Chopra,910000000042,Resort Hotel,2026-10-22,2026-10-28,2026-10-31,2,0,BB,Online TA,Transient,No Deposit,6750,0,0,1,0,0,0,0,confirmed
+SC-24043,Nisha Desai,910000000043,Resort Hotel,2026-10-27,2026-10-28,2026-10-29,2,0,BB,Online TA,Transient,No Deposit,4300,0,1,1,0,0,0,0,confirmed
+SC-24046,Pooja Rao,910000000046,Resort Hotel,2026-07-01,2026-10-28,2026-11-04,3,1,HB,Online TA,Transient,No Deposit,12150,0,0,1,0,0,0,0,confirmed
+SC-24061,Aarav Menon,910000000061,Resort Hotel,2026-10-13,2026-10-28,2026-11-02,2,0,BB,Offline TA/TO,Transient,No Deposit,4050,0,0,0,0,0,0,0,confirmed
+SC-24114,Diya Verma,910000000114,Resort Hotel,2026-10-27,2026-10-28,2026-10-29,2,0,BB,Direct,Transient,No Deposit,6500,2,1,0,0,0,0,0,confirmed
+SC-24127,Harsh Pillai,910000000127,Resort Hotel,2026-10-24,2026-10-28,2026-10-29,1,0,HB,Online TA,Transient,No Deposit,6300,0,0,0,0,0,0,0,confirmed
+SC-24165,Isha Pillai,910000000165,Resort Hotel,2026-10-27,2026-10-28,2026-10-29,2,0,BB,Online TA,Transient-Party,No Deposit,7200,0,0,1,0,0,0,0,confirmed
+SC-24205,Nikhil Verma,910000000205,Resort Hotel,2026-10-26,2026-10-28,2026-10-29,2,0,FB,Offline TA/TO,Transient,No Deposit,7450,0,0,0,0,0,0,0,confirmed
+SC-24206,Neha Sharma,910000000206,Resort Hotel,2026-10-23,2026-10-28,2026-10-29,2,0,BB,Online TA,Transient,No Deposit,3700,0,1,1,0,0,0,0,confirmed
+SC-24208,Kabir Patel,910000000208,Resort Hotel,2026-10-23,2026-10-28,2026-10-29,1,0,BB,Offline TA/TO,Transient-Party,No Deposit,2700,0,0,0,0,0,0,0,confirmed
+SC-24211,Riya Rao,910000000211,Resort Hotel,2026-10-27,2026-10-28,2026-10-29,1,0,BB,Online TA,Transient-Party,No Deposit,6300,0,0,1,0,0,0,0,confirmed
+SC-24237,Aditya Das,910000000237,Resort Hotel,2026-10-25,2026-10-28,2026-10-29,1,0,BB,Online TA,Transient,No Deposit,3350,0,0,1,0,0,0,0,confirmed
+SC-24260,Sneha Bose,910000000260,Resort Hotel,2026-10-26,2026-10-28,2026-10-29,2,0,BB,Direct,Transient,No Deposit,6850,0,0,0,0,0,0,0,confirmed
+SC-24015,Farhan Gupta,910000000015,Resort Hotel,2026-10-25,2026-10-29,2026-11-03,2,0,BB,Direct,Transient,No Deposit,12150,0,0,1,0,0,0,0,confirmed
+SC-24016,Aarav Sharma,910000000016,Resort Hotel,2026-10-28,2026-10-29,2026-10-30,2,0,BB,Direct,Transient,No Deposit,7850,0,1,1,0,0,0,0,confirmed
+SC-24025,Aditya Shah,910000000025,Resort Hotel,2026-06-09,2026-10-29,2026-11-05,2,2,HB,Online TA,Transient,No Deposit,26100,0,0,2,0,0,0,0,confirmed
+SC-24028,Zoya Reddy,910000000028,Resort Hotel,2026-04-02,2026-10-29,2026-11-04,2,0,BB,Direct,Transient,No Deposit,12700,0,0,1,0,0,0,0,confirmed
+SC-24030,Nikhil Rao,910000000030,Resort Hotel,2026-06-04,2026-10-29,2026-11-02,2,2,BB,Online TA,Transient,No Deposit,14500,0,0,1,0,0,0,0,confirmed
+SC-24054,Aditya Menon,910000000054,Resort Hotel,2026-10-28,2026-10-29,2026-10-31,2,0,BB,Direct,Transient,No Deposit,6850,0,0,1,0,0,0,0,confirmed
+SC-24056,Vivaan Mehta,910000000056,Resort Hotel,2026-10-18,2026-10-29,2026-10-31,2,0,BB,Online TA,Transient,No Deposit,9950,0,0,1,0,0,0,0,confirmed
+SC-24071,Vikram Shah,910000000071,Resort Hotel,2026-10-28,2026-10-29,2026-10-31,2,0,BB,Online TA,Transient,No Deposit,18000,0,0,1,0,0,0,0,confirmed
+SC-24083,Vikram Singh,910000000083,Resort Hotel,2026-10-26,2026-10-29,2026-10-30,1,0,BB,Corporate,Transient,No Deposit,2700,0,0,0,0,0,0,0,confirmed
+SC-24001,Aarav Reddy,910000000001,Resort Hotel,2026-10-28,2026-10-30,2026-11-01,2,0,BB,Online TA,Transient,No Deposit,7550,0,0,0,0,0,0,0,confirmed
+SC-24078,Riya Desai,910000000078,Resort Hotel,2026-10-24,2026-10-30,2026-10-31,1,0,BB,Corporate,Transient,No Deposit,12150,0,0,0,0,0,8,0,confirmed
+SC-24086,Riya Khan,910000000086,Resort Hotel,2026-10-13,2026-10-30,2026-11-03,2,0,HB,Online TA,Transient,No Deposit,24350,3,0,1,0,0,0,0,confirmed
+SC-24100,Farhan Singh,910000000100,Resort Hotel,2026-10-18,2026-10-30,2026-11-01,2,2,BB,Direct,Transient,No Deposit,13150,2,1,0,0,0,0,0,confirmed
+SC-24104,Zoya Reddy,910000000104,Resort Hotel,2026-10-25,2026-10-30,2026-11-03,1,0,BB,Offline TA/TO,Transient,No Deposit,2250,0,0,0,0,0,0,0,confirmed
+SC-24135,Meera Gupta,910000000135,Resort Hotel,2026-10-19,2026-10-30,2026-10-31,2,1,BB,Direct,Transient-Party,No Deposit,11350,3,0,1,0,0,0,0,confirmed
+SC-24151,Tanvi Pillai,910000000151,Resort Hotel,2026-10-28,2026-10-30,2026-10-31,1,0,BB,Corporate,Transient,No Deposit,4050,3,1,0,0,0,0,0,confirmed
+SC-24221,Priya Pillai,910000000221,Resort Hotel,2026-10-27,2026-10-30,2026-10-31,2,0,BB,Corporate,Transient,No Deposit,4500,0,0,0,0,0,0,0,confirmed
+SC-24023,Vikram Shah,910000000023,Resort Hotel,2026-10-22,2026-10-31,2026-11-02,2,0,BB,Online TA,Transient,No Deposit,9750,0,1,1,0,0,0,0,confirmed
+SC-24089,Aarav Singh,910000000089,Resort Hotel,2026-10-24,2026-10-31,2026-11-01,1,0,BB,Offline TA/TO,Transient,No Deposit,2700,0,0,0,1,0,1,0,confirmed
+SC-24101,Pooja Khan,910000000101,Resort Hotel,2026-10-25,2026-10-31,2026-11-01,1,0,BB,Direct,Transient,No Deposit,5050,0,0,0,0,0,0,0,confirmed
+SC-24154,Manish Das,910000000154,Resort Hotel,2026-10-24,2026-10-31,2026-11-01,1,0,BB,Corporate,Transient,No Deposit,4300,0,0,0,1,0,1,0,confirmed
+SC-24190,Zoya Reddy,910000000190,Resort Hotel,2026-10-24,2026-10-31,2026-11-01,1,0,BB,Corporate,Transient,No Deposit,12050,0,0,1,0,0,5,0,confirmed
+SC-24229,Kabir Iyer,910000000229,Resort Hotel,2026-10-24,2026-10-31,2026-11-01,1,0,HB,Direct,Transient,No Deposit,5150,2,0,0,0,0,0,0,confirmed
+SC-24254,Simran Nair,910000000254,Resort Hotel,2026-10-23,2026-10-31,2026-11-01,1,0,BB,Corporate,Transient,No Deposit,4050,0,0,0,0,0,0,0,confirmed
+SC-24275,Manish Khan,910000000275,Resort Hotel,2026-10-27,2026-10-31,2026-11-01,1,0,BB,Corporate,Transient,No Deposit,5150,0,1,0,1,0,1,0,confirmed
+SC-24308,Aarav Singh,910000000308,Resort Hotel,2026-09-28,2026-10-31,2026-11-01,2,0,BB,Offline TA/TO,Transient,No Deposit,5900,0,0,0,0,0,0,0,confirmed
+SC-24067,Nisha Sharma,910000000067,Resort Hotel,2026-10-20,2026-11-01,2026-11-05,1,0,BB,Online TA,Transient-Party,No Deposit,4950,2,1,1,0,0,0,0,confirmed
+SC-24069,Zoya Menon,910000000069,Resort Hotel,2026-10-24,2026-11-01,2026-11-03,2,0,BB,Corporate,Transient,No Deposit,5950,0,0,0,0,0,0,0,confirmed
+SC-24073,Isha Mehta,910000000073,Resort Hotel,2026-10-23,2026-11-01,2026-11-04,2,0,BB,Online TA,Transient,No Deposit,11600,0,0,1,0,0,0,0,confirmed
+SC-24110,Aarav Menon,910000000110,Resort Hotel,2026-10-20,2026-11-01,2026-11-06,2,0,BB,Offline TA/TO,Transient,No Deposit,3750,0,0,0,0,0,0,0,confirmed
+SC-24033,Simran Reddy,910000000033,Resort Hotel,2026-10-24,2026-11-02,2026-11-07,2,0,BB,Offline TA/TO,Transient,No Deposit,2600,0,0,0,0,0,0,0,confirmed
+SC-24063,Farhan Verma,910000000063,Resort Hotel,2026-10-26,2026-11-02,2026-11-03,1,0,BB,Direct,Transient,No Deposit,5400,0,0,1,1,0,1,0,confirmed
+SC-24099,Rahul Das,910000000099,Resort Hotel,2026-09-18,2026-11-02,2026-11-04,2,0,HB,Online TA,Transient,No Deposit,21850,0,0,1,0,0,0,0,confirmed
+SC-24003,Yash Kapoor,910000000003,Resort Hotel,2026-10-24,2026-11-03,2026-11-05,1,0,BB,Corporate,Transient,No Deposit,7100,0,0,0,0,0,0,0,confirmed
+SC-24010,Yash Pillai,910000000010,Resort Hotel,2026-10-07,2026-11-03,2026-11-07,2,0,BB,Online TA,Transient,No Deposit,13750,0,0,0,0,0,0,0,confirmed
+SC-24019,Isha Singh,910000000019,Resort Hotel,2026-10-28,2026-11-03,2026-11-04,1,0,BB,Corporate,Transient,No Deposit,11350,0,0,0,0,0,0,0,confirmed
+SC-24144,Manish Mehta,910000000144,Resort Hotel,2026-10-26,2026-11-03,2026-11-06,2,1,BB,Direct,Transient,No Deposit,19000,0,0,0,0,0,0,0,confirmed
+SC-24150,Zoya Verma,910000000150,Resort Hotel,2026-09-26,2026-11-03,2026-11-07,2,0,BB,Online TA,Transient,No Deposit,23600,5,0,1,0,0,0,0,confirmed
+SC-24162,Neha Khan,910000000162,Resort Hotel,2026-08-13,2026-11-03,2026-11-10,2,0,HB,Online TA,Transient-Party,No Deposit,10750,2,0,2,0,0,0,0,confirmed
+SC-24168,Manish Khan,910000000168,Resort Hotel,2026-10-22,2026-11-03,2026-11-06,2,0,BB,Direct,Transient,No Deposit,5650,0,0,3,0,0,0,0,confirmed
+SC-24060,Rohan Mehta,910000000060,Resort Hotel,2026-10-19,2026-11-04,2026-11-06,3,1,BB,Online TA,Transient,No Deposit,13950,0,0,0,0,0,0,0,confirmed
+SC-24166,Pooja Khan,910000000166,Resort Hotel,2026-05-20,2026-11-04,2026-11-11,2,0,BB,Offline TA/TO,Transient,No Deposit,6350,0,0,0,0,0,0,0,confirmed
+SC-24174,Harsh Kapoor,910000000174,Resort Hotel,2026-10-23,2026-11-04,2026-11-11,2,0,BB,Direct,Transient,No Deposit,15500,0,0,0,0,0,0,0,confirmed
+SC-24179,Rahul Bose,910000000179,Resort Hotel,2026-10-28,2026-11-04,2026-11-05,2,0,BB,Offline TA/TO,Transient,No Deposit,3900,0,0,0,0,0,0,0,confirmed
+SC-24074,Diya Shah,910000000074,Resort Hotel,2026-10-27,2026-11-05,2026-11-06,2,0,BB,Online TA,Transient,No Deposit,7400,0,1,1,0,0,0,0,confirmed
+SC-24084,Arjun Menon,910000000084,Resort Hotel,2026-10-24,2026-11-05,2026-11-07,2,0,BB,Online TA,Transient,No Deposit,19000,0,0,1,1,0,1,0,confirmed
+SC-24161,Priya Rao,910000000161,Resort Hotel,2026-08-31,2026-11-05,2026-11-08,2,0,HB,Online TA,Transient,No Deposit,12400,0,0,1,0,0,0,0,confirmed
+SC-24183,Vikram Verma,910000000183,Resort Hotel,2026-10-14,2026-11-05,2026-11-07,2,0,SC,Groups,Transient-Party,No Deposit,5400,0,0,1,0,0,0,0,confirmed
+SC-24192,Aarav Das,910000000192,Resort Hotel,2026-09-20,2026-11-05,2026-11-06,2,0,BB,Online TA,Transient,No Deposit,4550,0,0,0,0,0,0,0,confirmed
+SC-24031,Isha Iyer,910000000031,Resort Hotel,2026-10-27,2026-11-06,2026-11-07,2,0,BB,Direct,Transient,No Deposit,3650,0,0,2,1,0,1,0,confirmed
+SC-24197,Simran Chopra,910000000197,Resort Hotel,2026-09-21,2026-11-06,2026-11-10,2,0,BB,Offline TA/TO,Transient,No Deposit,4150,0,0,0,0,0,0,0,confirmed
+SC-24222,Simran Shah,910000000222,Resort Hotel,2026-03-06,2026-11-06,2026-11-07,2,0,BB,Offline TA/TO,Transient-Party,No Deposit,7750,0,0,1,0,0,0,0,confirmed
+SC-24244,Rohan Shah,910000000244,Resort Hotel,2026-10-22,2026-11-06,2026-11-11,1,1,BB,Online TA,Transient,No Deposit,12950,0,1,1,0,0,0,0,confirmed
+SC-24247,Aditya Kapoor,910000000247,Resort Hotel,2026-05-21,2026-11-06,2026-11-09,1,0,BB,Groups,Transient-Party,Refundable,5400,2,0,0,0,0,0,0,confirmed
+SC-24263,Diya Desai,910000000263,Resort Hotel,2026-09-16,2026-11-06,2026-11-07,2,0,BB,Groups,Transient-Party,No Deposit,2700,0,0,0,0,0,0,0,confirmed
+SC-24276,Manish Chopra,910000000276,Resort Hotel,2026-10-16,2026-11-06,2026-11-07,2,0,BB,Direct,Transient,No Deposit,6750,0,0,0,0,0,0,0,confirmed
+SC-24319,Rohan Sharma,910000000319,Resort Hotel,2026-10-09,2026-11-06,2026-11-08,2,0,BB,Direct,Transient,No Deposit,4950,2,0,1,0,0,0,0,confirmed
+SC-24341,Manish Gupta,910000000341,Resort Hotel,2026-10-16,2026-11-06,2026-11-07,2,0,HB,Corporate,Transient-Party,No Deposit,9800,1,0,0,0,0,0,0,confirmed
+SC-24349,Pooja Gupta,910000000349,Resort Hotel,2026-10-26,2026-11-06,2026-11-09,2,0,BB,Offline TA/TO,Transient,No Deposit,4600,0,1,0,0,0,0,0,confirmed
+SC-24082,Priya Patel,910000000082,Resort Hotel,2026-10-27,2026-11-07,2026-11-08,2,0,BB,Corporate,Transient-Party,No Deposit,7950,0,0,0,0,0,0,0,confirmed
+SC-24147,Siddharth Shah,910000000147,Resort Hotel,2026-10-28,2026-11-07,2026-11-09,1,0,BB,Corporate,Transient,No Deposit,3800,0,0,1,1,0,1,0,confirmed
+SC-24200,Nikhil Shah,910000000200,Resort Hotel,2026-09-27,2026-11-07,2026-11-12,2,0,HB,Online TA,Transient,No Deposit,18550,0,0,0,0,0,0,0,confirmed
+SC-24261,Ananya Khan,910000000261,Resort Hotel,2026-07-10,2026-11-07,2026-11-11,2,0,BB,Online TA,Transient,No Deposit,3650,0,0,0,0,0,0,0,confirmed
+SC-24286,Yash Reddy,910000000286,Resort Hotel,2026-10-20,2026-11-07,2026-11-08,2,0,BB,Online TA,Transient-Party,No Deposit,5950,0,1,1,0,0,0,0,confirmed
+SC-24334,Ananya Shah,910000000334,Resort Hotel,2026-08-11,2026-11-07,2026-11-09,2,2,BB,Online TA,Transient,No Deposit,7400,0,0,1,0,0,0,0,confirmed
+SC-24401,Diya Sharma,910000000401,Resort Hotel,2026-10-23,2026-11-07,2026-11-08,2,0,BB,Direct,Transient,No Deposit,3850,0,0,1,0,0,0,0,confirmed
+SC-24443,Neha Chopra,910000000443,Resort Hotel,2026-10-20,2026-11-07,2026-11-08,2,0,BB,Online TA,Transient,No Deposit,7650,0,0,0,0,0,0,0,confirmed
+SC-24446,Riya Iyer,910000000446,Resort Hotel,2026-10-19,2026-11-07,2026-11-08,2,0,BB,Online TA,Transient,No Deposit,12800,0,1,0,0,0,0,0,confirmed
+SC-24448,Nikhil Patel,910000000448,Resort Hotel,2026-10-26,2026-11-07,2026-11-08,1,0,BB,Direct,Transient,No Deposit,4550,1,0,0,0,0,0,0,confirmed
+SC-24449,Aditya Desai,910000000449,Resort Hotel,2026-10-20,2026-11-07,2026-11-08,2,2,BB,Direct,Transient,No Deposit,18500,0,1,1,0,0,0,0,confirmed
+SC-24062,Yash Pillai,910000000062,Resort Hotel,2026-10-22,2026-11-08,2026-11-13,2,2,BB,Online TA,Transient,No Deposit,12150,0,0,0,0,0,0,0,confirmed
+SC-24106,Nikhil Sharma,910000000106,Resort Hotel,2026-05-19,2026-11-08,2026-11-13,2,1,BB,Direct,Transient,No Deposit,11800,1,0,1,0,0,0,0,confirmed
+SC-24113,Kavya Menon,910000000113,Resort Hotel,2026-10-03,2026-11-08,2026-11-14,2,0,BB,Online TA,Transient,No Deposit,20700,0,0,1,0,0,0,0,confirmed
+SC-24116,Pooja Menon,910000000116,Resort Hotel,2026-10-07,2026-11-08,2026-11-14,2,0,HB,Direct,Transient,No Deposit,19700,1,0,0,0,0,0,0,confirmed
+SC-24143,Vikram Khan,910000000143,Resort Hotel,2026-08-04,2026-11-08,2026-11-09,2,0,BB,Online TA,Transient,No Deposit,8100,0,0,1,0,0,0,0,confirmed
+SC-24186,Priya Menon,910000000186,Resort Hotel,2026-09-29,2026-11-08,2026-11-12,3,0,BB,Offline TA/TO,Transient-Party,No Deposit,3150,0,0,0,0,0,0,0,confirmed
+SC-24271,Aditya Mehta,910000000271,Resort Hotel,2026-09-10,2026-11-08,2026-11-11,1,0,HB,Online TA,Transient,No Deposit,4350,1,0,2,0,0,0,0,confirmed
+SC-24330,Rahul Gupta,910000000330,Resort Hotel,2026-10-16,2026-11-08,2026-11-09,2,0,BB,Online TA,Transient,No Deposit,4300,2,0,1,0,0,0,0,confirmed
+SC-24348,Karan Kapoor,910000000348,Resort Hotel,2026-08-26,2026-11-08,2026-11-09,2,0,BB,Online TA,Transient,No Deposit,5200,0,0,0,0,0,0,0,confirmed
+SC-24005,Siddharth Gupta,910000000005,Resort Hotel,2026-10-14,2026-11-09,2026-11-16,2,1,BB,Online TA,Transient,No Deposit,24350,0,1,2,0,0,0,0,confirmed
+SC-24065,Siddharth Singh,910000000065,Resort Hotel,2026-10-26,2026-11-09,2026-11-10,1,0,BB,Offline TA/TO,Transient,No Deposit,2700,0,0,0,0,0,0,0,confirmed
+SC-24137,Arjun Iyer,910000000137,Resort Hotel,2026-10-20,2026-11-09,2026-11-12,2,0,BB,Online TA,Transient,No Deposit,4900,0,0,1,0,0,0,0,confirmed
+SC-24194,Rahul Verma,910000000194,Resort Hotel,2026-10-25,2026-11-09,2026-11-15,2,0,BB,Online TA,Transient,No Deposit,12700,0,0,0,0,0,0,0,confirmed
+SC-24201,Aarav Patel,910000000201,Resort Hotel,2026-10-20,2026-11-09,2026-11-16,2,2,BB,Online TA,Transient,No Deposit,7900,0,0,0,0,0,0,0,confirmed
+SC-24207,Ananya Sharma,910000000207,Resort Hotel,2026-09-29,2026-11-09,2026-11-12,2,0,BB,Online TA,Transient,No Deposit,10850,0,0,1,0,0,0,0,confirmed
+SC-24059,Nikhil Menon,910000000059,Resort Hotel,2026-02-15,2026-11-10,2026-11-17,2,0,HB,Online TA,Transient,No Deposit,14900,0,0,0,0,0,0,0,confirmed
+SC-24158,Kavya Reddy,910000000158,Resort Hotel,2026-08-29,2026-11-10,2026-11-14,2,0,BB,Online TA,Transient,No Deposit,15300,0,0,1,0,0,0,0,confirmed
+SC-24277,Siddharth Nair,910000000277,Resort Hotel,2026-10-08,2026-11-10,2026-11-11,2,0,BB,Online TA,Transient,No Deposit,14400,1,0,2,0,0,0,0,confirmed
+SC-24279,Nikhil Singh,910000000279,Resort Hotel,2026-10-14,2026-11-10,2026-11-11,2,0,BB,Direct,Transient,No Deposit,7850,1,1,1,0,0,0,0,confirmed
+SC-24004,Karan Desai,910000000004,Resort Hotel,2026-10-21,2026-11-11,2026-11-12,1,0,BB,Corporate,Transient,No Deposit,5650,0,0,0,0,0,0,0,confirmed
+SC-24122,Simran Menon,910000000122,Resort Hotel,2026-06-29,2026-11-12,2026-11-19,2,0,BB,Direct,Transient,No Deposit,9600,0,0,1,0,0,0,0,confirmed
+SC-24185,Farhan Joshi,910000000185,Resort Hotel,2026-10-14,2026-11-12,2026-11-13,2,0,BB,Online TA,Transient,No Deposit,13150,0,0,1,0,0,0,0,confirmed
+SC-24361,Aarav Verma,910000000361,Resort Hotel,2026-10-28,2026-11-12,2026-11-15,2,0,BB,Offline TA/TO,Contract,No Deposit,12350,0,0,0,0,0,0,0,confirmed
+SC-24388,Yash Singh,910000000388,Resort Hotel,2026-09-13,2026-11-12,2026-11-15,2,2,BB,Online TA,Transient,No Deposit,10600,0,0,0,0,0,0,0,confirmed
+SC-24006,Tanvi Iyer,910000000006,Resort Hotel,2026-10-27,2026-11-13,2026-11-16,2,1,HB,Offline TA/TO,Transient-Party,No Deposit,5050,1,0,1,0,0,0,0,confirmed
+SC-24094,Tanvi Desai,910000000094,Resort Hotel,2026-10-28,2026-11-13,2026-11-17,2,0,BB,Online TA,Transient-Party,No Deposit,16900,1,0,1,0,0,0,0,confirmed
+SC-24266,Meera Joshi,910000000266,Resort Hotel,2026-10-08,2026-11-13,2026-11-14,2,0,BB,Direct,Transient,No Deposit,10100,0,0,0,0,0,0,0,confirmed
+SC-24345,Karan Rao,910000000345,Resort Hotel,2026-10-25,2026-11-13,2026-11-15,2,0,BB,Offline TA/TO,Transient,No Deposit,4900,0,0,2,0,0,0,0,confirmed
+SC-24382,Priya Sharma,910000000382,Resort Hotel,2026-10-24,2026-11-13,2026-11-15,1,0,BB,Offline TA/TO,Transient,No Deposit,2800,2,1,0,0,0,0,0,confirmed
+SC-24421,Diya Gupta,910000000421,Resort Hotel,2026-06-12,2026-11-13,2026-11-14,2,0,BB,Online TA,Transient,No Deposit,3150,0,1,2,0,0,0,0,confirmed
+SC-24426,Zoya Khan,910000000426,Resort Hotel,2026-10-10,2026-11-13,2026-11-14,2,0,BB,Online TA,Transient,No Deposit,4200,0,0,2,0,0,0,0,confirmed
+SC-24432,Neha Pillai,910000000432,Resort Hotel,2026-10-19,2026-11-13,2026-11-15,2,0,BB,Offline TA/TO,Transient,No Deposit,2600,0,0,0,0,0,0,0,confirmed
+SC-24102,Zoya Desai,910000000102,Resort Hotel,2026-10-24,2026-11-14,2026-11-16,2,0,BB,Direct,Transient,No Deposit,4500,0,0,1,0,0,0,0,confirmed
+SC-24243,Kavya Nair,910000000243,Resort Hotel,2026-08-15,2026-11-14,2026-11-17,2,0,BB,Direct,Transient,No Deposit,20750,2,0,1,0,0,0,0,confirmed
+SC-24397,Vikram Pillai,910000000397,Resort Hotel,2026-10-28,2026-11-14,2026-11-15,1,0,BB,Corporate,Transient,No Deposit,12150,0,0,0,0,0,0,0,confirmed
+SC-24400,Neha Patel,910000000400,Resort Hotel,2026-10-23,2026-11-14,2026-11-15,1,0,BB,Direct,Transient,No Deposit,5400,0,0,0,0,0,0,0,confirmed
+SC-24402,Harsh Gupta,910000000402,Resort Hotel,2026-10-24,2026-11-14,2026-11-15,2,0,BB,Offline TA/TO,Transient,No Deposit,11700,1,1,0,0,0,0,0,confirmed
+SC-24425,Diya Khan,910000000425,Resort Hotel,2026-10-15,2026-11-14,2026-11-15,2,0,BB,Direct,Transient,No Deposit,5850,0,0,0,0,0,0,0,confirmed
+SC-24038,Kavya Mehta,910000000038,Resort Hotel,2026-10-28,2026-11-15,2026-11-16,2,0,BB,Online TA,Transient,No Deposit,10700,0,0,1,0,0,0,0,confirmed
+SC-24039,Tanvi Gupta,910000000039,Resort Hotel,2026-02-16,2026-11-15,2026-11-22,2,0,HB,Online TA,Transient,No Deposit,6500,0,0,2,0,0,0,0,confirmed
+SC-24070,Ananya Mehta,910000000070,Resort Hotel,2026-03-24,2026-11-15,2026-11-18,1,0,BB,Groups,Transient-Party,No Deposit,4850,1,1,0,0,0,0,0,confirmed
+SC-24149,Sneha Kapoor,910000000149,Resort Hotel,2026-09-23,2026-11-15,2026-11-22,1,0,HB,Offline TA/TO,Transient,No Deposit,3500,0,0,0,0,0,0,0,confirmed
+SC-24259,Tanvi Sharma,910000000259,Resort Hotel,2026-10-20,2026-11-15,2026-11-16,2,1,BB,Online TA,Transient,No Deposit,14400,0,0,1,0,0,0,0,confirmed
+SC-24274,Yash Verma,910000000274,Resort Hotel,2026-10-13,2026-11-15,2026-11-16,1,0,BB,Corporate,Transient,No Deposit,2250,0,0,0,0,0,1,0,confirmed
+SC-24014,Nisha Joshi,910000000014,Resort Hotel,2026-10-15,2026-11-16,2026-11-21,2,0,BB,Online TA,Transient,No Deposit,3400,0,0,1,0,0,0,0,confirmed
+SC-24024,Sneha Gupta,910000000024,Resort Hotel,2026-10-25,2026-11-16,2026-11-22,2,0,HB,Online TA,Transient,No Deposit,21700,0,0,0,0,0,0,0,confirmed
+SC-24037,Zoya Iyer,910000000037,Resort Hotel,2026-09-20,2026-11-16,2026-11-23,2,0,BB,Online TA,Transient,No Deposit,8550,0,1,1,0,0,0,0,confirmed
+SC-24040,Meera Sharma,910000000040,Resort Hotel,2026-10-21,2026-11-16,2026-11-20,2,0,BB,Direct,Transient,No Deposit,6300,0,0,2,0,0,0,0,confirmed
+SC-24050,Simran Sharma,910000000050,Resort Hotel,2026-07-23,2026-11-16,2026-11-20,2,0,BB,Offline TA/TO,Transient,No Deposit,5650,0,0,0,0,0,0,0,confirmed
+SC-24146,Pooja Khan,910000000146,Resort Hotel,2026-09-30,2026-11-16,2026-11-23,2,0,BB,Online TA,Transient,No Deposit,3850,0,0,1,0,0,0,0,confirmed
+SC-24422,Ananya Nair,910000000422,Resort Hotel,2026-10-21,2026-11-16,2026-11-17,2,0,BB,Offline TA/TO,Transient,No Deposit,5950,0,0,0,0,0,0,0,confirmed
+SC-24097,Zoya Rao,910000000097,Resort Hotel,2026-10-28,2026-11-17,2026-11-19,2,0,BB,Online TA,Transient,No Deposit,3100,0,0,0,0,0,0,0,confirmed
+SC-24105,Nisha Kapoor,910000000105,Resort Hotel,2026-10-25,2026-11-17,2026-11-19,2,0,BB,Groups,Transient-Party,No Deposit,8900,0,1,0,0,0,0,0,confirmed
+SC-24138,Harsh Iyer,910000000138,Resort Hotel,2026-09-13,2026-11-17,2026-11-24,2,1,BB,Direct,Transient,No Deposit,6850,0,0,0,0,0,0,0,confirmed
+SC-24112,Harsh Mehta,910000000112,Resort Hotel,2026-09-26,2026-11-18,2026-11-25,2,1,HB,Direct,Transient,No Deposit,17950,0,1,0,0,0,0,0,confirmed
+SC-24350,Kavya Gupta,910000000350,Resort Hotel,2026-09-29,2026-11-19,2026-11-22,3,0,BB,Direct,Transient,No Deposit,21700,0,0,0,0,0,0,0,confirmed
+SC-24352,Harsh Chopra,910000000352,Resort Hotel,2026-10-10,2026-11-19,2026-11-22,1,0,SC,Groups,Transient-Party,No Deposit,4950,1,0,0,0,0,0,0,confirmed
+SC-24355,Sneha Gupta,910000000355,Resort Hotel,2026-10-14,2026-11-19,2026-11-22,3,0,FB,Online TA,Transient,No Deposit,23300,3,0,0,0,0,0,0,confirmed
+SC-24436,Manish Chopra,910000000436,Resort Hotel,2026-09-30,2026-11-19,2026-11-20,2,0,BB,Online TA,Transient,No Deposit,7900,0,0,1,0,0,0,0,confirmed
+SC-24022,Karan Kapoor,910000000022,Resort Hotel,2026-10-11,2026-11-20,2026-11-23,1,0,SC,Groups,Transient-Party,No Deposit,4950,1,0,0,0,0,0,0,confirmed
+SC-24051,Tanvi Joshi,910000000051,Resort Hotel,2026-10-18,2026-11-20,2026-11-21,2,0,BB,Direct,Transient,No Deposit,12900,0,0,0,0,0,0,0,confirmed
+SC-24125,Sneha Chopra,910000000125,Resort Hotel,2026-10-25,2026-11-20,2026-11-21,2,0,BB,Offline TA/TO,Transient,No Deposit,5600,0,0,0,0,0,0,0,confirmed
+SC-24240,Vivaan Khan,910000000240,Resort Hotel,2026-09-23,2026-11-20,2026-11-22,2,2,BB,Online TA,Transient,No Deposit,9000,0,0,0,0,0,0,0,confirmed
+SC-24267,Isha Mehta,910000000267,Resort Hotel,2026-05-13,2026-11-20,2026-11-23,2,0,FB,Offline TA/TO,Transient-Party,No Deposit,8300,2,0,0,0,0,0,0,confirmed
+SC-24284,Tanvi Bose,910000000284,Resort Hotel,2026-10-11,2026-11-20,2026-11-22,2,0,HB,Online TA,Transient,No Deposit,10100,0,0,1,0,0,0,0,confirmed
+SC-24300,Manish Gupta,910000000300,Resort Hotel,2026-10-11,2026-11-20,2026-11-22,2,0,HB,Direct,Transient,No Deposit,11500,0,0,1,0,0,0,0,confirmed
+SC-24109,Kabir Khan,910000000109,Resort Hotel,2026-09-27,2026-11-21,2026-11-23,2,0,BB,Direct,Transient,No Deposit,4800,0,0,0,0,0,0,0,confirmed
+SC-24177,Simran Sharma,910000000177,Resort Hotel,2026-05-26,2026-11-21,2026-11-27,3,1,HB,Online TA,Transient,No Deposit,16450,1,0,2,0,0,0,0,confirmed
+SC-24133,Kabir Desai,910000000133,Resort Hotel,2026-09-23,2026-11-22,2026-11-29,2,0,BB,Online TA,Transient,No Deposit,2700,0,0,0,0,0,0,0,confirmed
+SC-24189,Zoya Chopra,910000000189,Resort Hotel,2026-10-27,2026-11-22,2026-11-26,2,0,BB,Online TA,Transient,No Deposit,9450,0,0,0,0,0,0,0,confirmed
+SC-24239,Zoya Verma,910000000239,Resort Hotel,2026-10-07,2026-11-22,2026-11-28,2,0,HB,Offline TA/TO,Transient,No Deposit,11950,0,0,0,0,0,0,0,confirmed
+SC-24241,Neha Pillai,910000000241,Resort Hotel,2026-07-24,2026-11-22,2026-11-25,2,0,BB,Online TA,Transient,No Deposit,17000,0,0,0,0,0,0,0,confirmed
+SC-24249,Vivaan Khan,910000000249,Resort Hotel,2026-10-19,2026-11-22,2026-11-24,2,1,BB,Online TA,Transient,No Deposit,10850,0,0,3,0,0,0,0,confirmed
+SC-24020,Meera Reddy,910000000020,Resort Hotel,2026-08-27,2026-11-23,2026-11-25,2,0,BB,Online TA,Transient,No Deposit,21950,0,0,2,0,0,0,0,confirmed
+SC-24066,Yash Patel,910000000066,Resort Hotel,2026-10-17,2026-11-23,2026-11-29,2,0,HB,Direct,Transient,No Deposit,18200,2,0,0,0,0,0,0,confirmed
+SC-24234,Meera Bose,910000000234,Resort Hotel,2026-01-04,2026-11-23,2026-11-30,2,0,BB,Groups,Transient,Non Refund,6500,0,0,0,0,0,0,0,confirmed
+SC-24282,Farhan Sharma,910000000282,Resort Hotel,2026-10-13,2026-11-23,2026-11-24,1,0,BB,Corporate,Transient,No Deposit,4300,1,1,0,0,0,1,0,confirmed
+SC-24329,Manish Nair,910000000329,Resort Hotel,2026-09-17,2026-11-23,2026-11-25,2,2,BB,Online TA,Transient,No Deposit,8300,0,1,1,0,0,0,0,confirmed
+SC-24013,Zoya Rao,910000000013,Resort Hotel,2026-10-18,2026-11-24,2026-12-01,2,0,BB,Online TA,Transient,No Deposit,3950,0,1,2,0,0,0,0,confirmed
+SC-24068,Karan Sharma,910000000068,Resort Hotel,2025-12-23,2026-11-24,2026-12-01,2,0,HB,Offline TA/TO,Transient,No Deposit,16250,1,0,0,0,0,0,0,confirmed
+SC-24072,Nisha Verma,910000000072,Resort Hotel,2026-10-17,2026-11-24,2026-11-26,3,0,HB,Online TA,Transient,No Deposit,24000,1,0,2,0,0,0,0,confirmed
+SC-24188,Ananya Singh,910000000188,Resort Hotel,2026-10-22,2026-11-24,2026-11-26,2,0,HB,Direct,Transient,No Deposit,21500,0,1,2,0,0,0,0,confirmed
+SC-24403,Vivaan Chopra,910000000403,Resort Hotel,2026-10-19,2026-11-24,2026-11-26,2,0,BB,Online TA,Transient,No Deposit,4300,1,0,1,0,0,0,0,confirmed
+SC-24009,Ananya Khan,910000000009,Resort Hotel,2026-09-26,2026-11-25,2026-11-28,2,0,BB,Direct,Transient,No Deposit,21500,0,1,2,0,0,0,0,confirmed
+SC-24130,Rahul Rao,910000000130,Resort Hotel,2026-10-16,2026-11-25,2026-11-27,2,0,BB,Online TA,Transient,No Deposit,5600,0,1,1,0,0,0,0,confirmed
+SC-24170,Sneha Gupta,910000000170,Resort Hotel,2026-10-25,2026-11-25,2026-12-01,2,0,BB,Online TA,Transient,No Deposit,6450,0,0,1,0,0,0,0,confirmed
+SC-24485,Rahul Bose,910000000485,Resort Hotel,2026-10-24,2026-11-25,2026-11-26,2,0,BB,Corporate,Transient,No Deposit,5300,0,0,1,0,0,0,0,confirmed
+SC-24064,Isha Nair,910000000064,Resort Hotel,2026-03-26,2026-11-26,2026-11-27,2,0,HB,Groups,Transient,Non Refund,7200,0,0,0,0,1,0,0,confirmed
+SC-24103,Siddharth Shah,910000000103,Resort Hotel,2026-09-25,2026-11-26,2026-11-30,2,0,BB,Online TA,Transient,No Deposit,13900,0,0,0,0,0,0,0,confirmed
+SC-24145,Vikram Shah,910000000145,Resort Hotel,2026-09-22,2026-11-26,2026-11-30,2,2,BB,Online TA,Transient,No Deposit,11050,0,0,2,0,0,0,0,confirmed
+SC-24213,Nisha Shah,910000000213,Resort Hotel,2026-10-09,2026-11-26,2026-12-02,2,1,BB,Direct,Transient,No Deposit,23600,0,0,1,0,0,0,0,confirmed
+SC-24218,Karan Pillai,910000000218,Resort Hotel,2026-05-21,2026-11-26,2026-12-03,2,0,HB,Offline TA/TO,Transient,No Deposit,7050,0,0,0,0,0,0,0,confirmed
+SC-24079,Aisha Mehta,910000000079,Resort Hotel,2026-10-22,2026-11-27,2026-11-30,2,0,BB,Online TA,Transient,No Deposit,3950,0,0,0,0,0,0,0,confirmed
+SC-24184,Aarav Mehta,910000000184,Resort Hotel,2026-08-26,2026-11-27,2026-12-04,3,1,BB,Online TA,Transient,No Deposit,11250,0,0,1,0,0,0,0,confirmed
+SC-24253,Kabir Reddy,910000000253,Resort Hotel,2026-08-23,2026-11-27,2026-11-29,2,0,BB,Direct,Transient,No Deposit,6900,0,0,0,0,0,0,0,confirmed
+SC-24268,Vikram Reddy,910000000268,Resort Hotel,2026-10-21,2026-11-27,2026-11-28,1,0,BB,Offline TA/TO,Transient,No Deposit,9650,1,0,0,0,0,0,0,confirmed
+SC-24375,Farhan Desai,910000000375,Resort Hotel,2026-08-25,2026-11-27,2026-11-28,2,0,HB,Direct,Transient,No Deposit,12200,1,0,0,0,0,0,0,confirmed
+SC-24420,Neha Sharma,910000000420,Resort Hotel,2026-10-13,2026-11-27,2026-11-28,1,0,BB,Online TA,Transient,No Deposit,5050,1,0,0,0,0,0,0,confirmed
+SC-24081,Karan Patel,910000000081,Resort Hotel,2026-09-25,2026-11-28,2026-12-03,2,0,BB,Online TA,Transient,No Deposit,5600,1,0,1,0,0,0,0,confirmed
+SC-24093,Farhan Pillai,910000000093,Resort Hotel,2026-10-11,2026-11-28,2026-11-30,2,0,HB,Online TA,Transient,No Deposit,21700,0,0,1,0,0,0,0,confirmed
+SC-24381,Ananya Chopra,910000000381,Resort Hotel,2026-10-13,2026-11-28,2026-11-29,2,0,BB,Online TA,Transient,No Deposit,6100,0,0,2,0,0,0,0,confirmed
+SC-24385,Siddharth Joshi,910000000385,Resort Hotel,2026-08-12,2026-11-28,2026-11-29,2,0,BB,Direct,Transient,No Deposit,6700,0,0,2,0,0,0,0,confirmed
+SC-24477,Vikram Kapoor,910000000477,Resort Hotel,2026-07-03,2026-11-28,2026-11-29,2,0,BB,Offline TA/TO,Transient,No Deposit,5300,0,0,0,0,0,0,0,confirmed
+SC-24482,Manish Patel,910000000482,Resort Hotel,2026-10-27,2026-11-28,2026-11-29,2,0,HB,Online TA,Transient,No Deposit,9000,0,0,1,0,0,0,0,confirmed
+SC-24058,Ananya Sharma,910000000058,Resort Hotel,2026-10-14,2026-11-29,2026-12-01,2,0,BB,Online TA,Transient,No Deposit,6550,0,0,0,0,0,0,0,confirmed
+SC-24129,Kabir Desai,910000000129,Resort Hotel,2026-08-20,2026-11-29,2026-12-06,2,0,BB,Offline TA/TO,Transient,No Deposit,3300,0,0,0,0,0,0,0,confirmed
+SC-24224,Isha Patel,910000000224,Resort Hotel,2026-05-27,2026-11-30,2026-12-05,2,0,HB,Offline TA/TO,Transient,No Deposit,5950,0,0,0,0,0,0,0,confirmed
+SC-24311,Zoya Sharma,910000000311,Resort Hotel,2026-10-24,2026-11-30,2026-12-01,1,0,BB,Groups,Transient,No Deposit,15500,0,0,0,0,0,0,0,confirmed
+SC-24407,Neha Iyer,910000000407,Resort Hotel,2026-10-12,2026-11-30,2026-12-02,2,0,BB,Online TA,Transient,No Deposit,5850,0,0,0,0,0,0,0,confirmed
+SC-24439,Ananya Nair,910000000439,Resort Hotel,2026-05-17,2026-11-30,2026-12-02,2,0,HB,Groups,Transient-Party,No Deposit,7650,0,0,0,0,0,0,0,confirmed
+SC-24466,Harsh Menon,910000000466,Resort Hotel,2026-10-23,2026-11-30,2026-12-01,1,0,BB,Offline TA/TO,Transient,No Deposit,4150,0,0,1,0,0,0,0,confirmed
+SC-24044,Rohan Menon,910000000044,Resort Hotel,2026-09-29,2026-12-01,2026-12-05,2,0,BB,Direct,Transient,No Deposit,9000,0,0,1,0,0,0,0,confirmed
+SC-24126,Zoya Sharma,910000000126,Resort Hotel,2026-10-25,2026-12-01,2026-12-03,2,0,BB,Direct,Transient,No Deposit,9550,0,1,3,0,0,0,0,confirmed
+SC-24132,Farhan Shah,910000000132,Resort Hotel,2026-08-16,2026-12-01,2026-12-08,2,1,HB,Offline TA/TO,Contract,No Deposit,6400,0,0,1,0,0,0,0,confirmed
+SC-24159,Farhan Joshi,910000000159,Resort Hotel,2026-05-12,2026-12-01,2026-12-03,2,0,HB,Groups,Transient-Party,No Deposit,8100,1,0,0,0,0,0,0,confirmed
+SC-24195,Harsh Nair,910000000195,Resort Hotel,2026-09-24,2026-12-01,2026-12-02,3,1,BB,Online TA,Transient,No Deposit,20250,0,0,0,0,0,0,0,confirmed
+SC-24419,Riya Verma,910000000419,Resort Hotel,2026-07-21,2026-12-01,2026-12-02,2,0,BB,Online TA,Transient,No Deposit,3800,2,0,2,0,0,0,0,confirmed
+SC-24460,Kabir Verma,910000000460,Resort Hotel,2026-10-16,2026-12-01,2026-12-02,2,0,HB,Corporate,Transient,No Deposit,5300,0,1,0,0,0,0,0,confirmed
+SC-24141,Riya Shah,910000000141,Resort Hotel,2026-10-28,2026-12-02,2026-12-08,2,0,BB,Online TA,Transient,No Deposit,13250,0,0,1,0,0,0,0,confirmed
+SC-24148,Sneha Kapoor,910000000148,Resort Hotel,2026-10-25,2026-12-02,2026-12-03,2,0,BB,Online TA,Transient,No Deposit,4300,0,0,2,0,0,0,0,confirmed
+SC-24169,Isha Pillai,910000000169,Resort Hotel,2026-10-12,2026-12-02,2026-12-08,2,1,HB,Online TA,Transient,No Deposit,9050,0,1,2,0,0,0,0,confirmed
+SC-24181,Aditya Pillai,910000000181,Resort Hotel,2026-06-02,2026-12-02,2026-12-04,2,0,HB,Groups,Transient-Party,No Deposit,7650,0,0,0,0,0,0,0,confirmed
+SC-24236,Aarav Singh,910000000236,Resort Hotel,2026-04-22,2026-12-02,2026-12-09,2,0,HB,Direct,Transient,No Deposit,10550,2,0,0,0,0,0,0,confirmed
+SC-24139,Meera Mehta,910000000139,Resort Hotel,2026-10-14,2026-12-03,2026-12-06,1,0,BB,Online TA,Transient,No Deposit,3850,0,0,0,0,0,0,0,confirmed
+SC-24204,Priya Desai,910000000204,Resort Hotel,2026-10-21,2026-12-03,2026-12-06,2,0,BB,Online TA,Transient,No Deposit,6250,0,0,1,0,0,0,0,confirmed
+SC-24327,Manish Nair,910000000327,Resort Hotel,2026-10-25,2026-12-03,2026-12-05,2,0,HB,Groups,Transient-Party,No Deposit,7750,0,0,0,0,0,0,0,confirmed
+SC-24344,Sneha Shah,910000000344,Resort Hotel,2026-10-24,2026-12-03,2026-12-06,1,0,SC,Groups,Transient-Party,No Deposit,2500,2,0,0,0,0,0,0,confirmed
+SC-24354,Arjun Singh,910000000354,Resort Hotel,2026-07-01,2026-12-03,2026-12-04,2,0,BB,Groups,Transient-Party,Non Refund,3250,0,0,0,0,0,0,0,confirmed
+SC-24396,Simran Kapoor,910000000396,Resort Hotel,2026-09-24,2026-12-03,2026-12-04,3,1,BB,Online TA,Transient,No Deposit,23600,0,0,0,0,0,0,0,confirmed
+SC-24053,Kabir Das,910000000053,Resort Hotel,2026-09-02,2026-12-04,2026-12-11,2,0,HB,Offline TA/TO,Transient,No Deposit,6450,0,0,0,0,0,0,0,confirmed
+SC-24203,Aditya Reddy,910000000203,Resort Hotel,2026-10-19,2026-12-04,2026-12-07,2,0,BB,Direct,Transient,No Deposit,3950,0,0,1,0,0,0,0,confirmed
+SC-24216,Zoya Patel,910000000216,Resort Hotel,2026-09-29,2026-12-04,2026-12-06,2,0,FB,Groups,Transient-Party,No Deposit,5750,0,0,0,0,0,0,0,confirmed
+SC-24217,Riya Patel,910000000217,Resort Hotel,2026-09-14,2026-12-04,2026-12-07,2,1,HB,Online TA,Transient,No Deposit,17050,0,0,0,0,0,0,0,confirmed
+SC-24392,Arjun Khan,910000000392,Resort Hotel,2026-09-25,2026-12-04,2026-12-05,2,0,BB,Offline TA/TO,Transient,No Deposit,5300,0,0,0,0,0,0,0,confirmed
+SC-24435,Zoya Desai,910000000435,Resort Hotel,2026-07-03,2026-12-04,2026-12-05,2,0,BB,Online TA,Transient,No Deposit,2600,0,0,2,0,0,0,0,confirmed
+SC-24464,Nikhil Menon,910000000464,Resort Hotel,2026-08-28,2026-12-04,2026-12-05,2,0,BB,Online TA,Transient,No Deposit,5200,0,0,1,0,0,0,0,confirmed
+SC-24470,Manish Bose,910000000470,Resort Hotel,2026-10-06,2026-12-04,2026-12-05,2,0,BB,Online TA,Transient,No Deposit,15200,0,0,1,0,0,0,0,confirmed
+SC-24085,Harsh Desai,910000000085,Resort Hotel,2026-07-25,2026-12-05,2026-12-07,2,0,BB,Online TA,Transient,No Deposit,12600,0,0,1,0,0,0,0,confirmed
+SC-24117,Ananya Sharma,910000000117,Resort Hotel,2026-10-19,2026-12-05,2026-12-07,2,0,BB,Online TA,Transient,No Deposit,3750,0,0,1,0,0,0,0,confirmed
+SC-24175,Aarav Mehta,910000000175,Resort Hotel,2026-09-18,2026-12-05,2026-12-11,1,2,HB,Online TA,Transient,No Deposit,20500,0,0,0,0,0,0,0,confirmed
+SC-24209,Kavya Patel,910000000209,Resort Hotel,2026-04-21,2026-12-05,2026-12-12,2,0,BB,Online TA,Transient,No Deposit,7050,0,0,1,0,1,0,0,confirmed
+SC-24245,Aisha Rao,910000000245,Resort Hotel,2026-10-17,2026-12-05,2026-12-07,2,1,HB,Online TA,Transient,No Deposit,20500,0,0,1,0,0,0,0,confirmed
+SC-24041,Rohan Chopra,910000000041,Resort Hotel,2026-09-18,2026-12-06,2026-12-09,2,0,BB,Direct,Transient,No Deposit,17350,2,1,0,0,0,0,0,confirmed
+SC-24080,Neha Chopra,910000000080,Resort Hotel,2026-10-10,2026-12-06,2026-12-11,2,0,HB,Online TA,Transient,No Deposit,6050,0,0,2,0,0,0,0,confirmed
+SC-24163,Priya Kapoor,910000000163,Resort Hotel,2026-08-18,2026-12-06,2026-12-13,2,1,BB,Offline TA/TO,Transient,No Deposit,4750,0,0,1,0,0,0,0,confirmed
+SC-24191,Ananya Shah,910000000191,Resort Hotel,2026-10-15,2026-12-07,2026-12-14,2,0,BB,Online TA,Transient,No Deposit,5600,0,1,0,0,0,0,0,confirmed
+SC-24273,Diya Verma,910000000273,Resort Hotel,2026-10-27,2026-12-07,2026-12-11,1,0,BB,Corporate,Transient-Party,No Deposit,3250,1,0,0,0,0,0,0,confirmed
+SC-24294,Aisha Joshi,910000000294,Resort Hotel,2026-04-28,2026-12-07,2026-12-14,2,0,BB,Direct,Transient,No Deposit,11850,0,0,0,0,0,0,0,confirmed
+SC-24012,Rahul Nair,910000000012,Resort Hotel,2026-07-10,2026-12-08,2026-12-11,2,2,BB,Online TA,Transient,No Deposit,15100,1,0,1,0,0,0,0,confirmed
+SC-24248,Meera Reddy,910000000248,Resort Hotel,2026-08-23,2026-12-08,2026-12-11,2,0,HB,Online TA,Transient,No Deposit,10550,1,0,0,0,0,0,0,confirmed
+SC-24430,Vivaan Joshi,910000000430,Resort Hotel,2026-10-14,2026-12-08,2026-12-10,2,1,BB,Online TA,Transient,No Deposit,8350,0,0,0,0,0,0,0,confirmed
+SC-24442,Siddharth Kapoor,910000000442,Resort Hotel,2026-09-23,2026-12-08,2026-12-10,2,0,BB,Online TA,Transient,No Deposit,22500,2,0,2,0,0,0,0,confirmed
+SC-24481,Yash Shah,910000000481,Resort Hotel,2026-10-18,2026-12-08,2026-12-10,2,0,BB,Online TA,Transient,No Deposit,8750,0,0,0,0,0,0,0,confirmed
+SC-24128,Diya Rao,910000000128,Resort Hotel,2026-05-23,2026-12-09,2026-12-16,1,0,HB,Offline TA/TO,Transient,No Deposit,4450,0,0,1,0,0,0,0,confirmed
+SC-24226,Pooja Joshi,910000000226,Resort Hotel,2026-09-12,2026-12-09,2026-12-12,2,0,BB,Direct,Transient,No Deposit,4300,0,0,0,0,0,0,0,confirmed
+SC-24264,Vivaan Khan,910000000264,Resort Hotel,2026-07-23,2026-12-10,2026-12-12,2,0,HB,Groups,Transient,Non Refund,4500,0,0,0,0,0,0,0,confirmed
+SC-24285,Vivaan Pillai,910000000285,Resort Hotel,2026-09-12,2026-12-11,2026-12-15,1,0,BB,Online TA,Transient,No Deposit,4500,0,1,1,0,0,0,0,confirmed
+SC-24307,Harsh Menon,910000000307,Resort Hotel,2026-10-11,2026-12-11,2026-12-14,2,0,BB,Online TA,Transient,No Deposit,7100,0,0,2,0,0,0,0,confirmed
+SC-24331,Vikram Verma,910000000331,Resort Hotel,2026-07-12,2026-12-11,2026-12-16,2,0,BB,Groups,Transient-Party,No Deposit,5400,1,0,0,0,0,0,0,confirmed
+SC-24374,Manish Desai,910000000374,Resort Hotel,2026-10-04,2026-12-11,2026-12-15,2,0,HB,Offline TA/TO,Transient,No Deposit,14150,0,0,1,0,0,0,0,confirmed
+SC-24433,Ananya Shah,910000000433,Resort Hotel,2026-08-31,2026-12-11,2026-12-13,2,0,BB,Online TA,Transient,No Deposit,12050,0,0,1,0,0,0,0,confirmed
+SC-24438,Farhan Khan,910000000438,Resort Hotel,2026-10-27,2026-12-11,2026-12-13,2,0,BB,Online TA,Transient,No Deposit,15550,0,0,0,0,0,0,0,confirmed
+SC-24445,Aditya Rao,910000000445,Resort Hotel,2026-10-09,2026-12-11,2026-12-13,2,0,HB,Direct,Transient,No Deposit,10500,4,0,3,0,0,0,0,confirmed
+SC-24450,Vivaan Khan,910000000450,Resort Hotel,2026-05-23,2026-12-11,2026-12-12,2,0,BB,Groups,Transient,No Deposit,5600,0,0,1,0,0,0,0,confirmed
+SC-24452,Rahul Patel,910000000452,Resort Hotel,2026-10-04,2026-12-11,2026-12-13,2,0,BB,Online TA,Transient,No Deposit,12150,0,1,1,0,0,0,0,confirmed
+SC-24475,Farhan Verma,910000000475,Resort Hotel,2026-10-25,2026-12-11,2026-12-12,1,0,BB,Online TA,Transient,No Deposit,7200,0,0,0,0,0,0,0,confirmed
+SC-24075,Nikhil Mehta,910000000075,Resort Hotel,2026-10-13,2026-12-12,2026-12-14,2,0,BB,Online TA,Transient,No Deposit,20700,1,0,2,0,0,0,0,confirmed
+SC-24295,Diya Verma,910000000295,Resort Hotel,2026-07-03,2026-12-12,2026-12-18,2,1,HB,Online TA,Transient,No Deposit,13950,1,0,2,0,0,0,0,confirmed
+SC-24316,Arjun Menon,910000000316,Resort Hotel,2026-09-12,2026-12-12,2026-12-17,1,0,BB,Online TA,Transient,No Deposit,19900,0,0,0,0,0,0,0,confirmed
+SC-24357,Tanvi Shah,910000000357,Resort Hotel,2026-10-24,2026-12-12,2026-12-16,2,0,BB,Offline TA/TO,Transient,No Deposit,9650,0,0,0,0,0,0,0,confirmed
+SC-24377,Yash Shah,910000000377,Resort Hotel,2026-10-12,2026-12-12,2026-12-19,1,0,BB,Corporate,Transient-Party,No Deposit,8100,2,1,0,0,0,0,0,confirmed
+SC-24495,Neha Iyer,910000000495,Resort Hotel,2026-05-06,2026-12-12,2026-12-13,2,0,BB,Online TA,Transient-Party,No Deposit,4850,0,0,1,0,0,0,0,confirmed
+SC-24506,Harsh Mehta,910000000506,Resort Hotel,2026-07-19,2026-12-12,2026-12-13,1,0,BB,Groups,Transient-Party,No Deposit,3250,0,0,0,0,0,0,0,confirmed
+SC-24242,Farhan Verma,910000000242,Resort Hotel,2026-10-25,2026-12-13,2026-12-14,2,0,BB,Offline TA/TO,Transient-Party,No Deposit,9450,0,0,1,0,0,0,0,confirmed
+SC-24359,Manish Desai,910000000359,Resort Hotel,2026-10-28,2026-12-13,2026-12-18,2,0,BB,Online TA,Transient,No Deposit,8350,0,0,0,0,0,0,0,confirmed
+SC-24049,Pooja Mehta,910000000049,Resort Hotel,2026-08-20,2026-12-14,2026-12-19,2,0,BB,Offline TA/TO,Transient,No Deposit,4050,0,0,0,0,0,0,0,confirmed
+SC-24318,Riya Gupta,910000000318,Resort Hotel,2026-07-16,2026-12-14,2026-12-21,3,0,HB,Offline TA/TO,Transient,No Deposit,18000,0,0,0,0,0,0,0,confirmed
+SC-24444,Tanvi Reddy,910000000444,Resort Hotel,2026-09-04,2026-12-14,2026-12-15,2,2,BB,Online TA,Transient,No Deposit,13750,0,0,1,0,0,0,0,confirmed
+SC-24489,Harsh Shah,910000000489,Resort Hotel,2026-10-20,2026-12-14,2026-12-15,2,0,BB,Online TA,Group,No Deposit,3300,0,0,2,0,0,0,0,confirmed
+SC-24140,Aditya Menon,910000000140,Resort Hotel,2026-01-19,2026-12-15,2026-12-18,2,0,BB,Online TA,Transient,No Deposit,15550,1,0,2,0,0,0,0,confirmed
+SC-24233,Neha Khan,910000000233,Resort Hotel,2026-05-29,2026-12-15,2026-12-22,2,0,BB,Offline TA/TO,Transient,No Deposit,9600,0,0,1,0,0,0,0,confirmed
+SC-24302,Rohan Shah,910000000302,Resort Hotel,2026-09-23,2026-12-15,2026-12-21,2,1,BB,Direct,Transient-Party,No Deposit,18350,1,0,2,0,0,0,0,confirmed
+SC-24303,Tanvi Singh,910000000303,Resort Hotel,2026-10-05,2026-12-15,2026-12-18,2,0,HB,Online TA,Transient,No Deposit,7900,0,0,1,0,0,0,0,confirmed
+SC-24304,Rohan Sharma,910000000304,Resort Hotel,2026-06-13,2026-12-15,2026-12-22,2,0,BB,Online TA,Transient,No Deposit,7300,0,0,1,0,0,0,0,confirmed
+SC-24164,Yash Patel,910000000164,Resort Hotel,2026-10-12,2026-12-16,2026-12-17,1,0,BB,Online TA,Transient,No Deposit,4400,0,0,0,0,0,0,0,confirmed
+SC-24367,Riya Shah,910000000367,Resort Hotel,2026-04-22,2026-12-16,2026-12-23,2,0,HB,Online TA,Transient,No Deposit,12050,1,0,0,0,0,0,0,confirmed
+SC-24491,Kavya Shah,910000000491,Resort Hotel,2026-10-10,2026-12-16,2026-12-17,2,0,BB,Online TA,Transient,No Deposit,17550,0,0,0,0,0,0,0,confirmed
+SC-24021,Priya Rao,910000000021,Resort Hotel,2026-10-06,2026-12-17,2026-12-19,2,0,BB,Online TA,Transient,No Deposit,14600,0,1,1,0,0,0,0,confirmed
+SC-24281,Kabir Desai,910000000281,Resort Hotel,2026-02-09,2026-12-17,2026-12-24,2,2,BB,Online TA,Transient,No Deposit,13600,0,0,1,0,0,0,0,confirmed
+SC-24333,Nikhil Iyer,910000000333,Resort Hotel,2026-02-21,2026-12-17,2026-12-24,2,0,BB,Offline TA/TO,Transient,No Deposit,6900,1,0,0,0,0,0,0,confirmed
+SC-24219,Manish Nair,910000000219,Resort Hotel,2026-10-28,2026-12-18,2026-12-20,2,0,SC,Direct,Transient,No Deposit,24750,2,0,1,0,0,0,0,confirmed
+SC-24301,Isha Sharma,910000000301,Resort Hotel,2026-10-07,2026-12-18,2026-12-22,2,0,BB,Online TA,Transient,No Deposit,12150,0,0,2,0,0,0,0,confirmed
+SC-24384,Harsh Rao,910000000384,Resort Hotel,2026-09-26,2026-12-18,2026-12-19,2,0,BB,Online TA,Transient,No Deposit,13850,0,0,0,0,0,0,0,confirmed
+SC-24462,Karan Sharma,910000000462,Resort Hotel,2026-07-31,2026-12-18,2026-12-20,2,0,BB,Online TA,Transient,No Deposit,5200,0,0,2,0,0,0,0,confirmed
+SC-24480,Karan Bose,910000000480,Resort Hotel,2026-10-22,2026-12-18,2026-12-19,2,0,BB,Offline TA/TO,Transient,No Deposit,7000,0,0,0,0,0,0,0,confirmed
+SC-24492,Riya Joshi,910000000492,Resort Hotel,2026-10-12,2026-12-18,2026-12-19,2,0,BB,Online TA,Transient-Party,No Deposit,4700,0,0,3,0,0,0,0,confirmed
+SC-24501,Siddharth Khan,910000000501,Resort Hotel,2026-10-08,2026-12-18,2026-12-19,2,0,BB,Online TA,Transient,No Deposit,3400,0,0,1,0,0,0,0,confirmed
+SC-24157,Priya Gupta,910000000157,Resort Hotel,2026-03-02,2026-12-19,2026-12-22,3,1,BB,Online TA,Transient,No Deposit,20700,0,0,2,0,0,0,0,confirmed
+SC-24251,Aisha Nair,910000000251,Resort Hotel,2026-09-04,2026-12-19,2026-12-26,2,0,HB,Offline TA/TO,Transient,No Deposit,10750,0,0,1,0,0,0,0,confirmed
+SC-24296,Meera Desai,910000000296,Resort Hotel,2026-10-26,2026-12-19,2026-12-26,2,0,HB,Online TA,Transient,No Deposit,18450,0,0,1,0,0,0,0,confirmed
+SC-24376,Nisha Gupta,910000000376,Resort Hotel,2026-10-03,2026-12-19,2026-12-24,2,0,HB,Online TA,Transient,No Deposit,15750,0,1,0,0,0,0,0,confirmed
+SC-24390,Simran Mehta,910000000390,Resort Hotel,2026-01-20,2026-12-19,2026-12-21,2,0,HB,Online TA,Transient,No Deposit,11750,0,0,2,0,0,0,0,confirmed
+SC-24395,Farhan Pillai,910000000395,Resort Hotel,2026-01-04,2026-12-19,2026-12-24,2,0,BB,Online TA,Transient,No Deposit,11300,0,0,3,0,0,0,0,confirmed
+SC-24517,Karan Iyer,910000000517,Resort Hotel,2026-10-20,2026-12-19,2026-12-20,2,0,BB,Online TA,Transient,No Deposit,18450,0,0,1,0,0,0,0,confirmed
+SC-24518,Simran Menon,910000000518,Resort Hotel,2026-08-02,2026-12-19,2026-12-20,2,0,BB,Offline TA/TO,Transient,No Deposit,5300,0,0,0,0,0,0,0,confirmed
+SC-24210,Aisha Mehta,910000000210,Resort Hotel,2026-03-24,2026-12-20,2026-12-22,2,0,BB,Online TA,Transient,No Deposit,5850,0,0,2,0,0,0,0,confirmed
+SC-24212,Sneha Reddy,910000000212,Resort Hotel,2026-06-25,2026-12-20,2026-12-22,2,0,BB,Online TA,Transient,No Deposit,4350,0,0,1,0,0,0,0,confirmed
+SC-24293,Siddharth Verma,910000000293,Resort Hotel,2026-10-28,2026-12-20,2026-12-25,1,0,BB,Online TA,Transient,No Deposit,3400,0,0,1,0,0,0,0,confirmed
+SC-24315,Manish Bose,910000000315,Resort Hotel,2026-06-06,2026-12-20,2026-12-22,2,0,HB,Groups,Transient-Party,No Deposit,7650,0,0,0,0,0,0,0,confirmed
+SC-24365,Karan Shah,910000000365,Resort Hotel,2026-01-27,2026-12-20,2026-12-24,2,0,BB,Groups,Transient-Party,No Deposit,5550,1,0,0,0,0,0,0,confirmed
+SC-24032,Arjun Shah,910000000032,Resort Hotel,2026-05-26,2026-12-21,2026-12-28,2,0,BB,Online TA,Transient,No Deposit,10850,0,0,1,0,1,0,0,confirmed
+SC-24202,Isha Shah,910000000202,Resort Hotel,2026-08-03,2026-12-21,2026-12-28,2,0,HB,Online TA,Transient,No Deposit,18650,0,0,1,0,0,0,0,confirmed
+SC-24309,Rohan Mehta,910000000309,Resort Hotel,2026-01-19,2026-12-21,2026-12-25,2,0,BB,Groups,Transient-Party,No Deposit,6600,3,1,0,0,0,0,0,confirmed
+SC-24434,Zoya Verma,910000000434,Resort Hotel,2026-10-06,2026-12-21,2026-12-23,2,0,BB,Online TA,Transient,No Deposit,22500,0,0,3,0,0,0,0,confirmed
+SC-24230,Manish Mehta,910000000230,Resort Hotel,2026-08-31,2026-12-22,2026-12-29,2,0,BB,Direct,Transient,No Deposit,16350,0,0,2,0,0,0,0,confirmed
+SC-24306,Siddharth Shah,910000000306,Resort Hotel,2026-09-29,2026-12-22,2026-12-26,2,1,BB,Online TA,Transient,No Deposit,18000,1,1,3,0,0,0,0,confirmed
+SC-24399,Zoya Bose,910000000399,Resort Hotel,2026-08-19,2026-12-22,2026-12-23,2,0,BB,Online TA,Transient,No Deposit,9300,0,0,0,0,0,0,0,confirmed
+SC-24516,Rohan Desai,910000000516,Resort Hotel,2026-04-22,2026-12-22,2026-12-23,2,0,BB,Online TA,Transient,No Deposit,7550,0,1,1,0,0,0,0,confirmed
+SC-24017,Yash Das,910000000017,Resort Hotel,2026-10-25,2026-12-23,2026-12-27,2,0,HB,Online TA,Transient,No Deposit,10800,0,0,2,0,0,0,0,confirmed
+SC-24088,Ananya Khan,910000000088,Resort Hotel,2026-04-10,2026-12-23,2026-12-27,2,0,HB,Groups,Transient-Party,No Deposit,9100,0,0,0,0,0,0,0,confirmed
+SC-24156,Rohan Khan,910000000156,Resort Hotel,2026-07-24,2026-12-23,2026-12-30,2,0,BB,Offline TA/TO,Transient,No Deposit,7650,0,0,0,0,0,0,0,confirmed
+SC-24182,Riya Bose,910000000182,Resort Hotel,2026-05-27,2026-12-23,2026-12-30,2,0,HB,Offline TA/TO,Transient,No Deposit,8100,0,0,1,0,0,0,0,confirmed
+SC-24257,Vivaan Bose,910000000257,Resort Hotel,2026-08-17,2026-12-23,2026-12-25,2,0,BB,Direct,Transient,No Deposit,8900,0,0,2,0,0,0,0,confirmed
+SC-24297,Nikhil Kapoor,910000000297,Resort Hotel,2026-08-19,2026-12-23,2026-12-30,2,0,BB,Online TA,Transient,No Deposit,8100,0,0,2,0,0,0,0,confirmed
+SC-24313,Farhan Mehta,910000000313,Resort Hotel,2026-09-12,2026-12-23,2026-12-28,2,0,BB,Online TA,Transient,No Deposit,20050,1,0,1,0,0,0,0,confirmed
+SC-24107,Kavya Sharma,910000000107,Resort Hotel,2026-06-01,2026-12-24,2026-12-28,2,0,BB,Online TA,Transient,No Deposit,14400,0,0,0,0,0,0,0,confirmed
+SC-24121,Aarav Reddy,910000000121,Resort Hotel,2026-08-25,2026-12-24,2026-12-31,1,0,HB,Groups,Transient,No Deposit,3900,1,0,0,0,0,0,0,confirmed
+SC-24136,Nikhil Chopra,910000000136,Resort Hotel,2026-02-01,2026-12-24,2026-12-31,2,0,HB,Direct,Transient,No Deposit,8250,1,0,2,0,0,0,0,confirmed
+SC-24152,Karan Menon,910000000152,Resort Hotel,2026-10-25,2026-12-24,2026-12-31,2,0,BB,Online TA,Transient,No Deposit,16850,0,0,0,0,0,0,0,confirmed
+SC-24027,Vikram Patel,910000000027,Resort Hotel,2026-08-27,2026-12-25,2026-12-27,2,0,BB,Online TA,Transient,No Deposit,10850,0,0,0,0,0,0,0,confirmed
+SC-24314,Harsh Singh,910000000314,Resort Hotel,2026-07-30,2026-12-25,2027-01-01,2,1,BB,Online TA,Transient,No Deposit,16100,1,0,0,0,0,0,0,confirmed
+SC-24455,Ananya Singh,910000000455,Resort Hotel,2026-10-09,2026-12-25,2026-12-26,2,0,BB,Offline TA/TO,Transient,No Deposit,4500,0,0,0,0,0,0,0,confirmed
+SC-24499,Meera Iyer,910000000499,Resort Hotel,2026-09-05,2026-12-25,2026-12-26,2,0,BB,Offline TA/TO,Transient,No Deposit,5300,0,0,1,0,0,0,0,confirmed
+SC-24045,Vikram Patel,910000000045,Resort Hotel,2026-09-29,2026-12-26,2027-01-02,2,0,BB,Offline TA/TO,Transient,No Deposit,3850,0,0,0,0,0,0,0,confirmed
+SC-24076,Aarav Das,910000000076,Resort Hotel,2026-10-07,2026-12-26,2026-12-30,2,1,BB,Online TA,Transient,No Deposit,2900,0,0,3,0,0,0,0,confirmed
+SC-24087,Kavya Gupta,910000000087,Resort Hotel,2026-10-06,2026-12-26,2027-01-02,2,0,BB,Offline TA/TO,Transient,No Deposit,5750,0,0,0,0,0,0,0,confirmed
+SC-24096,Diya Sharma,910000000096,Resort Hotel,2026-05-13,2026-12-26,2027-01-02,2,1,BB,Online TA,Transient,No Deposit,11500,0,0,1,0,0,0,0,confirmed
+SC-24269,Sneha Chopra,910000000269,Resort Hotel,2026-05-15,2026-12-26,2027-01-02,2,0,HB,Offline TA/TO,Transient,No Deposit,7200,1,0,0,0,0,0,0,confirmed
+SC-24057,Meera Iyer,910000000057,Resort Hotel,2026-10-22,2026-12-27,2026-12-28,2,0,BB,Online TA,Transient,No Deposit,5200,0,0,1,1,0,1,0,confirmed
+SC-24111,Rohan Reddy,910000000111,Resort Hotel,2026-02-19,2026-12-27,2026-12-31,2,0,HB,Online TA,Transient,No Deposit,18150,0,0,0,0,0,0,0,confirmed
+SC-24340,Arjun Singh,910000000340,Resort Hotel,2026-07-31,2026-12-27,2026-12-31,2,0,BB,Online TA,Transient,No Deposit,3400,0,0,2,0,0,0,0,confirmed
+SC-24358,Nikhil Rao,910000000358,Resort Hotel,2026-10-15,2026-12-28,2026-12-30,2,0,BB,Corporate,Transient-Party,No Deposit,3600,0,0,0,0,0,0,0,confirmed
+SC-24364,Rahul Patel,910000000364,Resort Hotel,2026-09-17,2026-12-28,2027-01-04,2,0,BB,Offline TA/TO,Transient,No Deposit,8200,0,0,1,0,0,0,0,confirmed
+SC-24371,Harsh Pillai,910000000371,Resort Hotel,2026-10-22,2026-12-28,2026-12-31,2,2,BB,Online TA,Transient,No Deposit,26400,0,0,0,0,0,0,0,confirmed
+SC-24504,Manish Chopra,910000000504,Resort Hotel,2026-05-20,2026-12-28,2026-12-29,2,0,BB,Offline TA/TO,Transient,No Deposit,5550,0,0,0,0,0,0,0,confirmed
+SC-24077,Harsh Sharma,910000000077,Resort Hotel,2026-08-08,2026-12-29,2027-01-03,2,0,BB,Online TA,Transient,No Deposit,12150,0,0,1,0,0,0,0,confirmed
+SC-24298,Tanvi Joshi,910000000298,Resort Hotel,2026-09-25,2026-12-29,2027-01-03,2,0,BB,Online TA,Transient,No Deposit,9700,0,0,2,0,0,0,0,confirmed
+SC-24363,Neha Joshi,910000000363,Resort Hotel,2026-06-02,2026-12-29,2027-01-01,3,0,HB,Offline TA/TO,Transient,No Deposit,11650,0,0,1,0,0,0,0,confirmed
+SC-24272,Aisha Singh,910000000272,Resort Hotel,2026-05-23,2026-12-30,2027-01-06,2,0,HB,Groups,Transient-Party,No Deposit,7500,0,0,0,0,0,0,0,confirmed
+SC-24332,Vivaan Joshi,910000000332,Resort Hotel,2026-06-11,2026-12-30,2027-01-06,2,0,BB,Offline TA/TO,Transient,No Deposit,2750,0,0,2,0,0,0,0,confirmed
+SC-24383,Karan Rao,910000000383,Resort Hotel,2026-07-11,2026-12-30,2027-01-03,2,0,BB,Online TA,Transient,No Deposit,11900,0,1,2,0,0,0,0,confirmed
+SC-24404,Isha Kapoor,910000000404,Resort Hotel,2026-10-26,2026-12-30,2027-01-04,1,0,BB,Online TA,Transient,No Deposit,6300,0,0,0,0,0,0,0,confirmed
+SC-24412,Aditya Gupta,910000000412,Resort Hotel,2026-04-12,2026-12-30,2027-01-03,2,0,BB,Offline TA/TO,Transient,No Deposit,5100,0,0,0,0,0,0,0,confirmed
+SC-24167,Aisha Das,910000000167,Resort Hotel,2026-07-22,2026-12-31,2027-01-07,2,0,BB,Online TA,Transient,No Deposit,14400,0,0,0,0,0,0,0,confirmed
+SC-24199,Riya Bose,910000000199,Resort Hotel,2026-10-08,2026-12-31,2027-01-06,2,2,HB,Online TA,Transient,No Deposit,17350,0,0,0,0,0,0,0,confirmed
+SC-24360,Nisha Shah,910000000360,Resort Hotel,2026-08-09,2026-12-31,2027-01-06,2,1,BB,Online TA,Transient,No Deposit,13600,1,0,1,0,0,0,0,confirmed
+SC-24451,Arjun Pillai,910000000451,Resort Hotel,2026-10-28,2026-12-31,2027-01-03,2,2,BB,Online TA,Transient,No Deposit,11600,0,0,1,0,0,0,0,confirmed
+SC-24454,Ananya Joshi,910000000454,Resort Hotel,2026-05-30,2026-12-31,2027-01-03,2,0,BB,Online TA,Transient,No Deposit,5000,0,0,0,0,0,0,0,confirmed
+SC-24457,Vikram Patel,910000000457,Resort Hotel,2026-07-01,2026-12-31,2027-01-02,1,0,HB,Groups,Transient-Party,Non Refund,7650,1,0,0,0,0,0,0,confirmed
+SC-24394,Isha Gupta,910000000394,Resort Hotel,2026-05-02,2027-01-01,2027-01-04,2,0,HB,Online TA,Transient,No Deposit,12600,1,0,1,0,0,0,0,confirmed
+SC-24417,Meera Patel,910000000417,Resort Hotel,2026-10-08,2027-01-01,2027-01-03,2,0,BB,Online TA,Transient,No Deposit,7900,0,0,1,0,0,0,0,confirmed
+SC-24172,Rahul Khan,910000000172,Resort Hotel,2026-08-24,2027-01-02,2027-01-04,2,0,BB,Groups,Transient-Party,No Deposit,4950,0,1,1,0,0,0,0,confirmed
+SC-24322,Farhan Rao,910000000322,Resort Hotel,2026-10-04,2027-01-02,2027-01-09,2,0,BB,Online TA,Transient,No Deposit,3400,0,0,0,0,0,0,0,confirmed
+SC-24418,Pooja Gupta,910000000418,Resort Hotel,2026-09-26,2027-01-02,2027-01-05,1,0,BB,Online TA,Transient,No Deposit,6850,0,0,2,0,0,0,0,confirmed
+SC-24458,Vivaan Shah,910000000458,Resort Hotel,2026-05-10,2027-01-02,2027-01-03,2,0,HB,Online TA,Transient-Party,No Deposit,8300,0,0,0,0,0,0,0,confirmed
+SC-24519,Pooja Rao,910000000519,Resort Hotel,2026-07-31,2027-01-02,2027-01-03,1,0,BB,Groups,Transient,No Deposit,3250,0,0,0,0,0,0,0,confirmed
+SC-24292,Diya Reddy,910000000292,Resort Hotel,2026-06-01,2027-01-03,2027-01-05,2,0,SC,Groups,Transient-Party,No Deposit,8900,0,0,1,0,0,0,0,confirmed
+SC-24408,Aisha Gupta,910000000408,Resort Hotel,2026-08-26,2027-01-03,2027-01-05,2,0,BB,Online TA,Transient,No Deposit,6650,0,0,1,0,0,0,0,confirmed
+SC-24428,Neha Kapoor,910000000428,Resort Hotel,2026-10-23,2027-01-03,2027-01-04,2,0,BB,Offline TA/TO,Transient,No Deposit,5300,0,0,0,0,0,0,0,confirmed
+SC-24047,Diya Kapoor,910000000047,Resort Hotel,2026-02-27,2027-01-04,2027-01-06,2,0,HB,Online TA,Transient,No Deposit,15050,2,0,1,0,0,0,0,confirmed
+SC-24196,Karan Patel,910000000196,Resort Hotel,2026-10-26,2027-01-04,2027-01-08,2,0,SC,Direct,Transient,No Deposit,11600,1,0,1,0,0,0,0,confirmed
+SC-24321,Tanvi Joshi,910000000321,Resort Hotel,2026-10-04,2027-01-04,2027-01-08,2,0,BB,Direct,Transient,No Deposit,17300,0,1,0,0,0,0,0,confirmed
+SC-24409,Karan Shah,910000000409,Resort Hotel,2026-07-05,2027-01-04,2027-01-05,2,0,BB,Offline TA/TO,Transient-Party,No Deposit,12700,0,0,1,0,0,0,0,confirmed
+SC-24447,Kabir Patel,910000000447,Resort Hotel,2026-08-25,2027-01-04,2027-01-05,2,0,BB,Online TA,Transient,No Deposit,20150,0,0,0,0,0,0,0,confirmed
+SC-24034,Aisha Joshi,910000000034,Resort Hotel,2026-10-23,2027-01-05,2027-01-12,3,0,HB,Online TA,Transient,No Deposit,11750,2,0,0,0,0,0,0,confirmed
+SC-24095,Karan Joshi,910000000095,Resort Hotel,2026-07-19,2027-01-05,2027-01-11,2,0,HB,Offline TA/TO,Transient-Party,No Deposit,8250,0,0,0,0,0,0,0,confirmed
+SC-24250,Diya Sharma,910000000250,Resort Hotel,2026-08-27,2027-01-05,2027-01-12,2,0,HB,Offline TA/TO,Transient-Party,No Deposit,5900,0,0,1,0,0,0,0,confirmed
+SC-24326,Riya Desai,910000000326,Resort Hotel,2026-08-04,2027-01-05,2027-01-12,2,0,BB,Online TA,Transient,No Deposit,3400,0,0,0,0,0,0,0,confirmed
+SC-24389,Aditya Rao,910000000389,Resort Hotel,2026-09-19,2027-01-06,2027-01-08,2,0,HB,Groups,Transient-Party,No Deposit,8100,3,0,0,0,0,0,0,confirmed
+SC-24493,Rahul Bose,910000000493,Resort Hotel,2026-08-21,2027-01-06,2027-01-07,2,0,BB,Offline TA/TO,Transient,No Deposit,5300,1,0,0,0,0,0,0,confirmed
+SC-24287,Farhan Bose,910000000287,Resort Hotel,2026-06-28,2027-01-07,2027-01-10,2,0,BB,Online TA,Transient,No Deposit,8100,0,1,0,0,0,0,0,confirmed
+SC-24369,Yash Reddy,910000000369,Resort Hotel,2026-10-11,2027-01-07,2027-01-10,2,0,BB,Offline TA/TO,Contract,No Deposit,5100,0,0,0,0,0,0,0,confirmed
+SC-24391,Nikhil Chopra,910000000391,Resort Hotel,2026-10-23,2027-01-07,2027-01-10,2,0,BB,Online TA,Transient,No Deposit,4300,0,0,1,0,0,0,0,confirmed
+SC-24406,Pooja Patel,910000000406,Resort Hotel,2026-08-01,2027-01-07,2027-01-10,2,0,BB,Online TA,Transient,No Deposit,8950,0,0,0,0,0,0,0,confirmed
+SC-24416,Rohan Sharma,910000000416,Resort Hotel,2026-07-22,2027-01-07,2027-01-10,2,0,BB,Groups,Transient-Party,Refundable,6500,1,1,0,0,0,0,0,confirmed
+SC-24441,Nisha Mehta,910000000441,Resort Hotel,2026-10-03,2027-01-07,2027-01-09,2,0,HB,Online TA,Transient,No Deposit,20950,0,0,0,0,0,0,0,confirmed
+SC-24339,Meera Singh,910000000339,Resort Hotel,2026-05-23,2027-01-08,2027-01-11,2,1,BB,Online TA,Transient-Party,No Deposit,14000,1,0,2,0,0,0,0,confirmed
+SC-24362,Karan Shah,910000000362,Resort Hotel,2026-09-18,2027-01-08,2027-01-12,2,0,BB,Online TA,Transient,No Deposit,6500,0,0,0,0,0,0,0,confirmed
+SC-24411,Neha Khan,910000000411,Resort Hotel,2026-07-20,2027-01-08,2027-01-12,2,0,HB,Online TA,Transient,No Deposit,17300,0,0,1,0,0,0,0,confirmed
+SC-24429,Manish Singh,910000000429,Resort Hotel,2026-07-27,2027-01-08,2027-01-12,2,0,SC,Groups,Transient-Party,No Deposit,12300,0,0,0,0,0,0,0,confirmed
+SC-24465,Harsh Bose,910000000465,Resort Hotel,2026-02-07,2027-01-08,2027-01-10,2,2,BB,Online TA,Transient,No Deposit,20500,0,1,0,0,0,0,0,confirmed
+SC-24505,Tanvi Rao,910000000505,Resort Hotel,2026-08-26,2027-01-08,2027-01-10,2,0,BB,Direct,Transient,No Deposit,13850,0,1,0,0,0,0,0,confirmed
+SC-24283,Aarav Nair,910000000283,Resort Hotel,2026-04-29,2027-01-09,2027-01-11,2,0,BB,Online TA,Transient,No Deposit,7300,0,0,1,0,0,0,0,confirmed
+SC-24310,Siddharth Verma,910000000310,Resort Hotel,2026-09-25,2027-01-09,2027-01-11,2,0,BB,Online TA,Transient,No Deposit,4700,0,0,0,0,0,0,0,confirmed
+SC-24494,Rahul Shah,910000000494,Resort Hotel,2026-09-07,2027-01-09,2027-01-10,3,0,BB,Online TA,Transient,No Deposit,5150,0,0,0,0,0,0,0,confirmed
+SC-24160,Riya Bose,910000000160,Resort Hotel,2026-08-03,2027-01-10,2027-01-15,2,0,BB,Offline TA/TO,Transient,No Deposit,11650,0,0,1,0,0,0,0,confirmed
+SC-24215,Siddharth Gupta,910000000215,Resort Hotel,2026-09-09,2027-01-10,2027-01-16,2,2,HB,Online TA,Transient,No Deposit,19800,2,0,0,0,0,0,0,confirmed
+SC-24258,Kabir Pillai,910000000258,Resort Hotel,2026-09-28,2027-01-10,2027-01-17,2,0,HB,Offline TA/TO,Contract,No Deposit,7550,1,0,0,0,0,0,0,confirmed
+SC-24405,Ananya Patel,910000000405,Resort Hotel,2026-06-27,2027-01-10,2027-01-12,1,0,HB,Groups,Transient-Party,No Deposit,4900,1,0,0,0,0,0,0,confirmed
+SC-24091,Siddharth Bose,910000000091,Resort Hotel,2026-08-12,2027-01-11,2027-01-16,2,0,BB,Groups,Transient-Party,No Deposit,6050,4,0,0,0,0,0,0,confirmed
+SC-24187,Simran Singh,910000000187,Resort Hotel,2026-04-19,2027-01-11,2027-01-18,2,0,BB,Offline TA/TO,Contract,No Deposit,3700,0,0,0,0,0,0,0,confirmed
+SC-24456,Arjun Reddy,910000000456,Resort Hotel,2026-09-08,2027-01-11,2027-01-12,3,1,BB,Online TA,Transient,No Deposit,24650,0,0,2,0,0,0,0,confirmed
+SC-24508,Nisha Reddy,910000000508,Resort Hotel,2026-04-03,2027-01-11,2027-01-12,2,0,BB,Direct,Transient,No Deposit,5700,0,0,0,0,0,0,0,confirmed
+SC-24018,Meera Mehta,910000000018,Resort Hotel,2026-07-12,2027-01-12,2027-01-17,2,0,HB,Online TA,Transient,No Deposit,14050,0,0,1,0,0,0,0,confirmed
+SC-24176,Zoya Shah,910000000176,Resort Hotel,2026-07-28,2027-01-12,2027-01-17,2,0,BB,Groups,Transient-Party,No Deposit,7900,2,0,0,0,0,0,0,confirmed
+SC-24193,Zoya Menon,910000000193,Resort Hotel,2026-09-17,2027-01-12,2027-01-19,2,0,BB,Online TA,Transient,No Deposit,5200,0,0,3,0,0,0,0,confirmed
+SC-24225,Nisha Joshi,910000000225,Resort Hotel,2026-09-07,2027-01-12,2027-01-19,2,2,HB,Direct,Transient,No Deposit,20450,6,0,0,0,0,0,0,confirmed
+SC-24370,Vikram Chopra,910000000370,Resort Hotel,2026-07-29,2027-01-12,2027-01-14,2,0,BB,Online TA,Transient,No Deposit,9950,0,0,1,0,1,0,0,confirmed
+SC-24372,Rahul Sharma,910000000372,Resort Hotel,2026-10-17,2027-01-12,2027-01-13,2,0,BB,Offline TA/TO,Transient,No Deposit,5600,0,0,0,0,0,0,0,confirmed
+SC-24270,Nikhil Joshi,910000000270,Resort Hotel,2026-10-17,2027-01-13,2027-01-17,2,0,BB,Online TA,Transient,No Deposit,13850,0,0,1,0,0,0,0,confirmed
+SC-24463,Isha Chopra,910000000463,Resort Hotel,2026-10-18,2027-01-13,2027-01-14,2,0,BB,Groups,Transient,Non Refund,3250,0,0,0,0,0,0,0,confirmed
+SC-24238,Karan Verma,910000000238,Resort Hotel,2026-05-03,2027-01-14,2027-01-21,2,0,BB,Online TA,Transient,No Deposit,4700,0,0,1,0,0,0,0,confirmed
+SC-24256,Isha Shah,910000000256,Resort Hotel,2026-06-27,2027-01-14,2027-01-16,2,0,BB,Online TA,Transient,No Deposit,6900,0,0,1,0,0,0,0,confirmed
+SC-24036,Harsh Mehta,910000000036,Resort Hotel,2026-01-30,2027-01-15,2027-01-17,2,0,BB,Groups,Transient,Non Refund,2700,0,0,0,0,0,0,0,confirmed
+SC-24346,Simran Pillai,910000000346,Resort Hotel,2026-10-14,2027-01-15,2027-01-19,2,0,BB,Offline TA/TO,Transient,No Deposit,4450,0,0,0,0,0,0,0,confirmed
+SC-24373,Kabir Sharma,910000000373,Resort Hotel,2026-09-22,2027-01-15,2027-01-18,2,0,BB,Direct,Transient,No Deposit,5850,0,0,2,1,0,0,0,confirmed
+SC-24393,Aisha Das,910000000393,Resort Hotel,2026-01-16,2027-01-15,2027-01-20,1,0,BB,Groups,Transient-Party,No Deposit,5400,3,0,0,0,0,0,0,confirmed
+SC-24337,Nisha Khan,910000000337,Resort Hotel,2026-09-07,2027-01-16,2027-01-18,3,1,HB,Online TA,Transient,No Deposit,15400,0,0,0,0,0,0,0,confirmed
+SC-24386,Aditya Khan,910000000386,Resort Hotel,2026-10-11,2027-01-16,2027-01-19,2,0,BB,Online TA,Transient,No Deposit,20700,0,0,2,0,0,0,0,confirmed
+SC-24479,Simran Iyer,910000000479,Resort Hotel,2026-06-05,2027-01-16,2027-01-17,1,0,BB,Offline TA/TO,Transient,No Deposit,7000,0,0,0,0,0,0,0,confirmed
+SC-24484,Vivaan Das,910000000484,Resort Hotel,2026-10-17,2027-01-16,2027-01-17,2,0,BB,Online TA,Transient,No Deposit,6300,1,0,1,0,0,0,0,confirmed
+SC-24299,Yash Patel,910000000299,Resort Hotel,2026-07-28,2027-01-17,2027-01-24,2,0,BB,Online TA,Transient,No Deposit,8300,0,0,0,0,0,0,0,confirmed
+SC-24336,Aditya Das,910000000336,Resort Hotel,2026-09-11,2027-01-18,2027-01-22,3,0,BB,Online TA,Transient,No Deposit,14400,1,0,0,0,0,0,0,confirmed
+SC-24379,Nisha Gupta,910000000379,Resort Hotel,2026-07-19,2027-01-18,2027-01-24,2,0,BB,Online TA,Transient,No Deposit,13150,0,0,0,0,0,0,0,confirmed
+SC-24427,Diya Rao,910000000427,Resort Hotel,2026-05-26,2027-01-18,2027-01-19,2,0,HB,Online TA,Transient-Party,No Deposit,9900,1,0,0,0,0,0,0,confirmed
+SC-24468,Aditya Verma,910000000468,Resort Hotel,2026-09-08,2027-01-18,2027-01-19,2,0,BB,Online TA,Transient,No Deposit,23300,0,0,0,0,0,0,0,confirmed
+SC-24223,Simran Reddy,910000000223,Resort Hotel,2026-01-26,2027-01-19,2027-01-26,2,2,BB,Online TA,Transient,No Deposit,23400,0,0,0,0,0,0,0,confirmed
+SC-24246,Manish Iyer,910000000246,Resort Hotel,2026-06-24,2027-01-19,2027-01-23,2,0,BB,Offline TA/TO,Contract,No Deposit,8200,0,0,0,0,0,0,0,confirmed
+SC-24265,Aarav Reddy,910000000265,Resort Hotel,2026-02-09,2027-01-19,2027-01-22,2,0,HB,Online TA,Transient,No Deposit,16700,0,0,0,0,0,0,0,confirmed
+SC-24515,Manish Chopra,910000000515,Resort Hotel,2026-09-21,2027-01-19,2027-01-20,2,0,BB,Online TA,Transient,No Deposit,6100,0,0,0,0,0,0,0,confirmed
+SC-24520,Kabir Shah,910000000520,Resort Hotel,2026-08-17,2027-01-19,2027-01-20,2,0,BB,Groups,Transient,No Deposit,3800,0,1,0,0,0,0,0,confirmed
+SC-24155,Ananya Menon,910000000155,Resort Hotel,2025-07-27,2027-01-20,2027-01-27,2,0,HB,Groups,Transient-Party,No Deposit,7850,0,0,2,0,0,0,0,confirmed
+SC-24180,Arjun Reddy,910000000180,Resort Hotel,2026-09-23,2027-01-20,2027-01-24,2,0,HB,Online TA,Transient,No Deposit,7650,1,1,1,0,0,0,0,confirmed
+SC-24320,Siddharth Menon,910000000320,Resort Hotel,2026-07-31,2027-01-20,2027-01-26,2,2,BB,Online TA,Transient,No Deposit,19000,0,1,0,0,0,0,0,confirmed
+SC-24011,Zoya Patel,910000000011,Resort Hotel,2026-09-10,2027-01-21,2027-01-28,2,1,FB,Offline TA/TO,Transient,No Deposit,19450,0,0,0,0,0,0,0,confirmed
+SC-24235,Karan Joshi,910000000235,Resort Hotel,2026-05-14,2027-01-21,2027-01-28,2,0,BB,Offline TA/TO,Contract,No Deposit,5600,0,0,1,0,0,0,0,confirmed
+SC-24312,Farhan Chopra,910000000312,Resort Hotel,2026-07-27,2027-01-22,2027-01-23,2,0,BB,Direct,Transient,No Deposit,25900,2,1,0,0,0,0,0,confirmed
+SC-24328,Nikhil Desai,910000000328,Resort Hotel,2026-10-20,2027-01-22,2027-01-26,3,0,HB,Groups,Transient-Party,No Deposit,7900,3,0,0,0,0,0,0,confirmed
+SC-24347,Diya Menon,910000000347,Resort Hotel,2026-10-15,2027-01-22,2027-01-24,2,0,BB,Direct,Transient,No Deposit,6750,1,0,1,0,0,0,0,confirmed
+SC-24483,Kabir Khan,910000000483,Resort Hotel,2026-08-24,2027-01-22,2027-01-24,1,0,BB,Online TA,Transient-Party,No Deposit,5700,0,0,0,0,0,0,0,confirmed
+SC-24486,Pooja Khan,910000000486,Resort Hotel,2026-08-06,2027-01-22,2027-01-25,1,0,BB,Groups,Transient-Party,Refundable,5950,2,1,0,0,0,0,0,confirmed
+SC-24507,Nikhil Sharma,910000000507,Resort Hotel,2026-10-15,2027-01-22,2027-01-23,2,0,BB,Online TA,Transient,No Deposit,3400,0,0,1,0,0,0,0,confirmed
+SC-24510,Priya Joshi,910000000510,Resort Hotel,2026-10-17,2027-01-22,2027-01-23,2,0,BB,Offline TA/TO,Transient,No Deposit,7000,0,0,0,0,0,0,0,confirmed
+SC-24461,Yash Pillai,910000000461,Resort Hotel,2026-10-18,2027-01-23,2027-01-25,2,0,BB,Online TA,Transient,No Deposit,5750,0,1,0,0,0,0,0,confirmed
+SC-24474,Simran Patel,910000000474,Resort Hotel,2026-09-21,2027-01-23,2027-01-25,2,0,BB,Online TA,Transient,No Deposit,20150,1,1,3,0,0,4,0,confirmed
+SC-24055,Aditya Chopra,910000000055,Resort Hotel,2026-02-20,2027-01-24,2027-01-28,2,0,HB,Online TA,Transient,No Deposit,18150,0,0,1,0,0,0,0,confirmed
+SC-24289,Aarav Bose,910000000289,Resort Hotel,2026-10-01,2027-01-24,2027-01-27,2,2,BB,Online TA,Transient-Party,No Deposit,21850,0,1,0,0,0,0,0,confirmed
+SC-24002,Farhan Verma,910000000002,Resort Hotel,2026-04-06,2027-01-25,2027-01-30,1,0,BB,Online TA,Transient,No Deposit,5850,1,0,1,0,0,0,0,confirmed
+SC-24134,Nisha Patel,910000000134,Resort Hotel,2026-09-30,2027-01-25,2027-02-01,2,1,BB,Online TA,Transient,No Deposit,6550,0,0,3,0,0,0,0,confirmed
+SC-24171,Priya Pillai,910000000171,Resort Hotel,2026-08-04,2027-01-26,2027-01-31,2,0,BB,Online TA,Transient,No Deposit,20700,0,0,2,0,0,0,0,confirmed
+SC-24471,Harsh Desai,910000000471,Resort Hotel,2026-08-17,2027-01-26,2027-01-27,2,0,HB,Online TA,Transient,No Deposit,8950,0,0,1,0,0,0,0,confirmed
+SC-24498,Rohan Singh,910000000498,Resort Hotel,2026-10-25,2027-01-26,2027-01-27,2,0,BB,Direct,Transient,No Deposit,9250,0,0,0,0,0,0,0,confirmed
+SC-24092,Vivaan Patel,910000000092,Resort Hotel,2026-10-06,2027-01-27,2027-01-28,2,0,BB,Online TA,Transient,No Deposit,3800,0,0,0,0,0,0,0,confirmed
+SC-24124,Yash Das,910000000124,Resort Hotel,2026-09-20,2027-01-27,2027-01-31,2,0,BB,Online TA,Transient,No Deposit,10650,0,1,0,0,0,0,0,confirmed
+SC-24231,Priya Nair,910000000231,Resort Hotel,2026-07-11,2027-01-27,2027-01-28,2,0,BB,Online TA,Transient,No Deposit,5000,1,0,0,0,0,0,0,confirmed
+SC-24255,Arjun Iyer,910000000255,Resort Hotel,2026-07-16,2027-01-27,2027-02-02,2,0,HB,Direct,Transient,No Deposit,16900,0,1,0,0,0,0,0,confirmed
+SC-24380,Aisha Iyer,910000000380,Resort Hotel,2026-10-20,2027-01-28,2027-01-30,2,0,BB,Online TA,Transient-Party,No Deposit,17550,0,0,0,0,0,0,0,confirmed
+SC-24415,Karan Menon,910000000415,Resort Hotel,2026-04-29,2027-01-28,2027-01-29,1,0,BB,Online TA,Transient,No Deposit,8400,2,0,1,0,0,0,0,confirmed
+SC-24440,Meera Das,910000000440,Resort Hotel,2026-06-05,2027-01-28,2027-01-29,3,0,BB,Direct,Transient,No Deposit,14150,1,1,2,0,0,0,0,confirmed
+SC-24472,Neha Verma,910000000472,Resort Hotel,2026-10-25,2027-01-28,2027-01-31,2,0,BB,Online TA,Transient,No Deposit,17900,0,0,1,0,0,0,0,confirmed
+SC-24490,Vivaan Chopra,910000000490,Resort Hotel,2026-08-19,2027-01-28,2027-01-30,2,0,BB,Online TA,Transient,No Deposit,6200,0,0,1,0,0,0,0,confirmed
+SC-24007,Diya Gupta,910000000007,Resort Hotel,2026-03-13,2027-01-29,2027-02-01,2,0,BB,Online TA,Transient,No Deposit,6700,1,0,2,0,0,0,0,confirmed
+SC-24115,Neha Das,910000000115,Resort Hotel,2026-09-20,2027-01-29,2027-02-03,2,0,BB,Groups,Transient-Party,No Deposit,4950,1,0,0,0,0,0,0,confirmed
+SC-24118,Diya Desai,910000000118,Resort Hotel,2026-09-27,2027-01-29,2027-01-31,2,0,BB,Online TA,Transient,No Deposit,19800,0,0,1,0,0,0,0,confirmed
+SC-24252,Arjun Kapoor,910000000252,Resort Hotel,2026-07-20,2027-01-29,2027-02-03,2,0,BB,Online TA,Transient,No Deposit,12050,2,0,1,0,0,0,0,confirmed
+SC-24514,Arjun Gupta,910000000514,Resort Hotel,2026-10-11,2027-01-29,2027-01-31,2,0,BB,Online TA,Transient,No Deposit,18000,1,0,1,0,0,0,0,confirmed
+SC-24120,Priya Pillai,910000000120,Resort Hotel,2026-09-18,2027-01-30,2027-02-04,1,0,BB,Online TA,Transient,No Deposit,4350,0,0,2,0,0,0,0,confirmed
+SC-24131,Neha Patel,910000000131,Resort Hotel,2026-08-31,2027-01-30,2027-02-03,1,0,BB,Groups,Transient-Party,No Deposit,3800,1,0,0,0,0,0,0,confirmed
+SC-24228,Arjun Menon,910000000228,Resort Hotel,2026-07-12,2027-01-30,2027-02-03,2,0,BB,Online TA,Transient,No Deposit,5000,0,0,1,0,0,0,0,confirmed
+SC-24142,Simran Reddy,910000000142,Resort Hotel,2026-10-25,2027-01-31,2027-02-02,2,0,BB,Online TA,Transient,No Deposit,6500,0,0,2,0,0,0,0,confirmed
+SC-24305,Rahul Pillai,910000000305,Resort Hotel,2026-10-24,2027-01-31,2027-02-03,2,0,BB,Online TA,Transient,No Deposit,5000,0,0,1,0,0,0,0,confirmed
+SC-24220,Simran Bose,910000000220,Resort Hotel,2026-09-02,2027-02-01,2027-02-05,2,0,BB,Groups,Transient-Party,No Deposit,4550,0,0,1,0,0,0,0,confirmed
+SC-24278,Farhan Bose,910000000278,Resort Hotel,2026-04-29,2027-02-01,2027-02-02,2,0,BB,Online TA,Transient,No Deposit,8400,0,0,0,0,0,0,0,confirmed
+SC-24323,Nikhil Rao,910000000323,Resort Hotel,2026-08-17,2027-02-02,2027-02-05,1,0,BB,Groups,Transient-Party,Refundable,5400,3,0,0,0,0,0,0,confirmed
+SC-24325,Farhan Reddy,910000000325,Resort Hotel,2026-01-12,2027-02-02,2027-02-07,2,0,BB,Groups,Transient-Party,No Deposit,4400,2,0,0,0,0,0,0,confirmed
+SC-24335,Farhan Bose,910000000335,Resort Hotel,2026-10-11,2027-02-02,2027-02-09,1,0,HB,Offline TA/TO,Contract,No Deposit,4000,0,0,0,0,0,0,0,confirmed
+SC-24338,Meera Patel,910000000338,Resort Hotel,2026-10-20,2027-02-02,2027-02-06,2,0,BB,Online TA,Transient,No Deposit,6650,0,0,1,0,0,0,0,confirmed
+SC-24343,Sneha Pillai,910000000343,Resort Hotel,2026-09-26,2027-02-02,2027-02-06,2,0,HB,Online TA,Transient,No Deposit,12000,1,0,0,0,0,0,0,confirmed
+SC-24353,Riya Desai,910000000353,Resort Hotel,2026-03-14,2027-02-03,2027-02-06,1,0,BB,Online TA,Transient,No Deposit,16500,0,0,3,0,0,0,0,confirmed
+SC-24366,Tanvi Shah,910000000366,Resort Hotel,2026-09-04,2027-02-03,2027-02-07,3,0,BB,Groups,Transient-Party,No Deposit,7200,1,0,0,0,0,0,0,confirmed
+SC-24368,Isha Khan,910000000368,Resort Hotel,2026-09-07,2027-02-03,2027-02-10,2,1,BB,Online TA,Transient,No Deposit,9800,0,0,2,0,0,0,0,confirmed
+SC-24119,Vivaan Das,910000000119,Resort Hotel,2026-07-27,2027-02-04,2027-02-05,2,0,BB,Online TA,Transient,No Deposit,2900,2,0,2,0,0,0,0,confirmed
+SC-24026,Vikram Shah,910000000026,Resort Hotel,2026-05-04,2027-02-05,2027-02-12,2,0,HB,Direct,Transient,No Deposit,16400,0,0,2,0,0,0,0,confirmed
+SC-24342,Sneha Rao,910000000342,Resort Hotel,2026-10-16,2027-02-05,2027-02-10,2,0,BB,Offline TA/TO,Contract,No Deposit,3700,0,0,0,0,0,0,0,confirmed
+SC-24387,Yash Das,910000000387,Resort Hotel,2026-10-16,2027-02-05,2027-02-08,2,0,SC,Groups,Transient-Party,No Deposit,20200,1,0,0,0,0,0,0,confirmed
+SC-24423,Harsh Reddy,910000000423,Resort Hotel,2026-09-05,2027-02-05,2027-02-07,1,0,BB,Online TA,Transient,No Deposit,3950,0,0,1,0,0,0,0,confirmed
+SC-24437,Ananya Nair,910000000437,Resort Hotel,2026-10-24,2027-02-05,2027-02-08,4,0,BB,Offline TA/TO,Transient-Party,No Deposit,22750,6,0,0,0,0,0,0,confirmed
+SC-24487,Harsh Desai,910000000487,Resort Hotel,2026-09-04,2027-02-05,2027-02-06,2,0,BB,Online TA,Transient,No Deposit,3400,0,1,1,0,0,0,0,confirmed
+SC-24496,Pooja Gupta,910000000496,Resort Hotel,2026-09-29,2027-02-05,2027-02-06,2,0,BB,Online TA,Transient,No Deposit,12150,0,0,1,0,0,0,0,confirmed
+SC-24502,Kabir Menon,910000000502,Resort Hotel,2026-09-24,2027-02-05,2027-02-06,2,0,BB,Offline TA/TO,Transient-Party,No Deposit,5600,2,0,1,0,0,0,0,confirmed
+SC-24413,Priya Gupta,910000000413,Resort Hotel,2026-07-18,2027-02-06,2027-02-08,2,0,BB,Offline TA/TO,Transient,No Deposit,5550,0,0,1,0,1,0,0,confirmed
+SC-24424,Karan Desai,910000000424,Resort Hotel,2026-10-10,2027-02-06,2027-02-07,1,0,BB,Online TA,Transient,No Deposit,3950,0,1,0,0,0,0,0,confirmed
+SC-24431,Nikhil Singh,910000000431,Resort Hotel,2026-09-24,2027-02-06,2027-02-08,2,0,BB,Direct,Transient,No Deposit,5200,0,0,0,0,0,0,0,confirmed
+SC-24511,Harsh Desai,910000000511,Resort Hotel,2026-10-04,2027-02-07,2027-02-08,2,0,HB,Online TA,Transient,No Deposit,15900,0,0,1,0,0,0,0,confirmed
+SC-24280,Siddharth Gupta,910000000280,Resort Hotel,2026-08-19,2027-02-08,2027-02-15,3,0,BB,Offline TA/TO,Contract,No Deposit,11150,1,0,1,0,0,0,0,confirmed
+SC-24288,Nisha Chopra,910000000288,Resort Hotel,2026-06-27,2027-02-08,2027-02-15,2,1,HB,Offline TA/TO,Contract,No Deposit,8500,0,0,0,0,0,0,0,confirmed
+SC-24290,Zoya Joshi,910000000290,Resort Hotel,2026-08-03,2027-02-08,2027-02-10,2,0,BB,Groups,Transient-Party,No Deposit,4150,0,0,0,0,0,0,0,confirmed
+SC-24048,Aditya Pillai,910000000048,Resort Hotel,2026-09-23,2027-02-09,2027-02-13,2,0,BB,Online TA,Transient,No Deposit,3950,0,0,1,0,0,0,0,confirmed
+SC-24232,Sneha Verma,910000000232,Resort Hotel,2026-07-18,2027-02-09,2027-02-13,2,0,BB,Online TA,Transient,No Deposit,4850,0,0,1,0,0,0,0,confirmed
+SC-24378,Vikram Singh,910000000378,Resort Hotel,2026-10-05,2027-02-09,2027-02-11,2,0,BB,Offline TA/TO,Transient,No Deposit,10700,0,0,0,0,0,0,0,confirmed
+SC-24503,Priya Joshi,910000000503,Resort Hotel,2026-10-08,2027-02-10,2027-02-11,1,0,BB,Groups,Transient,No Deposit,3250,0,0,0,0,0,0,0,confirmed
+SC-24513,Harsh Rao,910000000513,Resort Hotel,2026-09-17,2027-02-10,2027-02-11,1,0,BB,Offline TA/TO,Transient-Party,No Deposit,10450,1,0,0,0,0,0,0,confirmed
+SC-24262,Aditya Sharma,910000000262,Resort Hotel,2026-08-16,2027-02-11,2027-02-16,2,0,FB,Offline TA/TO,Transient-Party,No Deposit,8250,0,0,1,0,0,0,0,confirmed
+SC-24324,Neha Iyer,910000000324,Resort Hotel,2026-10-24,2027-02-11,2027-02-12,2,0,BB,Online TA,Transient,No Deposit,3250,2,1,0,0,0,0,0,confirmed
+SC-24098,Diya Gupta,910000000098,Resort Hotel,2026-08-12,2027-02-12,2027-02-19,2,0,BB,Online TA,Transient,No Deposit,9600,1,1,1,0,0,0,0,confirmed
+SC-24291,Ananya Menon,910000000291,Resort Hotel,2026-10-28,2027-02-12,2027-02-16,2,0,BB,Online TA,Transient,No Deposit,15250,0,0,1,0,0,0,0,confirmed
+SC-24453,Sneha Singh,910000000453,Resort Hotel,2026-07-14,2027-02-12,2027-02-14,2,0,HB,Groups,Transient-Party,No Deposit,7650,0,0,0,0,0,0,0,confirmed
+SC-24473,Simran Singh,910000000473,Resort Hotel,2026-09-14,2027-02-12,2027-02-14,2,0,BB,Online TA,Transient,No Deposit,5700,0,0,0,0,0,0,0,confirmed
+SC-24008,Karan Joshi,910000000008,Resort Hotel,2026-06-08,2027-02-13,2027-02-19,2,2,BB,Direct,Transient-Party,No Deposit,9700,3,0,1,0,0,0,0,confirmed
+SC-24198,Diya Sharma,910000000198,Resort Hotel,2026-09-04,2027-02-13,2027-02-20,2,0,BB,Direct,Transient,No Deposit,17200,0,0,1,0,0,0,0,confirmed
+SC-24414,Neha Iyer,910000000414,Resort Hotel,2026-09-03,2027-02-13,2027-02-14,2,0,HB,Online TA,Transient,No Deposit,17300,0,0,1,0,0,0,0,confirmed
+SC-24090,Pooja Verma,910000000090,Resort Hotel,2026-08-21,2027-02-14,2027-02-21,3,0,BB,Offline TA/TO,Contract,No Deposit,12200,1,1,1,0,0,0,0,confirmed
+SC-24108,Vivaan Menon,910000000108,Resort Hotel,2026-09-04,2027-02-15,2027-02-19,2,0,BB,Offline TA/TO,Transient,No Deposit,5350,0,0,0,0,0,0,0,confirmed
+SC-24478,Kabir Bose,910000000478,Resort Hotel,2026-09-16,2027-02-15,2027-02-17,2,0,BB,Online TA,Transient,No Deposit,22850,0,1,4,0,0,6,0,confirmed
+SC-24500,Rahul Bose,910000000500,Resort Hotel,2026-07-19,2027-02-15,2027-02-17,2,0,HB,Groups,Transient-Party,No Deposit,7650,0,0,0,0,0,0,0,confirmed
+SC-24214,Karan Bose,910000000214,Resort Hotel,2026-08-09,2027-02-16,2027-02-23,2,0,BB,Offline TA/TO,Transient,No Deposit,7300,0,0,1,0,0,0,0,confirmed
+SC-24052,Kabir Iyer,910000000052,Resort Hotel,2026-07-12,2027-02-17,2027-02-24,2,0,BB,Offline TA/TO,Contract,No Deposit,10150,0,0,0,0,0,0,0,confirmed
+SC-24173,Zoya Das,910000000173,Resort Hotel,2026-06-10,2027-02-18,2027-02-25,1,0,HB,Groups,Transient-Party,No Deposit,4600,2,0,0,0,0,0,0,confirmed
+SC-24497,Nikhil Rao,910000000497,Resort Hotel,2026-07-07,2027-02-18,2027-02-19,2,0,BB,Offline TA/TO,Transient,No Deposit,5000,0,0,0,0,1,0,0,confirmed
+SC-24227,Karan Menon,910000000227,Resort Hotel,2026-09-25,2027-02-19,2027-02-26,2,0,BB,Online TA,Transient,No Deposit,4550,0,0,2,0,0,0,0,confirmed
+SC-24351,Pooja Singh,910000000351,Resort Hotel,2026-10-28,2027-02-19,2027-02-21,2,0,BB,Direct,Transient,No Deposit,8650,0,0,0,0,0,0,0,confirmed
+SC-24459,Ananya Bose,910000000459,Resort Hotel,2026-10-16,2027-02-19,2027-02-21,2,0,BB,Online TA,Transient,No Deposit,4850,0,0,1,0,0,0,0,confirmed
+SC-24469,Kavya Chopra,910000000469,Resort Hotel,2026-05-26,2027-02-19,2027-02-20,2,0,HB,Offline TA/TO,Transient,No Deposit,4450,0,0,0,0,0,0,0,confirmed
+SC-24476,Aisha Singh,910000000476,Resort Hotel,2026-10-21,2027-02-19,2027-02-21,2,2,HB,Online TA,Transient,No Deposit,12250,0,1,0,0,0,0,0,confirmed
+SC-24317,Diya Verma,910000000317,Resort Hotel,2026-07-17,2027-02-20,2027-02-22,2,0,BB,Online TA,Transient-Party,No Deposit,4850,1,0,1,0,0,0,0,confirmed
+SC-24488,Siddharth Desai,910000000488,Resort Hotel,2026-09-05,2027-02-20,2027-02-21,2,0,BB,Offline TA/TO,Transient,No Deposit,5600,0,0,0,0,0,0,0,confirmed
+SC-24512,Rohan Bose,910000000512,Resort Hotel,2026-08-11,2027-02-20,2027-02-21,2,0,BB,Offline TA/TO,Transient,No Deposit,4150,0,0,0,0,0,0,0,confirmed
+SC-24153,Diya Mehta,910000000153,Resort Hotel,2026-07-05,2027-02-21,2027-02-28,1,0,BB,Offline TA/TO,Contract,No Deposit,4750,0,0,1,0,0,0,0,confirmed
+SC-24178,Isha Rao,910000000178,Resort Hotel,2026-05-07,2027-02-21,2027-02-27,2,0,HB,Online TA,Transient,No Deposit,10550,0,0,1,0,0,0,0,confirmed
+SC-24467,Meera Gupta,910000000467,Resort Hotel,2026-09-05,2027-02-22,2027-02-23,2,0,BB,Online TA,Transient,No Deposit,9650,0,0,2,0,0,0,0,confirmed
+SC-24509,Zoya Sharma,910000000509,Resort Hotel,2026-10-01,2027-02-22,2027-02-23,2,0,BB,Offline TA/TO,Transient,No Deposit,5600,0,0,0,0,0,0,0,confirmed
+SC-24123,Vivaan Shah,910000000123,Resort Hotel,2026-07-05,2027-02-23,2027-03-01,2,0,HB,Online TA,Transient,No Deposit,8300,0,0,1,0,0,0,0,confirmed
+SC-24356,Rahul Khan,910000000356,Resort Hotel,2026-09-19,2027-02-23,2027-03-02,2,0,BB,Online TA,Transient,No Deposit,12050,0,0,1,0,0,0,0,confirmed
+SC-24398,Diya Reddy,910000000398,Resort Hotel,2026-10-10,2027-02-23,2027-03-01,2,1,BB,Direct,Transient,No Deposit,12700,0,0,0,0,0,0,0,confirmed
+SC-24410,Nikhil Shah,910000000410,Resort Hotel,2026-02-05,2027-02-23,2027-02-26,2,0,BB,Groups,Transient-Party,No Deposit,4850,0,1,0,0,0,0,0,confirmed

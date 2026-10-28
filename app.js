@@ -1,8 +1,8 @@
-import { DEFAULT_SETTINGS, ACTIONS, scoreBookings, nightly, channels, savings, upiLink, todayUTC, DAY, isoDay } from "./engine.js";
-import { whatsappMessages, waLink, voicePrompt, AUTOMATION_RULES, WHATSAPP_TEMPLATE_SPEC } from "./templates.js";
+import { DEFAULT_SETTINGS, scoreBookings, nightly, channels, savings, upiLink, todayUTC, DAY, isoDay } from "./engine.js";
+import { whatsappMessages, waLink, voicePrompt, AUTOMATION_RULES, DEVELOPER_SPEC } from "./templates.js";
 import { PATTERNS } from "./patterns.js";
 
-// ---------- small helpers ----------
+// ---------- helpers ----------
 const $ = (id) => document.getElementById(id);
 function h(tag, attrs = {}, ...kids) {
   const e = document.createElement(tag);
@@ -10,41 +10,30 @@ function h(tag, attrs = {}, ...kids) {
     if (v === null || v === undefined || v === false) continue;
     if (k === "class") e.className = v;
     else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
-    else if (k === "style") e.setAttribute("style", v);
     else e.setAttribute(k, v === true ? "" : v);
   }
-  for (const k of kids.flat()) if (k !== null && k !== undefined && k !== false) e.append(k instanceof Node ? k : String(k));
+  for (const k of kids.flat(2)) if (k !== null && k !== undefined && k !== false) e.append(k instanceof Node ? k : String(k));
   return e;
 }
 const inr = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
 const pct = (x, d = 0) => `${(x * 100).toFixed(d)}%`;
+const inTen = (p) => `About ${Math.max(1, Math.round(p * 10))} in 10`;
 const fmt = (t) => new Date(t).toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
 const badge = (tier) => h("span", { class: `badge ${tier.toLowerCase()}` }, tier);
-function toast(msg) {
-  const t = h("div", { class: "toast", role: "status" }, msg);
-  document.body.append(t);
-  setTimeout(() => t.remove(), 1800);
-}
-async function copy(text) {
-  try { await navigator.clipboard.writeText(text); toast("Copied"); } catch { toast("Select the text and copy it manually"); }
-}
-
-// ---------- state (per-viewer conveniences in localStorage) ----------
+function toast(msg) { const t = h("div", { class: "toast", role: "status" }, msg); document.body.append(t); setTimeout(() => t.remove(), 1800); }
+async function copy(text) { try { await navigator.clipboard.writeText(text); toast("Copied"); } catch { toast("Select the text and copy it manually"); } }
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* ignore */ } },
 };
-let settings = { ...DEFAULT_SETTINGS, ...store.get("sc_settings", {}) };
-settings.depositPct = { ...DEFAULT_SETTINGS.depositPct, ...(settings.depositPct || {}) };
-let statuses = store.get("sc_status", {});
-let rawRows = [];
-let sourceName = "";
-let data = { bookings: [], skipped: [] };
-let nights = [];
-let actionFilter = "action";
-let activeTab = "actions";
 
-// ---------- data loading ----------
+// ---------- state ----------
+let settings = { ...DEFAULT_SETTINGS, ...store.get("sc2_settings", {}) };
+let statuses = store.get("sc2_status", {});
+let rawRows = [], sourceName = "", data = { bookings: [], skipped: [] }, nights = [];
+let actionFilter = "action", activeTab = "actions";
+
+// ---------- data ----------
 async function loadBuffer(buf, name) {
   if (!window.XLSX) { $("dataStatus").textContent = "Could not load the Excel reader. Check your connection and reload."; return; }
   const wb = window.XLSX.read(buf, { type: "array", cellDates: false });
@@ -59,9 +48,7 @@ async function loadSample() {
     const r = await fetch("sample_hotel_bookings.xlsx");
     if (!r.ok) throw new Error(String(r.status));
     await loadBuffer(await r.arrayBuffer(), "Sample hotel (fictional, 20 rooms)");
-  } catch {
-    $("dataStatus").textContent = "Could not load the sample file — use “Upload bookings”.";
-  }
+  } catch { $("dataStatus").textContent = "Could not load the sample file — use “Upload bookings”."; }
 }
 $("loadSample").addEventListener("click", loadSample);
 $("file").addEventListener("change", async (e) => {
@@ -75,310 +62,221 @@ function recompute() {
   data = scoreBookings(rawRows, settings, statuses);
   nights = nightly(data.bookings, settings);
   $("hotelLine").textContent = `${settings.hotelName} · ${settings.rooms} rooms`;
-  $("dataStatus").textContent = `${sourceName}: ${rawRows.length} bookings read · ${data.bookings.length} upcoming confirmed bookings scored today (${isoDay(todayUTC())})`
-    + (data.skipped.length ? ` · ${data.skipped.length} skipped (data problems)` : "");
+  $("dataStatus").textContent = `${sourceName}: ${data.bookings.length} upcoming bookings checked today (${isoDay(todayUTC())})`
+    + (data.skipped.length ? ` · ${data.skipped.length} skipped because of data problems` : "");
   render();
 }
+const horizon = () => data.bookings.filter((b) => b.checkin < todayUTC() + settings.horizon * DAY);
 
 // ---------- KPIs ----------
-function horizonBookings() {
-  const end = todayUTC() + settings.horizon * DAY;
-  return data.bookings.filter((b) => b.checkin < end);
-}
 function renderKpis() {
-  const bs = horizonBookings();
+  const bs = horizon();
   const sv = savings(bs, nights, settings);
   const high = bs.filter((b) => b.tier === "High").length;
-  const expC = bs.reduce((a, b) => a + b.p, 0);
-  const deposits = bs.filter((b) => b.deposit > 0 && b.status !== "paid").reduce((a, b) => a + b.deposit, 0);
-  const avgOcc = nights.length ? nights.reduce((a, n) => a + n.occPct, 0) / nights.length : 0;
-  const k = $("kpis");
-  k.replaceChildren(
-    h("div", { class: "kpi" }, h("div", { class: "v" }, bs.length), h("div", { class: "l" }, `arrivals in next ${settings.horizon} days`)),
-    h("div", { class: "kpi alert" }, h("div", { class: "v" }, inr(sv.atRisk)), h("div", { class: "l" }, "revenue at risk (expected cancellations)")),
-    h("div", { class: "kpi alert" }, h("div", { class: "v" }, high), h("div", { class: "l" }, "High-risk bookings")),
-    h("div", { class: "kpi" }, h("div", { class: "v" }, expC.toFixed(0)), h("div", { class: "l" }, "bookings expected to cancel")),
-    h("div", { class: "kpi" }, h("div", { class: "v" }, inr(deposits)), h("div", { class: "l" }, "advance deposits to request")),
-    h("div", { class: `kpi${avgOcc >= 0.8 ? " good" : ""}` }, h("div", { class: "v" }, pct(avgOcc)), h("div", { class: "l" }, "expected occupancy after cancellations")),
+  const action = bs.filter((b) => b.tier !== "Low" && b.held < b.value).length;
+  $("kpis").replaceChildren(
+    h("div", { class: "kpi" }, h("div", { class: "v" }, bs.length), h("div", { class: "l" }, `arrivals, next ${settings.horizon} days`)),
+    h("div", { class: "kpi alert" }, h("div", { class: "v" }, `${inr(sv.atRisk)}*`), h("div", { class: "l" }, "revenue at risk")),
+    h("div", { class: "kpi" }, h("div", { class: "v" }, action), h("div", { class: "l" }, `need action (${high} high)`)),
+    h("div", { class: "kpi good" }, h("div", { class: "v" }, inr(sv.collected)), h("div", { class: "l" }, "advances collected")),
   );
+  $("kpiNote").textContent = "* Estimate. The risk model learned from hotels in Portugal (2015–17) and is not yet tested on Indian hotels; rupee figures are a guide, not a guarantee.";
 }
 
-// ---------- Tab: actions ----------
-const STATUS_LABEL = { "": "Not contacted", sent: "WhatsApp sent", confirmed: "Confirmed", noreply: "No reply", paid: "Deposit paid" };
-const STATUS_CLASS = { "": "", sent: "", confirmed: "ok", noreply: "bad", paid: "ok" };
-
+// ---------- Today's actions ----------
+const STATUS = { "": ["Not contacted", ""], sent: ["WhatsApp sent", ""], confirmed: ["Confirmed", "ok"], noreply: ["No reply", "bad"], paid: ["Advance paid", "ok"] };
 function renderActions() {
-  const el = $("tab-actions");
-  const bs = horizonBookings();
-  const list = bs.filter((b) => actionFilter === "all" ? true : actionFilter === "action" ? b.tier !== "Low" : b.tier === actionFilter);
-  const chips = h("div", { class: "chips" }, ...[["action", "Needs action"], ["High", "High"], ["Medium", "Medium"], ["Low", "Low"], ["all", "All"]].map(([f, label]) =>
-    h("button", { type: "button", class: `chip${actionFilter === f ? " active" : ""}`, onclick: () => { actionFilter = f; renderActions(); } },
-      `${label} (${f === "all" ? bs.length : f === "action" ? bs.filter((b) => b.tier !== "Low").length : bs.filter((b) => b.tier === f).length})`)));
-
+  const bs = horizon();
+  const count = (f) => bs.filter((b) => (f === "all" ? true : f === "action" ? b.tier !== "Low" && b.held < b.value : b.tier === f)).length;
+  const list = bs.filter((b) => (actionFilter === "all" ? true : actionFilter === "action" ? b.tier !== "Low" && b.held < b.value : b.tier === actionFilter));
+  const chips = h("div", { class: "chips" }, [["action", "Needs action"], ["High", "High"], ["Medium", "Medium"], ["Low", "Low"], ["all", "All"]].map(([f, l]) =>
+    h("button", { type: "button", class: `chip${actionFilter === f ? " active" : ""}`, onclick: () => { actionFilter = f; renderActions(); } }, `${l} (${count(f)})`)));
   const rows = list.length ? list.map((b) => h("tr", { class: "clickable", onclick: () => openDrawer(b.ref) },
-    h("td", { class: "nowrap" }, fmt(b.checkin), h("span", { class: "sub" }, b.checkin === todayUTC() ? "today" : `in ${Math.round((b.checkin - todayUTC()) / DAY)} days`)),
-    h("td", {}, b.guest || b.ref, h("span", { class: "sub" }, `${b.ref} · ${b.nights} night${b.nights === 1 ? "" : "s"} · ${b.features.market_segment}`)),
+    h("td", { class: "nowrap" }, fmt(b.checkin), h("span", { class: "sub" }, b.daysLeft === 0 ? "today" : `in ${b.daysLeft} day${b.daysLeft === 1 ? "" : "s"}`)),
+    h("td", {}, b.guest || b.ref, h("span", { class: "sub" }, `${b.nights} night${b.nights === 1 ? "" : "s"} · ${inr(b.value)}`)),
     h("td", { class: "nowrap" }, badge(b.tier), " ", h("strong", {}, pct(b.p)),
-      b.status ? h("span", { class: "sub" }, h("span", { class: `pill ${STATUS_CLASS[b.status]}` }, STATUS_LABEL[b.status])) : null),
-    h("td", { class: "why" }, b.explanation.headline),
-    h("td", { class: "num" }, inr(b.value), h("span", { class: "sub" }, `${inr(b.atRisk)} at risk`)),
-    h("td", { class: "num" }, b.deposit ? inr(b.deposit) : "—", h("span", { class: "sub" }, `${b.depPct}% advance`)),
-    h("td", { class: "nowrap" }, h("button", { type: "button", class: "btn primary-sm", onclick: (e) => { e.stopPropagation(); openDrawer(b.ref); } }, "Open")),
-  )) : [h("tr", { class: "empty" }, h("td", { colspan: "7" }, "No bookings in this group."))];
-
-  el.replaceChildren(h("div", { class: "panel" },
+      b.status ? h("span", { class: "sub" }, h("span", { class: `pill ${STATUS[b.status][1]}` }, STATUS[b.status][0])) : null),
+    h("td", { class: "why" }, b.explanation.headline.replace(/^\w+ risk: /, "")),
+    h("td", { class: "why" }, b.nextStep || b.action),
+  )) : [h("tr", { class: "empty" }, h("td", { colspan: "5" }, "No bookings in this group."))];
+  $("tab-actions").replaceChildren(h("div", { class: "panel" },
     h("div", { class: "section-head" }, h("h2", {}, "Today's action list"), chips),
-    h("p", { class: "lead" }, "Every upcoming booking is scored each day. Open a booking to see why it is risky, the suggested advance with a UPI link, the WhatsApp messages and the AI call script."),
     h("div", { class: "table-wrap" }, h("table", {},
-      h("thead", {}, h("tr", {}, ...["Arrival", "Guest", "Risk", "Why", "Stay value", "Advance", ""].map((t, i) => h("th", { class: i >= 4 && i <= 5 ? "num" : "" }, t)))),
-      h("tbody", {}, ...rows))),
-    data.skipped.length ? h("p", { class: "muted small" }, `Skipped: ${data.skipped.slice(0, 3).join("; ")}${data.skipped.length > 3 ? "…" : ""}`) : null,
-  ));
+      h("thead", {}, h("tr", {}, ["Arrival", "Guest", "Risk today", "Why", "Next step"].map((t) => h("th", {}, t)))),
+      h("tbody", {}, rows))),
+    h("p", { class: "muted small" }, "Tap a booking to see the reasons, the messages and the payment link. Risk today falls as arrival gets closer without a cancellation."),
+    data.skipped.length ? h("details", { class: "small" }, h("summary", {}, `${data.skipped.length} booking(s) skipped — show why`),
+      h("ul", {}, data.skipped.slice(0, 20).map((s) => h("li", {}, s)))) : null));
 }
 
-// ---------- Drawer: one booking ----------
+// ---------- Booking panel ----------
 function setStatus(ref, st) {
   if (st) statuses[ref] = st; else delete statuses[ref];
-  store.set("sc_status", statuses);
+  store.set("sc2_status", statuses);
   recompute();
-  if (st !== "cancelled") openDrawer(ref); else closeDrawer();
-  toast(st === "cancelled" ? "Booking released for resale" : "Status updated");
+  if (st === "cancelled") { closeDrawer(); toast("Booking released for resale"); } else { openDrawer(ref); toast("Saved"); }
 }
-
 function openDrawer(ref) {
   const b = data.bookings.find((x) => x.ref === ref);
   if (!b) return;
-  const upi = b.deposit ? upiLink(settings, b) : "";
-  const msgs = whatsappMessages(b, settings, upi);
-  const prompt = voicePrompt(b, settings);
   const e = b.explanation;
-  const d7 = b.checkin - 7 * DAY, d2 = b.checkin - 2 * DAY, d1 = b.checkin - DAY;
-  const when = (t) => (t < todayUTC() ? `${fmt(t)} (passed)` : t === todayUTC() ? "Today" : fmt(t));
-
-  const statusBtns = [["sent", "WhatsApp sent"], ["confirmed", "Guest confirmed"], ["noreply", "No reply"], ["paid", "Deposit paid"], ["cancelled", "Guest cancelled"], ["", "Reset"]]
-    .map(([st, label]) => h("button", { type: "button", class: `btn${b.status === st && st ? " on" : ""}`, onclick: () => setStatus(b.ref, st) }, label));
-
-  const dr = $("drawer");
-  dr.replaceChildren(
+  const upi = b.advance ? upiLink(settings, b) : "";
+  const msgs = whatsappMessages(b, settings);
+  const prompt = voicePrompt(b, settings);
+  const primary = b.held >= b.value ? null
+    : b.advance && b.status !== "paid" ? h("a", { class: "btn primary-sm", href: b.phone ? waLink(b.phone, msgs[0].text) : upi, target: "_blank", rel: "noopener" }, `Request ₹${Math.round(b.advance).toLocaleString("en-IN")} advance on WhatsApp`)
+    : b.tier !== "Low" && b.phone ? h("a", { class: "btn primary-sm", href: waLink(b.phone, msgs[0].text), target: "_blank", rel: "noopener" }, "Send WhatsApp reconfirmation") : null;
+  const statusBtns = [["sent", "WhatsApp sent"], ["confirmed", "Guest confirmed"], ["noreply", "No reply"], ["paid", "Advance paid"], ["cancelled", "Guest cancelled"], ["", "Clear"]]
+    .filter(([st]) => st !== "paid" || b.advance)
+    .map(([st, l]) => h("button", { type: "button", class: `btn${b.status === st && st ? " on" : ""}`, onclick: () => setStatus(b.ref, st) }, l));
+  $("drawer").replaceChildren(
     h("div", { class: "drawer-head" },
       h("div", {}, h("h2", { id: "drawerTitle" }, b.guest || b.ref),
-        h("div", { class: "muted" }, `${b.ref} · ${fmt(b.checkin)} → ${fmt(b.checkout)} · ${b.nights} night${b.nights === 1 ? "" : "s"} · ${inr(b.rateInr)}/night · ${b.features.market_segment}`)),
+        h("div", { class: "muted" }, `${fmt(b.checkin)} → ${fmt(b.checkout)} · ${b.nights} night${b.nights === 1 ? "" : "s"} · ${inr(b.value)}`)),
       h("button", { type: "button", class: "close", onclick: closeDrawer }, "Close")),
     h("div", { class: "drawer-body" },
       h("div", { class: "card" },
-        h("div", { class: "score-row" }, h("span", { class: `pct ${b.tier.toLowerCase()}` }, pct(b.p)), badge(b.tier),
-          h("span", { class: "muted" }, `chance of cancelling · stay value ${inr(b.value)} · ${inr(b.atRisk)} at risk`)),
-        b.rule ? h("p", { class: "muted small" }, `Model score ${pct(b.modelP)} → ${pct(b.p)} after rule: ${b.rule}`) : null,
-        h("p", { style: "margin:10px 0 0;font-weight:600" }, e.headline),
-        h("p", { class: "muted small", style: "margin:4px 0 0" }, ACTIONS[b.tier])),
-
-      h("div", { class: "card" }, h("h3", {}, "Why this score"),
+        h("div", { class: "score-row" }, h("span", { class: `pct ${b.tier.toLowerCase()}` }, pct(b.p)), badge(b.tier), h("span", { class: "muted" }, "chance of cancelling")),
+        h("p", { style: "margin:8px 0 0" }, `${inTen(b.p)} bookings like this are cancelled from here. `,
+          h("span", { class: "muted" }, b.daysLeft < b.features.lead_time ? `It was ${pct(b.modelP)} when booked; it falls as arrival gets closer (${b.daysLeft} days left).` : "Just booked.")),
+        b.heldWhy ? h("p", { class: "callout good", style: "margin:10px 0 0" }, `${b.heldWhy}. Protected: ${inr(b.held)}.`) : null,
+        h("div", { class: "next" }, h("strong", {}, "What to do"), h("span", {}, b.nextStep || b.action)),
+        primary ? h("div", { class: "btn-row" }, primary) : null),
+      h("div", { class: "card" }, h("h3", {}, "Why"),
         h("ul", { class: "reasons" },
-          ...e.raises.map((r) => h("li", { class: "up" }, h("span", { class: "ico" }, "↑"), h("span", {}, r.text, r.pattern ? h("span", { class: "pattern" }, `Pattern: ${r.pattern}`) : null))),
-          ...e.lowers.map((r) => h("li", { class: "down" }, h("span", { class: "ico" }, "↓"), h("span", {}, r.text, r.pattern ? h("span", { class: "pattern" }, `Pattern: ${r.pattern}`) : null)))),
-        h("p", { class: "muted small", style: "margin:10px 0 0" }, `↑ raises the risk, ↓ lowers it, compared with an average booking (overall ${pct(PATTERNS.overall)} cancel). Each line is a term of the model's own formula; patterns are from 87,216 past bookings.`)),
-
-      h("div", { class: "card" }, h("h3", {}, "Risk-based advance"),
-        b.deposit
-          ? [h("p", { style: "margin:0" }, h("strong", {}, inr(b.deposit)), ` advance (${b.depPct}% of ${inr(b.value)}) suggested for ${b.tier.toLowerCase()} risk.`),
-             h("div", { class: "btn-row" }, h("a", { class: "btn primary-sm", href: upi }, "Open UPI payment link"), h("button", { type: "button", class: "btn", onclick: () => copy(upi) }, "Copy UPI link")),
-             h("p", { class: "muted small" }, upi)]
-          : h("p", { class: "muted", style: "margin:0" }, "Low risk — no advance needed. Keep the booking as normal.")),
-
-      h("div", { class: "card" }, h("h3", {}, "Automated reconfirmation"),
-        h("ul", { class: "timeline" },
-          h("li", {}, h("span", { class: "d" }, "On booking"), h("span", {}, b.deposit ? `Send advance request (${inr(b.deposit)}) with UPI link` : "No message needed")),
-          b.tier !== "Low" ? h("li", {}, h("span", { class: "d" }, when(d7)), h("span", {}, "WhatsApp reconfirmation (7 days before)")) : null,
-          b.tier !== "Low" ? h("li", {}, h("span", { class: "d" }, "+48 hours"), h("span", {}, `No reply → risk +${settings.noReplyBump} points`)) : null,
-          b.tier === "High" ? h("li", {}, h("span", { class: "d" }, when(d2)), h("span", {}, "Second WhatsApp (2 days before)")) : null,
-          b.tier === "High" ? h("li", {}, h("span", { class: "d" }, when(d1)), h("span", {}, "AI voice call if still no reply (smallest.ai)")) : null),
-        ...msgs.map((m) => [h("div", { class: "msg-when" }, m.when), h("div", { class: "msg" }, m.text),
+          e.raises.slice(0, 3).map((r) => h("li", { class: "up" }, h("span", { class: "ico" }, "↑"), h("span", {}, r.text, r.pattern ? h("span", { class: "pattern" }, r.pattern) : null))),
+          e.lowers.slice(0, 2).map((r) => h("li", { class: "down" }, h("span", { class: "ico" }, "↓"), h("span", {}, r.text, r.pattern ? h("span", { class: "pattern" }, r.pattern) : null))))),
+      h("div", { class: "card" }, h("h3", {}, "What happened"), h("div", { class: "btn-row" }, statusBtns),
+        h("p", { class: "muted small" }, "Recording a reply changes the next step, not the risk score.")),
+      h("details", { class: "card more" }, h("summary", {}, "Messages, payment link and call script"),
+        msgs.map((m) => [h("div", { class: "msg-when" }, m.when), h("div", { class: "msg" }, m.text),
           h("div", { class: "btn-row" }, b.phone ? h("a", { class: "btn wa", href: waLink(b.phone, m.text), target: "_blank", rel: "noopener" }, "Open in WhatsApp") : null,
-            h("button", { type: "button", class: "btn", onclick: () => copy(m.text) }, "Copy"))])),
-
-      h("div", { class: "card" }, h("h3", {}, "AI voice call — agent prompt (smallest.ai, to connect)"),
+            h("button", { type: "button", class: "btn", onclick: () => copy(m.text) }, "Copy"))]),
+        upi ? [h("div", { class: "msg-when" }, "UPI payment link"), h("div", { class: "btn-row" }, h("a", { class: "btn", href: upi }, "Open payment link"), h("button", { type: "button", class: "btn", onclick: () => copy(upi) }, "Copy link"))] : null,
+        h("div", { class: "msg-when" }, "Reminder call script (for the voice-call service)"),
         h("pre", { class: "prompt" }, prompt),
-        h("div", { class: "btn-row" }, h("button", { type: "button", class: "btn", onclick: () => copy(prompt) }, "Copy prompt"))),
-
-      h("div", { class: "card" }, h("h3", {}, "Record what happened (demo)"),
-        h("p", { class: "muted small", style: "margin:0" }, "In production these update automatically from WhatsApp replies, UPI payments and call outcomes."),
-        h("div", { class: "btn-row" }, ...statusBtns)),
-    ),
-  );
-  dr.hidden = false;
-  $("drawerBackdrop").hidden = false;
-  dr.querySelector(".close").focus();
+        h("div", { class: "btn-row" }, h("button", { type: "button", class: "btn", onclick: () => copy(prompt) }, "Copy script"))),
+    ));
+  $("drawer").hidden = false; $("drawerBackdrop").hidden = false;
+  $("drawer").querySelector(".close").focus();
 }
 function closeDrawer() { $("drawer").hidden = true; $("drawerBackdrop").hidden = true; }
 $("drawerBackdrop").addEventListener("click", closeDrawer);
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
 
-// ---------- Tab: revenue & forecast ----------
+// ---------- Revenue & forecast ----------
 function renderRevenue() {
-  const el = $("tab-revenue");
   const worst = [...nights].sort((a, b) => b.atRisk - a.atRisk).slice(0, 3);
-  const push = nights.filter((n) => n.signal === "Push sales");
-  const hold = nights.filter((n) => n.signal === "Hold rates");
-  const totalRisk = nights.reduce((a, n) => a + n.atRisk, 0);
-  const rows = nights.map((n) => h("tr", {},
-    h("td", { class: "nowrap" }, fmt(n.date)),
-    h("td", { class: "num" }, `${n.booked} / ${settings.rooms}`),
-    h("td", { class: "num" }, n.expCancel.toFixed(1)),
-    h("td", {}, h("div", { class: `bar ${n.occPct < 0.6 ? "low" : n.occPct > 0.9 ? "high" : ""}` }, h("span", { style: `width:${Math.min(100, n.occPct * 100).toFixed(0)}%` })),
-      h("div", { class: "bar-label" }, `${pct(n.occPct)} expected (${n.expOcc.toFixed(1)} rooms)`)),
-    h("td", { class: "num" }, inr(n.atRisk)),
-    h("td", {}, h("span", { class: `pill ${n.signal === "Push sales" ? "warn" : n.signal === "Hold rates" ? "ok" : ""}` }, n.signal)),
-  ));
-  el.replaceChildren(h("div", { class: "panel" },
-    h("div", { class: "section-head" }, h("h2", {}, `Revenue at risk & ${settings.horizon}-day occupancy forecast`)),
-    h("p", { class: "lead" }, "Occupancy is forecast from expected cancellations, not raw bookings: each booking counts as (1 − its cancellation probability). Revenue at risk per night = sum of probability × nightly rate."),
+  const push = nights.filter((n) => n.signal === "Push sales"), hold = nights.filter((n) => n.signal === "Hold rates");
+  $("tab-revenue").replaceChildren(h("div", { class: "panel" },
+    h("div", { class: "section-head" }, h("h2", {}, `Revenue at risk and ${settings.horizon}-day occupancy`)),
+    h("p", { class: "lead" }, "Expected occupancy = rooms booked minus the cancellations we expect. Prepaid, non-refundable rooms are not counted as at risk. Bookings that have not been made yet are not included."),
     h("div", { class: "cards" },
-      h("div", { class: "callout warn" }, h("strong", {}, `${inr(totalRisk)} of room revenue is at risk over the next ${settings.horizon} nights. `),
-        `Biggest exposure: ${worst.map((n) => `${fmt(n.date)} (${inr(n.atRisk)})`).join(", ")}.`),
-      h("div", { class: "callout" },
-        h("strong", {}, "Pricing signal: "),
-        push.length ? `push sales on ${push.length} night(s) — e.g. ${push.slice(0, 3).map((n) => fmt(n.date)).join(", ")} (expected occupancy below 60%). ` : "no weak nights. ",
-        hold.length ? `Hold rates on ${hold.length} night(s) — e.g. ${hold.slice(0, 3).map((n) => fmt(n.date)).join(", ")} (above 90% even after cancellations).` : "")),
+      h("div", { class: "callout warn" }, h("strong", {}, "Most at risk: "), worst.map((n) => `${fmt(n.date)} (${inr(n.atRisk)})`).join(", "), "."),
+      h("div", { class: "callout" }, h("strong", {}, "Pricing signal: "),
+        push.length ? `push sales on ${push.length} night(s), e.g. ${push.slice(0, 3).map((n) => fmt(n.date)).join(", ")}. ` : "no weak nights. ",
+        hold.length ? `Hold rates on ${hold.length} night(s), e.g. ${hold.slice(0, 3).map((n) => fmt(n.date)).join(", ")}.` : "")),
     h("div", { class: "table-wrap", style: "margin-top:12px" }, h("table", {},
-      h("thead", {}, h("tr", {}, h("th", {}, "Night"), h("th", { class: "num" }, "Booked"), h("th", { class: "num" }, "Exp. cancellations"), h("th", {}, "Expected occupancy"), h("th", { class: "num" }, "Revenue at risk"), h("th", {}, "Signal"))),
-      h("tbody", {}, ...rows)))));
+      h("thead", {}, h("tr", {}, h("th", {}, "Night"), h("th", { class: "num" }, "Booked"), h("th", { class: "num" }, "Likely cancellations"), h("th", {}, "Expected occupancy"), h("th", { class: "num" }, "Revenue at risk"), h("th", {}, "Signal"))),
+      h("tbody", {}, nights.map((n) => h("tr", {},
+        h("td", { class: "nowrap" }, fmt(n.date)), h("td", { class: "num" }, `${n.booked} / ${settings.rooms}`), h("td", { class: "num" }, n.expCancel.toFixed(1)),
+        h("td", {}, h("div", { class: `bar ${n.occPct < 0.6 ? "low" : n.occPct > 0.9 ? "high" : ""}` }, h("span", { style: `width:${Math.min(100, n.occPct * 100).toFixed(0)}%` })), h("div", { class: "bar-label" }, pct(n.occPct))),
+        h("td", { class: "num" }, inr(n.atRisk)),
+        h("td", {}, h("span", { class: `pill ${n.signal === "Push sales" ? "warn" : n.signal === "Hold rates" ? "ok" : ""}` }, n.signal)))))))));
 }
 
-// ---------- Tab: safe overbooking ----------
+// ---------- Safe overbooking ----------
 function renderOverbook() {
-  const el = $("tab-overbook");
   const full = nights.filter((n) => n.booked >= settings.rooms);
-  const items = full.length ? full.map((n) => h("li", {},
-    n.extra > 0
-      ? [h("strong", {}, `${fmt(n.date)}: you can safely accept ${n.extra} extra booking${n.extra === 1 ? "" : "s"}`),
-         ` (about ${pct(n.walkP, 1)} chance of having to walk a guest). ${n.booked} of ${settings.rooms} rooms booked, ~${n.expCancel.toFixed(1)} expected to cancel.`]
-      : [h("strong", {}, `${fmt(n.date)}: do not overbook`), ` — only ~${n.expCancel.toFixed(1)} cancellations expected; even 1 extra booking would push the walk risk above ${settings.walkRisk}%.`]))
-    : [h("li", {}, "No fully booked nights in the forecast window — sell remaining rooms normally.")];
-  const slider = h("input", { type: "range", min: "1", max: "15", value: String(settings.walkRisk), "aria-label": "Maximum walk risk",
-    oninput: (e) => { settings.walkRisk = Number(e.target.value); store.set("sc_settings", settings); nights = nightly(data.bookings, settings); renderOverbook(); renderKpis(); } });
-  el.replaceChildren(h("div", { class: "panel" },
-    h("div", { class: "section-head" }, h("h2", {}, "Safe overbooking calculator")),
-    h("p", { class: "lead" }, "For each fully booked night we add up the cancellation probabilities of every guest staying that night and calculate the chance that more guests arrive than you have rooms. Extra bookings are assumed to behave like that night's average booking, and bookings are treated as independent."),
-    h("div", { class: "callout", style: "margin-bottom:12px" }, h("label", {}, h("strong", {}, `Accept at most a ${settings.walkRisk}% chance of walking a guest `), slider)),
-    h("ul", { class: "list-sentences" }, ...items),
-    h("p", { class: "muted small" }, "Walking a guest = moving them to a partner hotel at your cost. Large chains do this every night; this gives a small hotel the same maths.")));
+  const slider = h("input", { type: "range", min: "1", max: "15", value: String(settings.walkRisk), "aria-label": "Maximum chance of moving a guest",
+    oninput: (e) => { settings.walkRisk = Number(e.target.value); store.set("sc2_settings", settings); nights = nightly(data.bookings, settings); renderOverbook(); } });
+  $("tab-overbook").replaceChildren(h("div", { class: "panel" },
+    h("div", { class: "section-head" }, h("h2", {}, "Safe overbooking")),
+    h("p", { class: "lead" }, "For each fully booked night we add up every guest's chance of cancelling and work out the chance that more guests arrive than you have rooms. Group bookings are treated as one unit because groups usually cancel together."),
+    h("div", { class: "callout", style: "margin-bottom:12px" }, h("label", {}, h("strong", {}, `Accept at most a ${settings.walkRisk}% chance of having to move a guest `), slider)),
+    h("ul", { class: "list-sentences" }, full.length ? full.map((n) => h("li", {}, n.extra > 0
+      ? [h("strong", {}, `${fmt(n.date)}: you can safely accept ${n.extra} extra booking${n.extra === 1 ? "" : "s"}`), ` (about ${pct(n.walkP, 1)} chance of having to move a guest). ~${n.expCancel.toFixed(1)} of ${n.booked} bookings likely to cancel.`]
+      : [h("strong", {}, `${fmt(n.date)}: don't overbook`), ` — only ~${n.expCancel.toFixed(1)} cancellations expected.`]))
+      : [h("li", {}, "No fully booked nights in the next few weeks — sell remaining rooms normally.")]),
+    h("p", { class: "muted small" }, "Moving a guest means placing them at a partner hotel at your cost. Treat this as a guide; check the nights before acting.")));
 }
 
-// ---------- Tab: channels ----------
+// ---------- Channels ----------
 function renderChannels() {
-  const el = $("tab-channels");
-  const ch = channels(horizonBookings());
-  const hist = Object.entries(PATTERNS.market_segment).sort((a, b) => b[1][0] - a[1][0]);
-  const worst = hist[0], direct = PATTERNS.market_segment.Direct;
-  el.replaceChildren(h("div", { class: "panel" },
-    h("div", { class: "section-head" }, h("h2", {}, "Channel behaviour")),
+  const ch = channels(horizon());
+  const hist = Object.entries(PATTERNS.market_segment).filter(([, [, n]]) => n >= 1000).sort((a, b) => b[1][0] - a[1][0]);
+  const ota = PATTERNS.market_segment["Online TA"], direct = PATTERNS.market_segment.Direct;
+  $("tab-channels").replaceChildren(h("div", { class: "panel" },
+    h("div", { class: "section-head" }, h("h2", {}, "Cancellations by booking source")),
     h("div", { class: "callout warn", style: "margin-bottom:12px" },
-      `In the training data, ${worst[0]} bookings cancelled ${pct(worst[1][0])} of the time — ${(worst[1][0] / direct[0]).toFixed(1)}× the rate of direct bookings (${pct(direct[0])}). Every booking you move from an OTA to direct lowers risk and saves commission.`),
+      `In past data, online-travel-agent bookings were cancelled ${pct(ota[0])} of the time, against ${pct(direct[0])} for direct bookings. This shows which guests tend to cancel; it does not prove that moving guests to direct booking would reduce cancellations.`),
     h("div", { class: "cards" },
-      h("div", {}, h("h3", { class: "group-title" }, "Your upcoming bookings by channel"),
-        h("div", { class: "table-wrap" }, h("table", {},
-          h("thead", {}, h("tr", {}, h("th", {}, "Channel"), h("th", { class: "num" }, "Bookings"), h("th", { class: "num" }, "Avg. predicted cancel"), h("th", { class: "num" }, "Revenue at risk"))),
-          h("tbody", {}, ...ch.map((c) => h("tr", {}, h("td", {}, c.channel), h("td", { class: "num" }, c.n), h("td", { class: "num" }, pct(c.rate)), h("td", { class: "num" }, inr(c.atRisk)))))))),
-      h("div", {}, h("h3", { class: "group-title" }, "Cancellation rate in 87,216 past bookings"),
-        h("div", { class: "table-wrap" }, h("table", {},
-          h("thead", {}, h("tr", {}, h("th", {}, "Channel"), h("th", { class: "num" }, "Cancelled"), h("th", { class: "num" }, "Bookings"))),
-          h("tbody", {}, ...hist.map(([k, [r, n]]) => h("tr", {}, h("td", {}, k), h("td", { class: "num" }, pct(r)), h("td", { class: "num" }, n.toLocaleString("en-IN")))))))),
-    ),
-    h("p", { class: "muted small" }, "Walk-ins are not in the training data. To track each OTA separately (Booking.com, MakeMyTrip, Agoda…), add a channel_name column to your export.")));
+      h("div", {}, h("h3", { class: "group-title" }, "Your upcoming bookings"),
+        h("div", { class: "table-wrap" }, h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, "Source"), h("th", { class: "num" }, "Bookings"), h("th", { class: "num" }, "Avg. risk today"), h("th", { class: "num" }, "At risk"))),
+          h("tbody", {}, ch.map((c) => h("tr", {}, h("td", {}, c.channel), h("td", { class: "num" }, c.n), h("td", { class: "num" }, pct(c.rate)), h("td", { class: "num" }, inr(c.atRisk)))))))),
+      h("div", {}, h("h3", { class: "group-title" }, "Past bookings (85,370)"),
+        h("div", { class: "table-wrap" }, h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, "Source"), h("th", { class: "num" }, "Cancelled"), h("th", { class: "num" }, "Bookings"))),
+          h("tbody", {}, hist.map(([k, [r, n]]) => h("tr", {}, h("td", {}, k), h("td", { class: "num" }, pct(r)), h("td", { class: "num" }, n.toLocaleString("en-IN")))))))))));
 }
 
-// ---------- Tab: savings ----------
+// ---------- Savings ----------
 function renderSavings() {
-  const el = $("tab-savings");
-  const sv = savings(horizonBookings(), nights, settings);
-  const card = (title, value, how) => h("div", { class: "card" }, h("h3", {}, title), h("div", { class: "big" }, value), h("div", { class: "how" }, how));
-  el.replaceChildren(h("div", { class: "panel" },
-    h("div", { class: "section-head" }, h("h2", {}, `Savings report — projected for the next ${settings.horizon} days`)),
-    h("div", { class: "callout good", style: "margin-bottom:12px" },
-      h("strong", {}, `Estimated revenue protected: ${inr(sv.total)}`),
-      settings.subscription ? ` — about ${sv.roi.toFixed(1)}× a ${inr(settings.subscription)}/month subscription.` : ""),
+  const sv = savings(horizon(), nights, settings);
+  $("tab-savings").replaceChildren(h("div", { class: "panel" },
+    h("div", { class: "section-head" }, h("h2", {}, `Savings — next ${settings.horizon} days`)),
     h("div", { class: "cards" },
-      card("Revenue at risk without action", inr(sv.atRisk), "Sum over upcoming bookings of cancellation probability × stay value."),
-      card("Deposits kept on cancelled stays", inr(sv.depositsKept), `Advances asked ${inr(sv.depositsAsked)} × ${settings.depositPayRate}% who pay × each booking's cancellation probability. ASSUMPTION: pay rate.`),
-      card("Rooms resold after early warning", inr(sv.rebooked), `Revenue at risk on ${sv.flagged} flagged bookings × ${settings.rebookRate}% resold because you knew early. ASSUMPTION: resale rate.`),
-      card("Cancellations avoided by reconfirmation", inr(sv.avoided), `Revenue at risk on ${sv.high} High-risk bookings × ${settings.reminderSaveRate}% saved by WhatsApp + AI call. ASSUMPTION: save rate.`),
-      card("Extra revenue from safe overbooking", inr(sv.overbook), `${sv.extraNights} extra room-nights × average rate × 90% (walk risk ≤ ${settings.walkRisk}%).`),
-    ),
-    h("p", { class: "muted small" }, "This is a projection from the model and the assumptions in Settings. Once live, the report switches to actuals: deposits received (UPI), rooms resold after cancellation, guests who confirmed and arrived.")));
+      h("div", { class: "card" }, h("h3", {}, "Advances collected so far"), h("div", { class: "big" }, inr(sv.collected)), h("div", { class: "how" }, "Money already received. The hotel keeps it if the guest cancels.")),
+      h("div", { class: "card" }, h("h3", {}, "Estimated revenue protected"), h("div", { class: "big" }, `${inr(sv.low)} – ${inr(sv.high)}`),
+        h("div", { class: "how" }, `Low end: advances we expect to keep from High-risk guests who later cancel (${settings.advancePayRate}% pay the advance). High end: plus ${settings.resaleRate}% of the remaining likely cancellations resold because you knew early. Each booking is counted once. Both rates are ASSUMPTIONS (Settings).`)),
+      h("div", { class: "card" }, h("h3", {}, "Extra revenue from safe overbooking"), h("div", { class: "big" }, inr(sv.overbookRevenue)), h("div", { class: "how" }, `${sv.extraNights} extra room-night(s) at the average rate, within your ${settings.walkRisk}% limit. Not included in the range above.`)),
+      h("div", { class: "card" }, h("h3", {}, "Pays for itself if…"), h("div", { class: "big" }, `${sv.breakEvenNights} room-night${sv.breakEvenNights === 1 ? "" : "s"}`), h("div", { class: "how" }, `are saved a month (${inr(settings.subscription)} subscription ÷ average rate ${inr(sv.avgRate)}).`))),
+    h("p", { class: "muted small" }, "These are estimates until the hotel has a few months of real results; then this page shows actual advances received and rooms resold.")));
 }
 
-// ---------- Tab: automations ----------
+// ---------- Automations ----------
 function renderAutomations() {
-  const el = $("tab-automations");
-  const sample = data.bookings.find((b) => b.tier === "High") || data.bookings[0];
-  const prompt = sample ? voicePrompt(sample, settings) : "";
-  el.replaceChildren(h("div", { class: "panel" },
-    h("div", { class: "section-head" }, h("h2", {}, "Automations")),
-    h("p", { class: "lead" }, "What runs by itself once WhatsApp Business and the voice agent are connected. In this prototype, messages and prompts are generated and can be sent manually from each booking."),
+  $("tab-automations").replaceChildren(h("div", { class: "panel" },
+    h("div", { class: "section-head" }, h("h2", {}, "What runs automatically")),
     h("div", { class: "table-wrap" }, h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, "When"), h("th", {}, "What happens"))),
-      h("tbody", {}, ...AUTOMATION_RULES.map(([w, t]) => h("tr", {}, h("td", { class: "nowrap" }, h("strong", {}, w)), h("td", {}, t))))))),
-  h("div", { class: "panel" }, h("h2", {}, "WhatsApp Business templates"),
-    h("pre", { class: "prompt" }, WHATSAPP_TEMPLATE_SPEC),
-    h("div", { class: "btn-row" }, h("button", { type: "button", class: "btn", onclick: () => copy(WHATSAPP_TEMPLATE_SPEC) }, "Copy"))),
-  h("div", { class: "panel" }, h("h2", {}, "AI voice agent prompt (smallest.ai)"),
-    h("p", { class: "lead" }, `Filled in for ${sample ? `${sample.guest} (${sample.ref})` : "a booking"}; each booking's own prompt is in its detail panel. Connect by creating an agent in smallest.ai, pasting this as its prompt, and triggering an outbound call with the booking's details.`),
-    h("pre", { class: "prompt" }, prompt),
-    h("div", { class: "btn-row" }, h("button", { type: "button", class: "btn", onclick: () => copy(prompt) }, "Copy prompt"))),
-  h("div", { class: "panel" }, h("h2", {}, "Demo: simulate this week's replies"),
-    h("p", { class: "lead" }, "Fills in random outcomes for Medium/High bookings arriving in the next 7 days (confirmed, no reply, deposit paid) so you can see scores and lists react. Reset clears them."),
-    h("div", { class: "btn-row" },
-      h("button", { type: "button", class: "btn primary-sm", onclick: simulate }, "Simulate replies"),
-      h("button", { type: "button", class: "btn", onclick: () => { statuses = {}; store.set("sc_status", statuses); recompute(); toast("Statuses reset"); } }, "Reset all statuses"))));
+      h("tbody", {}, AUTOMATION_RULES.map(([w, t]) => h("tr", {}, h("td", { class: "nowrap" }, h("strong", {}, w)), h("td", {}, t)))))),
+    h("p", { class: "muted small" }, "In this prototype, messages, payment links and call scripts are prepared for each booking; sending them automatically is the next step."),
+    h("details", { class: "card more" }, h("summary", {}, "Set-up notes for your developer"), h("pre", { class: "prompt" }, DEVELOPER_SPEC))),
+  h("div", { class: "panel" }, h("h2", {}, "Demo: simulate guest replies"),
+    h("p", { class: "lead" }, "Fills in example replies for bookings that need action in the next 7 days, so you can see the list react. Clear removes them."),
+    h("div", { class: "btn-row" }, h("button", { type: "button", class: "btn primary-sm", onclick: simulate }, "Simulate replies"),
+      h("button", { type: "button", class: "btn", onclick: () => { statuses = {}; store.set("sc2_status", statuses); recompute(); toast("Cleared"); } }, "Clear all"))));
 }
 function simulate() {
-  const soon = data.bookings.filter((b) => b.tier !== "Low" && b.checkin < todayUTC() + 7 * DAY);
-  let seed = 7;
-  const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
-  for (const b of soon) {
-    const r = rnd();
-    statuses[b.ref] = r < 0.45 ? "confirmed" : r < 0.7 ? "noreply" : r < 0.9 ? "paid" : "sent";
-  }
-  store.set("sc_status", statuses);
-  recompute();
-  toast(`Simulated replies for ${soon.length} bookings`);
+  const soon = data.bookings.filter((b) => b.tier !== "Low" && b.daysLeft < 7);
+  let seed = 7; const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  for (const b of soon) { const r = rnd(); statuses[b.ref] = r < 0.5 ? "confirmed" : r < 0.75 ? "noreply" : b.advance && r < 0.9 ? "paid" : "sent"; }
+  store.set("sc2_status", statuses); recompute(); toast(`Simulated replies for ${soon.length} bookings`);
 }
 
-// ---------- Tab: settings ----------
+// ---------- Settings ----------
 function renderSettings() {
-  const el = $("tab-settings");
-  const field = (label, key, type = "text", assume = false, sub = null) => {
-    const val = sub ? settings[key][sub] : settings[key];
-    return h("div", { class: "field" },
-      h("label", { for: `set-${key}${sub || ""}` }, h("span", {}, label), assume ? h("span", { class: "assume" }, "ASSUMPTION") : h("span", {})),
-      h("input", { id: `set-${key}${sub || ""}`, type, value: String(val), onchange: (e) => {
-        const v = type === "number" ? Number(e.target.value) : e.target.value;
-        if (sub) settings[key] = { ...settings[key], [sub]: v }; else settings[key] = v;
-        store.set("sc_settings", settings); recompute(); toast("Saved");
-      } }));
-  };
-  el.replaceChildren(h("div", { class: "panel" },
+  const field = (label, key, type = "text", assume = false) => h("div", { class: "field" },
+    h("label", { for: `set-${key}` }, h("span", {}, label), assume ? h("span", { class: "assume" }, "ASSUMPTION") : h("span", {})),
+    h("input", { id: `set-${key}`, type, value: String(settings[key]), onchange: (e) => {
+      settings[key] = type === "number" ? Number(e.target.value) : e.target.value; store.set("sc2_settings", settings); recompute(); toast("Saved"); } }));
+  $("tab-settings").replaceChildren(h("div", { class: "panel" },
     h("div", { class: "section-head" }, h("h2", {}, "Settings")),
-    h("h3", { class: "group-title" }, "Hotel"),
     h("div", { class: "settings-grid" }, field("Hotel name", "hotelName"), field("Rooms", "rooms", "number"), field("UPI ID for advances", "upiId"),
-      field("₹ per € (model was trained in EUR)", "inrPerEur", "number", true), field("Forecast window (days)", "horizon", "number"), field("Max walk risk for overbooking (%)", "walkRisk", "number")),
-    h("h3", { class: "group-title", style: "margin-top:18px" }, "Advance by risk (% of stay value)"),
-    h("div", { class: "settings-grid" }, field("Low risk", "depositPct", "number", false, "Low"), field("Medium risk", "depositPct", "number", false, "Medium"), field("High risk", "depositPct", "number", false, "High")),
-    h("h3", { class: "group-title", style: "margin-top:18px" }, "Rules and savings assumptions"),
-    h("div", { class: "settings-grid" },
-      field("No reply → add points to risk", "noReplyBump", "number", true), field("Confirmed → keep % of risk", "confirmedFactor", "number", true), field("Deposit paid → keep % of risk", "depositPaidFactor", "number", true),
-      field("Guests who pay the advance (%)", "depositPayRate", "number", true), field("Flagged cancellations resold (%)", "rebookRate", "number", true), field("High-risk saves from reconfirmation (%)", "reminderSaveRate", "number", true),
-      field("Subscription price (₹/month)", "subscription", "number", true)),
-    h("div", { class: "btn-row", style: "margin-top:16px" }, h("button", { type: "button", class: "btn", onclick: () => { settings = structuredClone(DEFAULT_SETTINGS); store.set("sc_settings", settings); recompute(); toast("Defaults restored"); } }, "Restore defaults"))));
+      field("Advance for High risk (% of stay)", "advancePct", "number"), field("Days shown", "horizon", "number"), field("Max chance of moving a guest (%)", "walkRisk", "number")),
+    h("h3", { class: "group-title", style: "margin-top:18px" }, "Assumptions behind the estimates"),
+    h("div", { class: "settings-grid" }, field("₹ per € (model learned euro prices)", "inrPerEur", "number", true), field("Guests who pay the advance (%)", "advancePayRate", "number", true),
+      field("Flagged cancellations resold (%)", "resaleRate", "number", true), field("Subscription (₹ per month)", "subscription", "number", true)),
+    h("p", { class: "muted small" }, "Risk levels are fixed by cost analysis: Low below 30%, Medium 30–54%, High 55% and above."),
+    h("div", { class: "btn-row", style: "margin-top:12px" }, h("button", { type: "button", class: "btn", onclick: () => { settings = { ...DEFAULT_SETTINGS }; store.set("sc2_settings", settings); recompute(); toast("Defaults restored"); } }, "Restore defaults"))));
 }
 
 // ---------- tabs ----------
 const RENDER = { actions: renderActions, revenue: renderRevenue, overbook: renderOverbook, channels: renderChannels, savings: renderSavings, automations: renderAutomations, settings: renderSettings };
 document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => {
   activeTab = t.dataset.tab;
-  document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("active", x === t));
+  document.querySelectorAll(".tab").forEach((x) => { x.classList.toggle("active", x === t); x.setAttribute("aria-selected", String(x === t)); });
   document.querySelectorAll(".tabpanel").forEach((p) => { p.hidden = p.id !== `tab-${activeTab}`; });
   RENDER[activeTab]();
 }));
 function render() { renderKpis(); RENDER[activeTab](); }
-
 loadSample();

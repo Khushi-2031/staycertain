@@ -1,276 +1,226 @@
-// StayCertain - predict(inputs)
-// Trained Logistic Regression (Orange 3.39), exported as a formula.
+// StayCertain - predict(inputs): cancellation probability at the time of booking.
+// Logistic Regression trained in Orange 3.39 on 85,360 bookings (13 inputs, leakage removed), exported as a formula.
 // The prediction comes ONLY from this formula - no AI service is used.
 
 export const MODEL = {
-  "intercept": -2.5961237760571767,
+  "intercept": -1.13551875242133,
   "numeric": {
     "lead_time": {
-      "coef": 0.4648380468560496,
-      "offset": 79.97095716382316,
-      "factor": 0.011619714205334695
+      "coef": 0.44244619842081234,
+      "offset": 80.6028701968135,
+      "factor": 0.011644386300050363
     },
     "stays_in_weekend_nights": {
-      "coef": 0.02703001530277176,
-      "offset": 1.0045404512933407,
-      "factor": 0.9733979505400026
+      "coef": 0.02435405591009353,
+      "offset": 1.0171274601686973,
+      "factor": 0.974179054131177
     },
     "stays_in_week_nights": {
-      "coef": 0.11788492568204516,
-      "offset": 2.623956613465419,
-      "factor": 0.4902326830310385
+      "coef": 0.09331727721889323,
+      "offset": 2.652893626991565,
+      "factor": 0.49196054032515785
     },
     "adults": {
-      "coef": 0.039967058305593904,
-      "offset": 1.8793684645019262,
-      "factor": 1.6083997609594993
+      "coef": -0.028958244987841962,
+      "offset": 1.886082474226804,
+      "factor": 2.0268544022502315
     },
     "children": {
-      "coef": 0.034982977874669724,
-      "offset": 0.1497431663914878,
-      "factor": 2.1179887863076092
+      "coef": 0.0067530158067291,
+      "offset": 0.14611059044048735,
+      "factor": 2.15259460623797
     },
     "previous_cancellations": {
-      "coef": 0.6845895652128645,
-      "offset": 0.030407264722069345,
-      "factor": 2.707299366696738
+      "coef": 0.7503855209364455,
+      "offset": 0.029006560449859418,
+      "factor": 2.7377894548742825
     },
     "previous_bookings_not_canceled": {
-      "coef": -0.5106544715714185,
-      "offset": 0.18406026417171162,
-      "factor": 0.5769840142366042
-    },
-    "booking_changes": {
-      "coef": -0.22633007305789643,
-      "offset": 0.26847138139790866,
-      "factor": 1.4071845045727045
+      "coef": -0.6832072807263146,
+      "offset": 0.16914245548266166,
+      "factor": 0.5960453548455211
     },
     "adr": {
-      "coef": 0.31474153247001146,
-      "offset": 106.46395466427616,
-      "factor": 0.019276482081173954
-    },
-    "required_car_parking_spaces": {
-      "coef": -5.061058643896006,
-      "offset": 0.08431939093744267,
-      "factor": 3.550158117439964
-    },
-    "total_of_special_requests": {
-      "coef": -0.5550141144668478,
-      "offset": 0.6989313887360118,
-      "factor": 1.201828205056056
+      "coef": 0.2656897996102164,
+      "offset": 108.56757040767938,
+      "factor": 0.019907172493111597
     }
   },
   "categorical": {
-    "hotel": {
-      "City Hotel": {
-        "coef": -0.02485392054666744,
-        "offset": 0.6107365620986975,
-        "factor": 2.0509318664148575
-      },
-      "Resort Hotel": {
-        "coef": 0.024853920546651524,
-        "offset": 0.3892634379013025,
-        "factor": 2.0509318664148575
-      }
-    },
     "arrival_date_month": {
       "April": {
-        "coef": 0.02968278609872693,
-        "offset": 0.09057971014492754,
-        "factor": 3.4841931051024297
+        "coef": 0.05046414157071463,
+        "offset": 0.09092080599812559,
+        "factor": 3.478303729165253
       },
       "August": {
-        "coef": -0.05121851090669218,
-        "offset": 0.1288639699137773,
-        "factor": 2.9846352127759856
+        "coef": -0.05168807128054262,
+        "offset": 0.12962746016869728,
+        "factor": 2.977137572893121
       },
       "December": {
-        "coef": 0.06714125430605905,
-        "offset": 0.05861309851403412,
-        "factor": 4.257146386982245
+        "coef": 0.0495852403749262,
+        "offset": 0.05761480787253983,
+        "factor": 4.291594838887592
       },
       "February": {
-        "coef": 0.045358246846567876,
-        "offset": 0.06972344523940562,
-        "factor": 3.926490424945547
+        "coef": 0.05026565610641133,
+        "offset": 0.06955248359887535,
+        "factor": 3.9309519771735917
       },
       "January": {
-        "coef": 0.034296146100543407,
-        "offset": 0.05370574206567602,
-        "factor": 4.4358467810092135
+        "coef": 0.02809507817487898,
+        "offset": 0.053350515463917524,
+        "factor": 4.449754886941305
       },
       "July": {
-        "coef": -0.05603900895400245,
-        "offset": 0.11515088974500091,
-        "factor": 3.1327933030224977
+        "coef": -0.05028038812703858,
+        "offset": 0.11561621368322399,
+        "factor": 3.1273050255763595
       },
       "June": {
-        "coef": -0.029523077299697765,
-        "offset": 0.08891717116125482,
-        "factor": 3.5134052869066448
+        "coef": -0.012950206291896096,
+        "offset": 0.08949156513589503,
+        "factor": 3.5032163692510907
       },
       "March": {
-        "coef": 0.01618480732896793,
-        "offset": 0.08583287470188956,
-        "factor": 3.5699355140045372
+        "coef": 0.032601711812411345,
+        "offset": 0.08608247422680412,
+        "factor": 3.5652429236144987
       },
       "May": {
-        "coef": -0.006390392381412118,
-        "offset": 0.09567051917079435,
-        "factor": 3.399754757375845
+        "coef": 0.0037156520504299426,
+        "offset": 0.09597000937207123,
+        "factor": 3.3950080806909373
       },
       "November": {
-        "coef": 0.026245893880401862,
-        "offset": 0.05700788846083287,
-        "factor": 4.3129904100699346
+        "coef": -0.005362696892046715,
+        "offset": 0.056677600749765696,
+        "factor": 4.324781770372493
       },
       "October": {
-        "coef": -0.0040816728140792,
-        "offset": 0.0793317739864245,
-        "factor": 3.700196938612221
+        "coef": -0.02019657168960657,
+        "offset": 0.07861996251171509,
+        "factor": 3.715473639950236
       },
       "September": {
-        "coef": -0.02917258696262135,
-        "offset": 0.07660291689598239,
-        "factor": 3.759958896572516
+        "coef": -0.043611302763864095,
+        "offset": 0.07647610121836926,
+        "factor": 3.762816684845263
       }
     },
     "meal": {
       "BB": {
-        "coef": -0.011219457476244513,
-        "offset": 0.7784810126582279,
-        "factor": 2.4080777727913762
+        "coef": -0.007484118927335022,
+        "offset": 0.7775070290534208,
+        "factor": 2.404305724300715
       },
       "FB": {
-        "coef": 0.010571928141987362,
-        "offset": 0.004116217207851771,
-        "factor": 15.618759150772558
+        "coef": 0.0038428735616141832,
+        "offset": 0.004029990627928772,
+        "factor": 15.7842827262439
       },
       "HB": {
-        "coef": -0.036321880040150696,
-        "offset": 0.1040978719501009,
-        "factor": 3.2745286170334005
+        "coef": -0.06536634737207163,
+        "offset": 0.10460402999062793,
+        "factor": 3.2675197706928203
       },
       "SC": {
-        "coef": 0.04755875040154195,
-        "offset": 0.11330489818381949,
-        "factor": 3.1549211016667984
+        "coef": 0.0720130567941238,
+        "offset": 0.1138589503280225,
+        "factor": 3.148219354198315
       }
     },
     "market_segment": {
       "Aviation": {
-        "coef": 0.0059314463866960414,
-        "offset": 0.0025912676573105853,
-        "factor": 19.67013224216766
+        "coef": 0.010731960790281872,
+        "offset": 0.002600749765698219,
+        "factor": 19.63433502912572
       },
       "Complementary": {
-        "coef": 0.04093918384095628,
-        "offset": 0.00793432397725188,
-        "factor": 11.27132112319003
+        "coef": -0.016190151964232413,
+        "offset": 0.0007146204311152765,
+        "factor": 37.42118353853083
       },
       "Corporate": {
-        "coef": -0.006229335861761545,
-        "offset": 0.048156301596037426,
-        "factor": 4.670792967215573
+        "coef": 0.03784756083458908,
+        "offset": 0.04845360824742268,
+        "factor": 4.6571685370412155
       },
       "Direct": {
-        "coef": -0.12879059918901808,
-        "offset": 0.13505549440469639,
-        "factor": 2.9258344510771632
+        "coef": -0.19816038764163055,
+        "offset": 0.13523898781630742,
+        "factor": 2.924159067682025
       },
       "Groups": {
-        "coef": -0.06265452147556891,
-        "offset": 0.05642313337002385,
-        "factor": 4.3339386310734485
+        "coef": 0.1260415093804985,
+        "offset": 0.055260074976569824,
+        "factor": 4.376612843581389
       },
       "Offline TA/TO": {
-        "coef": -0.31121505686171885,
-        "offset": 0.15882406897816914,
-        "factor": 2.7358886778377967
+        "coef": -0.1886815004408865,
+        "offset": 0.1595946579194002,
+        "factor": 2.730526669507982
       },
       "Online TA": {
-        "coef": 0.3450201766335222,
-        "offset": 0.5910154100165107,
-        "factor": 2.03398209389766
+        "coef": 0.20361624122351948,
+        "offset": 0.5981373008434864,
+        "factor": 2.039673757353192
       }
     },
     "is_repeated_guest": {
       "0": {
-        "coef": 0.07372617292767487,
-        "offset": 0.9614405613648872,
-        "factor": 5.193658961731053
+        "coef": 0.07685957092428856,
+        "offset": 0.9658036551077788,
+        "factor": 5.502571993238144
       },
       "1": {
-        "coef": -0.07372617292767353,
-        "offset": 0.038559438635112825,
-        "factor": 5.193658961731053
-      }
-    },
-    "deposit_type": {
-      "No Deposit": {
-        "coef": -0.2016399927897389,
-        "offset": 0.986883140708127,
-        "factor": 8.78925784329276
-      },
-      "Non Refund": {
-        "coef": 0.22642590044230118,
-        "offset": 0.011890020179783526,
-        "factor": 9.225843033058352
-      },
-      "Refundable": {
-        "coef": -0.04573461799696361,
-        "offset": 0.001226839112089525,
-        "factor": 28.567534581830294
+        "coef": -0.07685957092428945,
+        "offset": 0.03419634489222118,
+        "factor": 5.502571993238144
       }
     },
     "customer_type": {
       "Contract": {
-        "coef": -0.061748418313042265,
-        "offset": 0.03594523940561365,
-        "factor": 5.371906660448484
+        "coef": -0.06322099359622123,
+        "offset": 0.03648078725398313,
+        "factor": 5.333812067315403
       },
       "Group": {
-        "coef": -0.028697100543988326,
-        "offset": 0.006202990277013392,
-        "factor": 12.736514869606111
+        "coef": -0.035702384728618336,
+        "offset": 0.005962980318650422,
+        "factor": 12.988740277516044
       },
       "Transient": {
-        "coef": 0.139510840960675,
-        "offset": 0.8238511282333517,
-        "factor": 2.6250386167932054
+        "coef": 0.20291229039701594,
+        "offset": 0.8255623242736645,
+        "factor": 2.6351474534105566
       },
       "Transient-Party": {
-        "coef": -0.11565544842075613,
-        "offset": 0.1340006420840213,
-        "factor": 2.935538464376003
+        "coef": -0.18435328020550412,
+        "offset": 0.13199390815370196,
+        "factor": 2.954348128268754
       }
     }
   }
 };
 
+// Same cut-offs and actions everywhere in the app (cost-based, see Evidence Workbook tab 2).
+export const CUTOFFS = { medium: 0.30, high: 0.55 };
+export const ACTIONS = {
+  Low: "No action needed - keep the booking as normal.",
+  Medium: "Send a WhatsApp reconfirmation 7 days before arrival.",
+  High: "Ask for a 50% advance and send a WhatsApp reconfirmation; call if there is no reply.",
+};
+export function tierOf(p) { return p < CUTOFFS.medium ? "Low" : p < CUTOFFS.high ? "Medium" : "High"; }
+
 export function predict(inputs) {
   let z = MODEL.intercept;
-  for (const [col, p] of Object.entries(MODEL.numeric)) {
-    z += p.coef * (Number(inputs[col]) - p.offset) * p.factor;
-  }
+  for (const [col, p] of Object.entries(MODEL.numeric)) z += p.coef * (Number(inputs[col]) - p.offset) * p.factor;
   for (const [col, cats] of Object.entries(MODEL.categorical)) {
-    for (const [cat, p] of Object.entries(cats)) {
-      const x = String(inputs[col]) === cat ? 1 : 0;
-      z += p.coef * (x - p.offset) * p.factor;
-    }
+    for (const [cat, p] of Object.entries(cats)) z += p.coef * ((String(inputs[col]) === cat ? 1 : 0) - p.offset) * p.factor;
   }
   const probability = Math.round((1 / (1 + Math.exp(-z))) * 1000) / 1000;
-  let tier, action;
-  if (probability < 0.3) {
-    tier = "Low";
-    action = "No action needed: keep the booking as normal.";
-  } else if (probability < 0.6) {
-    tier = "Medium";
-    action = "Send a reminder one week before arrival asking the guest to confirm.";
-  } else {
-    tier = "High";
-    action = "Ask for a deposit, or phone to confirm, before arrival.";
-  }
-  return { probability, tier, action };
+  const tier = tierOf(probability);
+  return { probability, tier, action: ACTIONS[tier] };
 }

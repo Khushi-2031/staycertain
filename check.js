@@ -1,272 +1,141 @@
 import { predict } from "./predict.js";
 import { logPrediction } from "./log.js";
 import { EXAMPLES } from "./examples.js";
+import { checkInputs, ALLOWED, LIMITS } from "./features.js";
 
-const MONTHS = ["January", "February", "March", "April", "May", "June", "July",
-  "August", "September", "October", "November", "December"];
+const INR_PER_EUR = 90; // ASSUMPTION: the model learned euro room rates
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-// The 18 model inputs, grouped for the form. `name` is the exact model column name.
 const GROUPS = [
-  {
-    title: "Stay",
-    fields: [
-      { name: "hotel", label: "Hotel type", type: "select", options: ["City Hotel", "Resort Hotel"] },
-      { name: "arrival_date_month", label: "Arrival month", type: "select", options: MONTHS },
-      { name: "lead_time", label: "Days between booking and arrival", type: "int", min: 0, max: 737 },
-      { name: "adr", label: "Room rate per night (EUR)", type: "decimal", min: 0, max: 510 },
-      { name: "stays_in_weekend_nights", label: "Weekend nights", type: "int", min: 0, max: 19, hint: "Saturday and Sunday nights" },
-      { name: "stays_in_week_nights", label: "Weekday nights", type: "int", min: 0, max: 50, hint: "Monday to Friday nights" },
-    ],
-  },
-  {
-    title: "Guests",
-    fields: [
-      { name: "adults", label: "Adults", type: "int", min: 0, max: 55 },
-      { name: "children", label: "Children (incl. babies)", type: "int", min: 0, max: 10 },
-      { name: "meal", label: "Meal plan", type: "select",
-        options: [["BB", "BB – bed & breakfast"], ["HB", "HB – half board"], ["FB", "FB – full board"], ["SC", "SC – room only"]] },
-      { name: "customer_type", label: "Customer type", type: "select",
-        options: [["Transient", "Transient – single booking"], ["Transient-Party", "Transient-Party – linked to another booking"],
-                  ["Contract", "Contract – agency/company deal"], ["Group", "Group – group booking"]] },
-    ],
-  },
-  {
-    title: "Booking",
-    fields: [
-      { name: "market_segment", label: "Booking source", type: "select",
-        options: [["Online TA", "Online travel agent"], ["Offline TA/TO", "Offline travel agent / tour operator"],
-                  ["Direct", "Direct"], ["Groups", "Groups"], ["Corporate", "Corporate"],
-                  ["Complementary", "Complementary"], ["Aviation", "Aviation"]] },
-      { name: "deposit_type", label: "Deposit type", type: "select", options: ["No Deposit", "Non Refund", "Refundable"] },
-      { name: "total_of_special_requests", label: "Special requests", type: "int", min: 0, max: 5, default: 0, prefilled: true },
-      { name: "required_car_parking_spaces", label: "Parking spaces", type: "int", min: 0, max: 8, default: 0, prefilled: true },
-      { name: "booking_changes", label: "Changes made to booking", type: "int", min: 0, max: 18, default: 0, prefilled: true },
-    ],
-  },
-  {
-    title: "Guest history",
-    collapsible: true,
-    note: "Pre-filled for a new guest. Change only if this guest has booked before.",
-    fields: [
-      { name: "is_repeated_guest", label: "Repeat guest?", type: "select", options: [["0", "No"], ["1", "Yes"]], default: "0", prefilled: true },
-      { name: "previous_cancellations", label: "Previous cancellations", type: "int", min: 0, max: 26, default: 0, prefilled: true },
-      { name: "previous_bookings_not_canceled", label: "Previous kept bookings", type: "int", min: 0, max: 72, default: 0, prefilled: true },
-    ],
-  },
+  { title: "Stay", fields: [
+    { name: "arrival_date_month", label: "Arrival month", type: "select", options: MONTHS },
+    { name: "lead_time", label: "Days between booking and arrival", type: "int", min: LIMITS.lead_time[0], max: LIMITS.lead_time[1] },
+    { name: "stays_in_weekend_nights", label: "Weekend nights", type: "int", min: 0, max: 19, hint: "Saturday and Sunday nights" },
+    { name: "stays_in_week_nights", label: "Weekday nights", type: "int", min: 0, max: 30, hint: "Monday to Friday nights" },
+    { name: "rate_inr", label: "Room rate per night (₹)", type: "decimal", min: LIMITS.rate_inr[0], max: LIMITS.rate_inr[1] },
+  ] },
+  { title: "Guests", fields: [
+    { name: "adults", label: "Adults", type: "int", min: 1, max: 10 },
+    { name: "children", label: "Children (incl. babies)", type: "int", min: 0, max: 6, default: 0 },
+    { name: "meal", label: "Meal plan", type: "select", options: [["BB", "Bed & breakfast"], ["HB", "Half board"], ["FB", "Full board"], ["SC", "Room only"]] },
+    { name: "customer_type", label: "Type of booking", type: "select",
+      options: [["Transient", "Single booking"], ["Transient-Party", "Linked to another booking"], ["Contract", "Agency/company contract"], ["Group", "Part of a group"]] },
+  ] },
+  { title: "Booking source", fields: [
+    { name: "market_segment", label: "Where the booking came from", type: "select",
+      options: [["Online TA", "Online travel agent"], ["Offline TA/TO", "Offline travel agent / tour operator"], ["Direct", "Direct (phone, walk-in, website)"],
+        ["Groups", "Group"], ["Corporate", "Corporate"], ["Complementary", "Complimentary"], ["Aviation", "Airline crew"]] },
+  ] },
+  { title: "Guest history", note: "Fill in if this guest has booked with you before — it changes the result a lot.", fields: [
+    { name: "previous_bookings_not_canceled", label: "Earlier stays with you", type: "int", min: 0, max: 72, default: 0 },
+    { name: "previous_cancellations", label: "Earlier cancellations", type: "int", min: 0, max: 26, default: 0 },
+  ] },
 ];
 const FIELDS = GROUPS.flatMap((g) => g.fields);
-
 const $ = (id) => document.getElementById(id);
-const groupsEl = $("groups");
-const form = $("booking-form");
-const formError = $("form-error");
+const pairs = (f) => f.options.map((o) => (Array.isArray(o) ? o : [o, o]));
 const resultEl = $("result");
-const resultIntro = resultEl.innerHTML;
+const intro = resultEl.innerHTML;
 
-const optionPairs = (f) => f.options.map((o) => (Array.isArray(o) ? o : [o, o]));
-
-// ---------- render the form ----------
-function fieldEl(f) {
-  const wrap = document.createElement("div");
-  wrap.className = "field";
-  wrap.id = `wrap-${f.name}`;
-
-  const label = document.createElement("label");
-  label.htmlFor = f.name;
-  const text = document.createElement("span");
-  text.textContent = f.label;
-  label.appendChild(text);
-  const side = document.createElement("span");
-  if (f.prefilled) { side.className = "tag"; side.textContent = "pre-filled"; }
-  else if (f.type !== "select") { side.className = "range"; side.textContent = `${f.min}–${f.max}`; }
-  label.appendChild(side);
-  wrap.appendChild(label);
-
-  let input;
-  if (f.type === "select") {
-    input = document.createElement("select");
-    if (f.default === undefined) {
-      const ph = document.createElement("option");
-      ph.value = ""; ph.textContent = "Choose…";
-      input.appendChild(ph);
-    }
-    for (const [value, txt] of optionPairs(f)) {
-      const o = document.createElement("option");
-      o.value = value; o.textContent = txt;
-      input.appendChild(o);
-    }
-  } else {
-    input = document.createElement("input");
-    input.type = "text";
-    input.inputMode = f.type === "int" ? "numeric" : "decimal";
-    input.autocomplete = "off";
-  }
-  input.id = f.name;
-  input.name = f.name;
-  input.setAttribute("aria-describedby", `err-${f.name}`);
-  wrap.appendChild(input);
-
-  if (f.hint) {
-    const hint = document.createElement("div");
-    hint.className = "hint";
-    hint.textContent = f.hint;
-    wrap.appendChild(hint);
-  }
-  const err = document.createElement("p");
-  err.className = "error";
-  err.id = `err-${f.name}`;
-  wrap.appendChild(err);
-  return wrap;
-}
-
+// ---------- render form ----------
 for (const g of GROUPS) {
-  const box = document.createElement(g.collapsible ? "details" : "div");
+  const box = document.createElement("div");
   box.className = "group";
-  const title = document.createElement("h3");
-  title.className = "group-title";
-  title.textContent = g.title;
-  if (g.collapsible) {
-    const summary = document.createElement("summary");
-    summary.appendChild(title);
-    box.appendChild(summary);
-  } else {
-    box.appendChild(title);
+  const t = document.createElement("h3"); t.className = "group-title"; t.textContent = g.title; box.appendChild(t);
+  if (g.note) { const n = document.createElement("p"); n.className = "group-note"; n.textContent = g.note; box.appendChild(n); }
+  const grid = document.createElement("div"); grid.className = "grid";
+  for (const f of g.fields) {
+    const w = document.createElement("div"); w.className = "field"; w.id = `wrap-${f.name}`;
+    const l = document.createElement("label"); l.htmlFor = f.name;
+    const s1 = document.createElement("span"); s1.textContent = f.label; l.appendChild(s1);
+    if (f.type !== "select") { const s2 = document.createElement("span"); s2.className = "range"; s2.textContent = `${f.min.toLocaleString("en-IN")}–${f.max.toLocaleString("en-IN")}`; l.appendChild(s2); }
+    w.appendChild(l);
+    let input;
+    if (f.type === "select") {
+      input = document.createElement("select");
+      const ph = document.createElement("option"); ph.value = ""; ph.textContent = "Choose…"; input.appendChild(ph);
+      for (const [v, txt] of pairs(f)) { const o = document.createElement("option"); o.value = v; o.textContent = txt; input.appendChild(o); }
+    } else {
+      input = document.createElement("input"); input.type = "text"; input.inputMode = f.type === "int" ? "numeric" : "decimal"; input.autocomplete = "off";
+    }
+    input.id = f.name; input.name = f.name; w.appendChild(input);
+    if (f.hint) { const hd = document.createElement("div"); hd.className = "hint"; hd.textContent = f.hint; w.appendChild(hd); }
+    const err = document.createElement("p"); err.className = "error"; err.id = `err-${f.name}`; w.appendChild(err);
+    grid.appendChild(w);
   }
-  if (g.note) {
-    const note = document.createElement("p");
-    note.className = "group-note";
-    note.textContent = g.note;
-    box.appendChild(note);
-  }
-  const grid = document.createElement("div");
-  grid.className = "grid";
-  g.fields.forEach((f) => grid.appendChild(fieldEl(f)));
   box.appendChild(grid);
-  groupsEl.appendChild(box);
+  $("groups").appendChild(box);
 }
-
+function clearResult() { resultEl.className = "panel result empty"; resultEl.innerHTML = intro; }
 function setDefaults() {
-  for (const f of FIELDS) {
-    const el = $(f.name);
-    el.value = f.default !== undefined ? String(f.default) : "";
-    $(`err-${f.name}`).textContent = "";
-    $(`wrap-${f.name}`).classList.remove("invalid");
-  }
-  formError.textContent = "";
+  for (const f of FIELDS) { $(f.name).value = f.default !== undefined ? String(f.default) : ""; $(`err-${f.name}`).textContent = ""; $(`wrap-${f.name}`).classList.remove("invalid"); }
+  $("form-error").textContent = "";
 }
 setDefaults();
 
-// ---------- test booking loader ----------
-const exampleSel = $("example");
+// ---------- test bookings ----------
 for (const ex of EXAMPLES) {
-  const o = document.createElement("option");
-  o.value = String(ex.id);
-  o.textContent = `Test booking ${ex.id} (Orange: ${ex.expected.toFixed(3)})`;
-  exampleSel.appendChild(o);
+  const o = document.createElement("option"); o.value = String(ex.id);
+  o.textContent = `Test booking ${ex.id} (Orange: ${ex.expected.toFixed(3)})`; $("example").appendChild(o);
 }
-exampleSel.addEventListener("change", () => {
-  const ex = EXAMPLES.find((e) => String(e.id) === exampleSel.value);
+$("example").addEventListener("change", () => {
+  const ex = EXAMPLES.find((e) => String(e.id) === $("example").value);
   if (!ex) return;
-  setDefaults();
-  for (const [k, v] of Object.entries(ex.inputs)) $(k).value = String(v);
+  setDefaults(); clearResult();
+  for (const f of FIELDS) {
+    if (f.name === "rate_inr") $(f.name).value = String(Math.round(ex.inputs.adr * INR_PER_EUR * 100) / 100);
+    else if (ex.inputs[f.name] !== undefined) $(f.name).value = String(ex.inputs[f.name]);
+  }
 });
-$("reset").addEventListener("click", () => {
-  exampleSel.value = "";
-  setDefaults();
-  resultEl.className = "panel result empty";
-  resultEl.innerHTML = resultIntro;
-});
+$("reset").addEventListener("click", () => { $("example").value = ""; setDefaults(); clearResult(); });
 
 // ---------- validation ----------
 function validate() {
-  const inputs = {};
-  let ok = true;
+  const v = {}; let ok = true;
   for (const f of FIELDS) {
-    const raw = $(f.name).value.trim();
-    const lower = f.label.toLowerCase();
-    let msg = "";
-    if (f.type === "select") {
-      const allowed = optionPairs(f).map(([v]) => v);
-      if (raw === "" || !allowed.includes(raw)) msg = `Please choose ${lower} from the list.`;
-      else inputs[f.name] = raw;
-    } else if (raw === "") {
-      msg = `Please fill in ${lower}.`;
-    } else if (f.type === "int" && !/^\d+$/.test(raw)) {
-      msg = `${f.label} must be a whole number.`;
-    } else if (f.type === "decimal" && !/^\d+(\.\d+)?$/.test(raw)) {
-      msg = "Room rate must be a number in euros.";
-    } else {
-      const n = Number(raw);
-      if (n < f.min || n > f.max) msg = `${f.label} must be between ${f.min} and ${f.max}. Our model was trained on this range.`;
-      else inputs[f.name] = n;
-    }
-    $(`err-${f.name}`).textContent = msg;
-    $(`wrap-${f.name}`).classList.toggle("invalid", msg !== "");
-    if (msg) ok = false;
+    const raw = $(f.name).value.trim(); let msg = "";
+    if (f.type === "select") { if (!pairs(f).some(([x]) => x === raw)) msg = `Please choose ${f.label.toLowerCase()}.`; else v[f.name] = raw; }
+    else if (raw === "") msg = `Please fill in ${f.label.toLowerCase()}.`;
+    else if (f.type === "int" && !/^\d+$/.test(raw)) msg = `${f.label} must be a whole number.`;
+    else if (f.type === "decimal" && !/^\d+(\.\d+)?$/.test(raw)) msg = "Room rate must be a number in rupees.";
+    else { const n = Number(raw); if (n < f.min || n > f.max) msg = `${f.label} must be between ${f.min.toLocaleString("en-IN")} and ${f.max.toLocaleString("en-IN")}.`; else v[f.name] = n; }
+    $(`err-${f.name}`).textContent = msg; $(`wrap-${f.name}`).classList.toggle("invalid", msg !== ""); if (msg) ok = false;
   }
-  formError.textContent = "";
-  if (ok && inputs.adults + inputs.children === 0) {
-    formError.textContent = "A booking needs at least one guest.";
-    $("wrap-adults").classList.add("invalid");
-    ok = false;
-  }
-  if (!ok && !formError.textContent) formError.textContent = "Please fix the highlighted fields.";
-  return ok ? inputs : null;
+  $("form-error").textContent = "";
+  if (!ok) { $("form-error").textContent = "Please fix the highlighted fields."; return null; }
+  const nights = v.stays_in_weekend_nights + v.stays_in_week_nights;
+  const inputs = { ...v, is_repeated_guest: v.previous_bookings_not_canceled > 0 ? "1" : "0", adr: Math.round((v.rate_inr / INR_PER_EUR) * 100) / 100 };
+  const problems = checkInputs(inputs, nights);
+  if (nights < 1) problems.unshift("A stay must be at least 1 night.");
+  if (problems.length) { $("form-error").textContent = problems[0]; return null; }
+  return inputs;
 }
 
 // ---------- result ----------
-const SIMILAR = {
-  Low: "About 1 in 8 similar bookings cancel.",
-  Medium: "About 2 in 5 similar bookings cancel.",
-  High: "About 4 in 5 similar bookings cancel.",
-};
-
-function el(tag, cls, text) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text !== undefined) e.textContent = text;
-  return e;
-}
-
 function showResult({ probability, tier, action }) {
   const pct = Math.round(probability * 100);
-  resultEl.className = `panel result ${tier.toLowerCase()}`;
-  resultEl.innerHTML = "";
-
-  resultEl.appendChild(el("h2", "result-title", "Result"));
-  const top = el("div", "top");
-  const left = el("div");
-  left.appendChild(el("div", "pct", `${pct}%`));
-  left.appendChild(el("div", "pct-label", "chance this booking is cancelled"));
-  top.appendChild(left);
-  top.appendChild(el("span", `badge ${tier.toLowerCase()}`, `${tier} risk`));
+  resultEl.className = `panel result ${tier.toLowerCase()}`; resultEl.innerHTML = "";
+  const add = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; e.textContent = text; resultEl.appendChild(e); return e; };
+  add("h2", "result-title", "Risk at booking");
+  const top = document.createElement("div"); top.className = "top";
+  const left = document.createElement("div");
+  const p1 = document.createElement("div"); p1.className = "pct"; p1.textContent = `${pct}%`;
+  const p2 = document.createElement("div"); p2.className = "pct-label"; p2.textContent = "chance this booking is cancelled";
+  left.append(p1, p2); top.appendChild(left);
+  const b = document.createElement("span"); b.className = `badge ${tier.toLowerCase()}`; b.textContent = `${tier} risk`; top.appendChild(b);
   resultEl.appendChild(top);
-
-  resultEl.appendChild(el("p", "similar", SIMILAR[tier]));
-  const act = el("div", "action");
-  act.appendChild(el("strong", "", "What to do"));
-  act.appendChild(el("span", "", action));
-  resultEl.appendChild(act);
-  resultEl.appendChild(el("p", "note", `Model output: ${probability.toFixed(3)}. This is a rough guide from past bookings, not a guarantee.`));
-
-  if (window.matchMedia && !window.matchMedia("(min-width: 960px)").matches) {
-    resultEl.scrollIntoView({ block: "start" });
-  }
+  add("p", "similar", `About ${Math.max(1, Math.round(probability * 10))} in 10 similar bookings are cancelled.`);
+  const act = document.createElement("div"); act.className = "action";
+  const s = document.createElement("strong"); s.textContent = "What to do"; const t = document.createElement("span"); t.textContent = action;
+  act.append(s, t); resultEl.appendChild(act);
+  add("p", "note", `Score ${probability.toFixed(3)} · a rough guide from past bookings, not a guarantee.`);
 }
 
-form.addEventListener("submit", (e) => {
+$("booking-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const inputs = validate();
-  if (!inputs) {
-    const firstBad = form.querySelector(".invalid input, .invalid select");
-    if (firstBad) {
-      const det = firstBad.closest("details");
-      if (det) det.open = true;
-      firstBad.focus();
-    }
-    return;
-  }
-  const result = predict(inputs); // called once per booking
-  showResult(result);
-  logPrediction(inputs, result); // optional Supabase log; never blocks the result
+  if (!inputs) { clearResult(); const bad = document.querySelector(".invalid input, .invalid select"); if (bad) bad.focus(); return; }
+  const r = predict(inputs);
+  showResult(r);
+  logPrediction(inputs, r);
 });

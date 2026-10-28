@@ -1,4 +1,4 @@
-// Turns one raw booking (as stored by the hotel) into the 18 model inputs.
+// Turns one raw booking (as stored by the hotel) into the 13 model inputs, and rejects impossible bookings.
 // Same rules as staycertain_features() in supabase_daily_scoring.sql.
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July",
@@ -8,7 +8,6 @@ const DAY = 86400000;
 // Accepts "YYYY-MM-DD", a Date, or an Excel serial number. Returns a UTC timestamp at midnight, or NaN.
 export function toDay(v) {
   if (v instanceof Date && !isNaN(v)) {
-    // Spreadsheet readers can return midnight shifted by a few hours; round to the nearest day.
     const r = new Date(v.getTime() + 12 * 3600 * 1000);
     return Date.UTC(r.getFullYear(), r.getMonth(), r.getDate());
   }
@@ -21,21 +20,19 @@ export function toDay(v) {
   }
   return NaN;
 }
-
 export const isoDay = (t) => new Date(t).toISOString().slice(0, 10);
 
-const ALLOWED = {
-  hotel: ["City Hotel", "Resort Hotel"],
+export const ALLOWED = {
   meal: ["BB", "HB", "FB", "SC"],
   market_segment: ["Online TA", "Offline TA/TO", "Direct", "Groups", "Corporate", "Complementary", "Aviation"],
   customer_type: ["Transient", "Transient-Party", "Contract", "Group"],
-  deposit_type: ["No Deposit", "Non Refund", "Refundable"],
 };
 
-const RANGES = {
-  lead_time: 737, stays_in_weekend_nights: 19, stays_in_week_nights: 50, adults: 55, children: 10,
-  previous_cancellations: 26, previous_bookings_not_canceled: 72, booking_changes: 18, adr: 510,
-  required_car_parking_spaces: 8, total_of_special_requests: 5,
+// Business limits for a believable booking (the model was trained within these).
+export const LIMITS = {
+  adults: [1, 10], children: [0, 6], nights: [1, 30], lead_time: [0, 737],
+  previous_cancellations: [0, 26], previous_bookings_not_canceled: [0, 72],
+  rate_inr: [500, 45000],   // = about 5-500 EUR at the assumed Rs 90 per EUR
 };
 
 function int(v, dflt) {
@@ -44,67 +41,63 @@ function int(v, dflt) {
   return Number.isInteger(n) && n >= 0 ? n : NaN;
 }
 
-// Returns { features, errors[], warnings[] }. If errors is non-empty the booking cannot be scored.
-// opts.inrPerEur: used when the file has adr_inr (rupees) instead of adr (EUR). The model was trained on EUR rates.
+// Shared validation of the model inputs (used by both pages). Returns a list of plain-English problems.
+export function checkInputs(f, nights) {
+  const e = [];
+  const range = (k, label, [lo, hi], v = f[k]) => {
+    if (isNaN(v)) e.push(`${label} must be a whole number.`);
+    else if (v < lo || v > hi) e.push(`${label} must be between ${lo} and ${hi}.`);
+  };
+  range("adults", "Adults", LIMITS.adults);
+  range("children", "Children", LIMITS.children);
+  range("nights", "Number of nights", LIMITS.nights, nights);
+  range("lead_time", "Days between booking and arrival", LIMITS.lead_time);
+  range("previous_cancellations", "Previous cancellations", LIMITS.previous_cancellations);
+  range("previous_bookings_not_canceled", "Previous stays", LIMITS.previous_bookings_not_canceled);
+  if (isNaN(f.rate_inr)) e.push("Room rate must be a number in rupees.");
+  else if (f.rate_inr < LIMITS.rate_inr[0] || f.rate_inr > LIMITS.rate_inr[1]) e.push(`Room rate must be between ₹${LIMITS.rate_inr[0]} and ₹${LIMITS.rate_inr[1].toLocaleString("en-IN")} per night.`);
+  for (const [col, allowed] of Object.entries(ALLOWED)) if (!allowed.includes(f[col])) e.push(`${col.replace(/_/g, " ")} "${f[col]}" is not one of the allowed values.`);
+  return e;
+}
+
+// opts.inrPerEur converts the rupee rate to EUR for the model (trained on EUR rates). ASSUMPTION: 90.
 export function bookingToFeatures(b, opts = {}) {
   const inrPerEur = opts.inrPerEur || 90;
   const errors = [];
-  const warnings = [];
   const bd = toDay(b.booking_date), ci = toDay(b.checkin_date), co = toDay(b.checkout_date);
-  if (isNaN(bd)) errors.push("booking_date missing or not a date");
-  if (isNaN(ci)) errors.push("checkin_date missing or not a date");
-  if (isNaN(co)) errors.push("checkout_date missing or not a date");
-  if (!errors.length && co < ci) errors.push("checkout before checkin");
-  if (!errors.length && ci < bd) errors.push("checkin before booking date");
-
-  for (const [col, allowed] of Object.entries(ALLOWED)) {
-    const v = b[col] === undefined || b[col] === null ? "" : String(b[col]).trim();
-    if (!allowed.includes(v)) errors.push(`${col} "${v}" not in list`);
-  }
+  if (isNaN(bd)) errors.push("booking date missing or not a date");
+  if (isNaN(ci)) errors.push("check-in date missing or not a date");
+  if (isNaN(co)) errors.push("check-out date missing or not a date");
+  if (!errors.length && co <= ci) errors.push("check-out must be after check-in");
+  if (!errors.length && ci < bd) errors.push("check-in is before the booking date");
 
   let weekend = 0, week = 0;
   if (!errors.length) {
     for (let t = ci; t < co; t += DAY) {
-      const dow = new Date(t).getUTCDay();          // 0 = Sunday, 6 = Saturday
+      const dow = new Date(t).getUTCDay();        // 0 = Sunday, 6 = Saturday
       if (dow === 0 || dow === 6) weekend++; else week++;
     }
   }
-
+  const rateInr = b.adr_inr !== undefined && b.adr_inr !== "" && b.adr_inr !== null ? Number(b.adr_inr)
+    : b.adr !== undefined && b.adr !== "" && b.adr !== null ? Number(b.adr) * inrPerEur : NaN;
+  const prevKept = int(b.previous_bookings_not_canceled, 0);
   const f = {
-    hotel: String(b.hotel ?? "").trim(),
     lead_time: Math.round((ci - bd) / DAY),
     arrival_date_month: isNaN(ci) ? "" : MONTHS[new Date(ci).getUTCMonth()],
     stays_in_weekend_nights: weekend,
     stays_in_week_nights: week,
     adults: int(b.adults, NaN),
     children: int(b.children, 0),
-    meal: String(b.meal ?? "").trim(),
+    meal: String(b.meal ?? "").trim() || "BB",
     market_segment: String(b.market_segment ?? "").trim(),
-    is_repeated_guest: String(int(b.is_repeated_guest, 0)),
+    // A repeat guest is one with at least one earlier completed stay (keeps the two inputs consistent).
+    is_repeated_guest: prevKept > 0 ? "1" : "0",
     previous_cancellations: int(b.previous_cancellations, 0),
-    previous_bookings_not_canceled: int(b.previous_bookings_not_canceled, 0),
-    booking_changes: int(b.booking_changes, 0),
-    deposit_type: String(b.deposit_type ?? "").trim(),
-    customer_type: String(b.customer_type ?? "").trim(),
-    adr: (b.adr !== "" && b.adr !== undefined && b.adr !== null) ? Number(b.adr)
-      : (b.adr_inr !== "" && b.adr_inr !== undefined && b.adr_inr !== null) ? Math.round(Number(b.adr_inr) / inrPerEur * 100) / 100
-      : NaN,
-    required_car_parking_spaces: int(b.required_car_parking_spaces, 0),
-    total_of_special_requests: int(b.total_of_special_requests, 0),
+    previous_bookings_not_canceled: prevKept,
+    customer_type: String(b.customer_type ?? "").trim() || "Transient",
+    adr: Math.round((rateInr / inrPerEur) * 100) / 100,
+    rate_inr: rateInr,
   };
-
-  for (const k of ["adults", "children", "previous_cancellations", "previous_bookings_not_canceled",
-    "booking_changes", "required_car_parking_spaces", "total_of_special_requests"]) {
-    if (isNaN(f[k])) errors.push(`${k} must be a whole number`);
-  }
-  if (!["0", "1"].includes(f.is_repeated_guest)) errors.push("is_repeated_guest must be 0 or 1");
-  if (isNaN(f.adr) || f.adr < 0) errors.push("adr (room rate) must be a number");
-  if (!errors.length && f.adults + f.children === 0) errors.push("no guests on booking");
-
-  if (!errors.length) {
-    for (const [k, max] of Object.entries(RANGES)) {
-      if (f[k] > max) warnings.push(`${k} above training range (${max})`);
-    }
-  }
-  return { features: f, errors, warnings };
+  if (!errors.length) errors.push(...checkInputs(f, weekend + week));
+  return { features: f, errors, warnings: [] };
 }

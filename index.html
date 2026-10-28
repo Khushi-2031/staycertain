@@ -34,13 +34,14 @@
 
   <main class="shell">
     <section id="kpis" class="kpis" aria-label="Key numbers"></section>
+    <p id="kpiNote" class="kpi-note"></p>
 
     <div class="tabs" role="tablist">
-      <button role="tab" data-tab="actions" class="tab active">Today's actions</button>
-      <button role="tab" data-tab="revenue" class="tab">Revenue & forecast</button>
+      <button role="tab" data-tab="actions" class="tab active" aria-selected="true">Today's actions</button>
+      <button role="tab" data-tab="revenue" class="tab">Revenue & occupancy</button>
       <button role="tab" data-tab="overbook" class="tab">Safe overbooking</button>
-      <button role="tab" data-tab="channels" class="tab">Channels</button>
-      <button role="tab" data-tab="savings" class="tab">Savings report</button>
+      <button role="tab" data-tab="channels" class="tab">Booking sources</button>
+      <button role="tab" data-tab="savings" class="tab">Savings</button>
       <button role="tab" data-tab="automations" class="tab">Automations</button>
       <button role="tab" data-tab="settings" class="tab">Settings</button>
     </div>
@@ -58,10 +59,9 @@
   <aside id="drawer" class="drawer" hidden aria-modal="true" role="dialog" aria-labelledby="drawerTitle"></aside>
 
   <footer class="about">
-    <p><strong>About the score:</strong> a Logistic Regression model trained in Orange on 87,216 bookings from two hotels in Portugal (2015–2017);
-    it ranks a cancelled booking above a kept one about 80% of the time and has not yet been tested on Indian hotels.
-    The probability comes only from that formula — no AI decides the score. Deposit levels, reconfirmation rules and savings figures are
-    business assumptions you can change in Settings. Sample data is fictional.</p>
+    <p><strong>About the risk score:</strong> a statistical model built from 85,370 past bookings at two hotels in Portugal (2015–2017).
+    It puts a cancelled booking above a kept one about 73% of the time, and has not yet been tested on Indian hotels.
+    No AI decides the score. Advance levels and savings figures rest on assumptions you can change in Settings. The sample hotel is fictional.</p>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>

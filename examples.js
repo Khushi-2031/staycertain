@@ -1,62 +1,50 @@
 // The 10 reference bookings (held out from training) with the probability Orange produced.
-// Used by the "Load test booking" menu to check the app against Orange.
 export const EXAMPLES = [
   {
     "id": 1,
     "inputs": {
-      "hotel": "Resort Hotel",
-      "lead_time": 69,
-      "arrival_date_month": "February",
-      "stays_in_weekend_nights": 2,
-      "stays_in_week_nights": 3,
+      "lead_time": 3,
+      "arrival_date_month": "April",
+      "stays_in_weekend_nights": 1,
+      "stays_in_week_nights": 1,
       "adults": 1,
       "children": 0,
       "meal": "BB",
-      "market_segment": "Online TA",
-      "is_repeated_guest": "0",
+      "market_segment": "Direct",
+      "is_repeated_guest": "1",
       "previous_cancellations": 0,
-      "previous_bookings_not_canceled": 0,
-      "booking_changes": 0,
-      "deposit_type": "No Deposit",
-      "customer_type": "Transient-Party",
-      "adr": 37.0,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 1
+      "previous_bookings_not_canceled": 1,
+      "customer_type": "Transient",
+      "adr": 64.8
     },
-    "expected": 0.171
+    "expected": 0.033
   },
   {
     "id": 2,
     "inputs": {
-      "hotel": "Resort Hotel",
-      "lead_time": 13,
-      "arrival_date_month": "March",
+      "lead_time": 30,
+      "arrival_date_month": "May",
       "stays_in_weekend_nights": 0,
-      "stays_in_week_nights": 0,
-      "adults": 2,
+      "stays_in_week_nights": 1,
+      "adults": 1,
       "children": 0,
       "meal": "BB",
-      "market_segment": "Online TA",
+      "market_segment": "Groups",
       "is_repeated_guest": "0",
       "previous_cancellations": 0,
       "previous_bookings_not_canceled": 0,
-      "booking_changes": 1,
-      "deposit_type": "No Deposit",
-      "customer_type": "Transient",
-      "adr": 0.0,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 1
+      "customer_type": "Transient-Party",
+      "adr": 130.0
     },
-    "expected": 0.119
+    "expected": 0.147
   },
   {
     "id": 3,
     "inputs": {
-      "hotel": "City Hotel",
-      "lead_time": 46,
-      "arrival_date_month": "January",
-      "stays_in_weekend_nights": 2,
-      "stays_in_week_nights": 1,
+      "lead_time": 178,
+      "arrival_date_month": "August",
+      "stays_in_weekend_nights": 0,
+      "stays_in_week_nights": 3,
       "adults": 2,
       "children": 0,
       "meal": "BB",
@@ -64,119 +52,113 @@ export const EXAMPLES = [
       "is_repeated_guest": "0",
       "previous_cancellations": 0,
       "previous_bookings_not_canceled": 0,
-      "booking_changes": 0,
-      "deposit_type": "No Deposit",
-      "customer_type": "Transient",
-      "adr": 102.6,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 2
+      "customer_type": "Transient-Party",
+      "adr": 94.62
     },
-    "expected": 0.191
+    "expected": 0.189
   },
   {
     "id": 4,
     "inputs": {
-      "hotel": "Resort Hotel",
-      "lead_time": 19,
-      "arrival_date_month": "August",
-      "stays_in_weekend_nights": 4,
-      "stays_in_week_nights": 6,
+      "lead_time": 185,
+      "arrival_date_month": "April",
+      "stays_in_weekend_nights": 1,
+      "stays_in_week_nights": 1,
       "adults": 2,
-      "children": 1,
-      "meal": "FB",
-      "market_segment": "Online TA",
+      "children": 0,
+      "meal": "HB",
+      "market_segment": "Groups",
       "is_repeated_guest": "0",
       "previous_cancellations": 0,
       "previous_bookings_not_canceled": 0,
-      "booking_changes": 1,
-      "deposit_type": "No Deposit",
-      "customer_type": "Transient",
-      "adr": 245.3,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 0
+      "customer_type": "Transient-Party",
+      "adr": 85.0
     },
-    "expected": 0.667
+    "expected": 0.219
   },
   {
     "id": 5,
     "inputs": {
-      "hotel": "Resort Hotel",
-      "lead_time": 160,
+      "lead_time": 37,
       "arrival_date_month": "October",
-      "stays_in_weekend_nights": 2,
+      "stays_in_weekend_nights": 0,
       "stays_in_week_nights": 4,
-      "adults": 2,
-      "children": 0,
-      "meal": "BB",
-      "market_segment": "Direct",
-      "is_repeated_guest": "0",
-      "previous_cancellations": 0,
-      "previous_bookings_not_canceled": 0,
-      "booking_changes": 0,
-      "deposit_type": "No Deposit",
-      "customer_type": "Transient",
-      "adr": 46.98,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 1
-    },
-    "expected": 0.187
-  },
-  {
-    "id": 6,
-    "inputs": {
-      "hotel": "City Hotel",
-      "lead_time": 159,
-      "arrival_date_month": "October",
-      "stays_in_weekend_nights": 2,
-      "stays_in_week_nights": 3,
-      "adults": 2,
+      "adults": 3,
       "children": 1,
       "meal": "HB",
       "market_segment": "Online TA",
       "is_repeated_guest": "0",
       "previous_cancellations": 0,
       "previous_bookings_not_canceled": 0,
-      "booking_changes": 0,
-      "deposit_type": "No Deposit",
       "customer_type": "Transient",
-      "adr": 143.55,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 1
+      "adr": 183.0
     },
-    "expected": 0.502
+    "expected": 0.321
+  },
+  {
+    "id": 6,
+    "inputs": {
+      "lead_time": 17,
+      "arrival_date_month": "April",
+      "stays_in_weekend_nights": 0,
+      "stays_in_week_nights": 2,
+      "adults": 2,
+      "children": 0,
+      "meal": "BB",
+      "market_segment": "Online TA",
+      "is_repeated_guest": "0",
+      "previous_cancellations": 0,
+      "previous_bookings_not_canceled": 0,
+      "customer_type": "Transient",
+      "adr": 142.0
+    },
+    "expected": 0.338
   },
   {
     "id": 7,
     "inputs": {
-      "hotel": "City Hotel",
-      "lead_time": 6,
-      "arrival_date_month": "September",
+      "lead_time": 155,
+      "arrival_date_month": "May",
       "stays_in_weekend_nights": 0,
-      "stays_in_week_nights": 1,
-      "adults": 1,
+      "stays_in_week_nights": 3,
+      "adults": 2,
       "children": 0,
       "meal": "BB",
-      "market_segment": "Offline TA/TO",
+      "market_segment": "Online TA",
       "is_repeated_guest": "0",
       "previous_cancellations": 0,
       "previous_bookings_not_canceled": 0,
-      "booking_changes": 0,
-      "deposit_type": "No Deposit",
       "customer_type": "Transient",
-      "adr": 0.0,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 1
+      "adr": 123.33
     },
-    "expected": 0.028
+    "expected": 0.456
   },
   {
     "id": 8,
     "inputs": {
-      "hotel": "City Hotel",
-      "lead_time": 148,
-      "arrival_date_month": "June",
-      "stays_in_weekend_nights": 0,
-      "stays_in_week_nights": 2,
+      "lead_time": 199,
+      "arrival_date_month": "August",
+      "stays_in_weekend_nights": 2,
+      "stays_in_week_nights": 3,
+      "adults": 2,
+      "children": 0,
+      "meal": "BB",
+      "market_segment": "Online TA",
+      "is_repeated_guest": "0",
+      "previous_cancellations": 0,
+      "previous_bookings_not_canceled": 0,
+      "customer_type": "Transient",
+      "adr": 123.2
+    },
+    "expected": 0.482
+  },
+  {
+    "id": 9,
+    "inputs": {
+      "lead_time": 314,
+      "arrival_date_month": "December",
+      "stays_in_weekend_nights": 3,
+      "stays_in_week_nights": 6,
       "adults": 2,
       "children": 0,
       "meal": "SC",
@@ -184,61 +166,28 @@ export const EXAMPLES = [
       "is_repeated_guest": "0",
       "previous_cancellations": 0,
       "previous_bookings_not_canceled": 0,
-      "booking_changes": 0,
-      "deposit_type": "No Deposit",
       "customer_type": "Transient",
-      "adr": 116.1,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 0
+      "adr": 68.66
     },
-    "expected": 0.61
-  },
-  {
-    "id": 9,
-    "inputs": {
-      "hotel": "Resort Hotel",
-      "lead_time": 157,
-      "arrival_date_month": "November",
-      "stays_in_weekend_nights": 1,
-      "stays_in_week_nights": 3,
-      "adults": 2,
-      "children": 0,
-      "meal": "BB",
-      "market_segment": "Online TA",
-      "is_repeated_guest": "0",
-      "previous_cancellations": 0,
-      "previous_bookings_not_canceled": 0,
-      "booking_changes": 0,
-      "deposit_type": "No Deposit",
-      "customer_type": "Transient",
-      "adr": 32.4,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 0
-    },
-    "expected": 0.553
+    "expected": 0.732
   },
   {
     "id": 10,
     "inputs": {
-      "hotel": "City Hotel",
-      "lead_time": 115,
-      "arrival_date_month": "February",
+      "lead_time": 97,
+      "arrival_date_month": "March",
       "stays_in_weekend_nights": 2,
-      "stays_in_week_nights": 2,
+      "stays_in_week_nights": 5,
       "adults": 1,
       "children": 0,
-      "meal": "BB",
-      "market_segment": "Offline TA/TO",
+      "meal": "HB",
+      "market_segment": "Groups",
       "is_repeated_guest": "0",
-      "previous_cancellations": 0,
+      "previous_cancellations": 1,
       "previous_bookings_not_canceled": 0,
-      "booking_changes": 1,
-      "deposit_type": "No Deposit",
-      "customer_type": "Transient-Party",
-      "adr": 60.0,
-      "required_car_parking_spaces": 0,
-      "total_of_special_requests": 0
+      "customer_type": "Transient",
+      "adr": 79.43
     },
-    "expected": 0.072
+    "expected": 0.83
   }
 ];

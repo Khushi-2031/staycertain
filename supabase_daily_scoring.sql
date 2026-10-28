@@ -37,6 +37,17 @@ create table if not exists public.bookings (
   constraint stay_dates_ok check (checkout_date >= checkin_date and checkin_date >= booking_date)
 );
 
+-- Upgrade a bookings table created by an earlier version of this script (safe to re-run)
+alter table public.bookings add column if not exists guest_phone text;
+alter table public.bookings add column if not exists adr_inr numeric(10,2);
+alter table public.bookings alter column adr drop not null;
+alter table public.bookings add column if not exists advance_paid_inr numeric(10,2) default 0;
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'rate_given') then
+    alter table public.bookings add constraint rate_given check (adr is not null or adr_inr is not null);
+  end if;
+end $$;
+
 -- 2. One score per booking per day
 create table if not exists public.booking_scores (
   id            bigint generated always as identity primary key,
@@ -47,6 +58,8 @@ create table if not exists public.booking_scores (
   action        text   not null,
   features      jsonb  not null,       -- the 18 model inputs used
   warnings      text[] not null default '{}',
+  probability_at_booking numeric(4,3),
+  days_to_arrival int,
   model_version text   not null default 'lr-orange-3.39-v1',
   scored_at     timestamptz not null default now(),
   unique (booking_id, score_date)
@@ -56,7 +69,10 @@ create table if not exists public.booking_scores (
 alter table public.bookings enable row level security;
 alter table public.booking_scores enable row level security;
 
--- 3. Turn a booking into the 18 model inputs
+alter table public.booking_scores add column if not exists probability_at_booking numeric(4,3);
+alter table public.booking_scores add column if not exists days_to_arrival int;
+
+-- 3. Turn a booking into the 13 model inputs (same rules as features.js in the app)
 create or replace function public.staycertain_features(b public.bookings)
 returns jsonb
 language sql stable
@@ -75,9 +91,10 @@ as $$
       and lower(p.guest_email) = lower(b.guest_email)
       and p.id <> b.id
       and p.booking_date < b.booking_date
-  )
+  ),
+  h as (select coalesce(b.previous_bookings_not_canceled, (select prev_kept from hist)) as kept,
+               coalesce(b.previous_cancellations, (select prev_cancel from hist)) as cancels)
   select jsonb_build_object(
-    'hotel',                          b.hotel,
     'lead_time',                      b.checkin_date - b.booking_date,
     'arrival_date_month',             trim(to_char(b.checkin_date, 'FMMonth')),
     'stays_in_weekend_nights',        (select count(*) from nights where extract(dow from night) in (0,6)),
@@ -86,95 +103,107 @@ as $$
     'children',                       b.children,
     'meal',                           b.meal,
     'market_segment',                 b.market_segment,
-    'is_repeated_guest',              coalesce(b.is_repeated_guest, case when (select prev_kept from hist) > 0 then 1 else 0 end)::text,
-    'previous_cancellations',         coalesce(b.previous_cancellations, (select prev_cancel from hist)),
-    'previous_bookings_not_canceled', coalesce(b.previous_bookings_not_canceled, (select prev_kept from hist)),
-    'booking_changes',                b.booking_changes,
-    'deposit_type',                   b.deposit_type,
+    'is_repeated_guest',              case when (select kept from h) > 0 then '1' else '0' end,
+    'previous_cancellations',         (select cancels from h),
+    'previous_bookings_not_canceled', (select kept from h),
     'customer_type',                  b.customer_type,
-    'adr',                            coalesce(b.adr, round(b.adr_inr / 90.0, 2)),
-    'required_car_parking_spaces',    b.required_car_parking_spaces,
-    'total_of_special_requests',      b.total_of_special_requests
+    'adr',                            coalesce(b.adr, round(b.adr_inr / 90.0, 2))
   );
 $$;
 
--- 4. The trained model: probability of cancellation from the 18 inputs
+-- 3b. Risk today: update the at-booking probability for the days left before arrival
+--     (share of past cancellations that happened within the last d days, by lead-time group; Bayes' rule)
+create or replace function public.staycertain_risk_today(p numeric, lead int, days_left int)
+returns numeric
+language plpgsql immutable
+as $$
+declare
+  bins int[][] := '{{0,7},{8,30},{31,90},{91,180},{181,737}}';
+  ds numeric[] := '{0,1,2,3,5,7,10,14,21,30,45,60,90,120,150,180,240,300,365,500,737}';
+  curve numeric[][] := '{{0.4986,0.6309,0.7011,0.812,0.9256,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0},{0.0811,0.1021,0.1242,0.1625,0.2351,0.3298,0.4672,0.6417,0.8602,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0},{0.0442,0.0551,0.0651,0.0799,0.1075,0.1335,0.1736,0.2301,0.3166,0.4384,0.6728,0.835,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0},{0.0339,0.041,0.0484,0.0566,0.0728,0.0875,0.1103,0.1441,0.1892,0.2323,0.3061,0.3723,0.5085,0.7443,0.909,1.0,1.0,1.0,1.0,1.0,1.0},{0.021,0.026,0.0308,0.039,0.0511,0.0611,0.0748,0.1014,0.1329,0.1708,0.2215,0.2614,0.3405,0.4131,0.4879,0.5791,0.8268,0.9389,0.9853,0.9983,1.0}}';
+  b int := 5; i int; f numeric := 1;
+begin
+  if days_left >= lead then return p; end if;
+  for i in 1..5 loop
+    if lead between bins[i][1] and bins[i][2] then b := i; exit; end if;
+  end loop;
+  if days_left <= ds[1] then f := curve[b][1];
+  else
+    for i in 2..array_length(ds,1) loop
+      if days_left <= ds[i] then
+        f := curve[b][i-1] + (curve[b][i] - curve[b][i-1]) * (days_left - ds[i-1]) / (ds[i] - ds[i-1]);
+        exit;
+      end if;
+    end loop;
+  end if;
+  return round(p * f / (1 - p * (1 - f)), 3);
+end;
+$$;
+
+-- 4. The trained model: probability of cancellation at booking, from the 13 inputs
 create or replace function public.staycertain_predict(f jsonb)
 returns numeric
 language sql immutable
 as $$
   select round((1 / (1 + exp(-(
-      -2.5961237760571767
-      + 0.4648380468560496 * ((f->>'lead_time')::double precision - 79.97095716382316) * 0.011619714205334695
-      + 0.02703001530277176 * ((f->>'stays_in_weekend_nights')::double precision - 1.0045404512933407) * 0.9733979505400026
-      + 0.11788492568204516 * ((f->>'stays_in_week_nights')::double precision - 2.623956613465419) * 0.4902326830310385
-      + 0.039967058305593904 * ((f->>'adults')::double precision - 1.8793684645019262) * 1.6083997609594993
-      + 0.034982977874669724 * ((f->>'children')::double precision - 0.1497431663914878) * 2.1179887863076092
-      + 0.6845895652128645 * ((f->>'previous_cancellations')::double precision - 0.030407264722069345) * 2.707299366696738
-      + -0.5106544715714185 * ((f->>'previous_bookings_not_canceled')::double precision - 0.18406026417171162) * 0.5769840142366042
-      + -0.22633007305789643 * ((f->>'booking_changes')::double precision - 0.26847138139790866) * 1.4071845045727045
-      + 0.31474153247001146 * ((f->>'adr')::double precision - 106.46395466427616) * 0.019276482081173954
-      + -5.061058643896006 * ((f->>'required_car_parking_spaces')::double precision - 0.08431939093744267) * 3.550158117439964
-      + -0.5550141144668478 * ((f->>'total_of_special_requests')::double precision - 0.6989313887360118) * 1.201828205056056
-      + -0.02485392054666744 * ((case when f->>'hotel' = 'City Hotel' then 1 else 0 end) - 0.6107365620986975) * 2.0509318664148575
-      + 0.024853920546651524 * ((case when f->>'hotel' = 'Resort Hotel' then 1 else 0 end) - 0.3892634379013025) * 2.0509318664148575
-      + 0.02968278609872693 * ((case when f->>'arrival_date_month' = 'April' then 1 else 0 end) - 0.09057971014492754) * 3.4841931051024297
-      + -0.05121851090669218 * ((case when f->>'arrival_date_month' = 'August' then 1 else 0 end) - 0.1288639699137773) * 2.9846352127759856
-      + 0.06714125430605905 * ((case when f->>'arrival_date_month' = 'December' then 1 else 0 end) - 0.05861309851403412) * 4.257146386982245
-      + 0.045358246846567876 * ((case when f->>'arrival_date_month' = 'February' then 1 else 0 end) - 0.06972344523940562) * 3.926490424945547
-      + 0.034296146100543407 * ((case when f->>'arrival_date_month' = 'January' then 1 else 0 end) - 0.05370574206567602) * 4.4358467810092135
-      + -0.05603900895400245 * ((case when f->>'arrival_date_month' = 'July' then 1 else 0 end) - 0.11515088974500091) * 3.1327933030224977
-      + -0.029523077299697765 * ((case when f->>'arrival_date_month' = 'June' then 1 else 0 end) - 0.08891717116125482) * 3.5134052869066448
-      + 0.01618480732896793 * ((case when f->>'arrival_date_month' = 'March' then 1 else 0 end) - 0.08583287470188956) * 3.5699355140045372
-      + -0.006390392381412118 * ((case when f->>'arrival_date_month' = 'May' then 1 else 0 end) - 0.09567051917079435) * 3.399754757375845
-      + 0.026245893880401862 * ((case when f->>'arrival_date_month' = 'November' then 1 else 0 end) - 0.05700788846083287) * 4.3129904100699346
-      + -0.0040816728140792 * ((case when f->>'arrival_date_month' = 'October' then 1 else 0 end) - 0.0793317739864245) * 3.700196938612221
-      + -0.02917258696262135 * ((case when f->>'arrival_date_month' = 'September' then 1 else 0 end) - 0.07660291689598239) * 3.759958896572516
-      + -0.011219457476244513 * ((case when f->>'meal' = 'BB' then 1 else 0 end) - 0.7784810126582279) * 2.4080777727913762
-      + 0.010571928141987362 * ((case when f->>'meal' = 'FB' then 1 else 0 end) - 0.004116217207851771) * 15.618759150772558
-      + -0.036321880040150696 * ((case when f->>'meal' = 'HB' then 1 else 0 end) - 0.1040978719501009) * 3.2745286170334005
-      + 0.04755875040154195 * ((case when f->>'meal' = 'SC' then 1 else 0 end) - 0.11330489818381949) * 3.1549211016667984
-      + 0.0059314463866960414 * ((case when f->>'market_segment' = 'Aviation' then 1 else 0 end) - 0.0025912676573105853) * 19.67013224216766
-      + 0.04093918384095628 * ((case when f->>'market_segment' = 'Complementary' then 1 else 0 end) - 0.00793432397725188) * 11.27132112319003
-      + -0.006229335861761545 * ((case when f->>'market_segment' = 'Corporate' then 1 else 0 end) - 0.048156301596037426) * 4.670792967215573
-      + -0.12879059918901808 * ((case when f->>'market_segment' = 'Direct' then 1 else 0 end) - 0.13505549440469639) * 2.9258344510771632
-      + -0.06265452147556891 * ((case when f->>'market_segment' = 'Groups' then 1 else 0 end) - 0.05642313337002385) * 4.3339386310734485
-      + -0.31121505686171885 * ((case when f->>'market_segment' = 'Offline TA/TO' then 1 else 0 end) - 0.15882406897816914) * 2.7358886778377967
-      + 0.3450201766335222 * ((case when f->>'market_segment' = 'Online TA' then 1 else 0 end) - 0.5910154100165107) * 2.03398209389766
-      + 0.07372617292767487 * ((case when f->>'is_repeated_guest' = '0' then 1 else 0 end) - 0.9614405613648872) * 5.193658961731053
-      + -0.07372617292767353 * ((case when f->>'is_repeated_guest' = '1' then 1 else 0 end) - 0.038559438635112825) * 5.193658961731053
-      + -0.2016399927897389 * ((case when f->>'deposit_type' = 'No Deposit' then 1 else 0 end) - 0.986883140708127) * 8.78925784329276
-      + 0.22642590044230118 * ((case when f->>'deposit_type' = 'Non Refund' then 1 else 0 end) - 0.011890020179783526) * 9.225843033058352
-      + -0.04573461799696361 * ((case when f->>'deposit_type' = 'Refundable' then 1 else 0 end) - 0.001226839112089525) * 28.567534581830294
-      + -0.061748418313042265 * ((case when f->>'customer_type' = 'Contract' then 1 else 0 end) - 0.03594523940561365) * 5.371906660448484
-      + -0.028697100543988326 * ((case when f->>'customer_type' = 'Group' then 1 else 0 end) - 0.006202990277013392) * 12.736514869606111
-      + 0.139510840960675 * ((case when f->>'customer_type' = 'Transient' then 1 else 0 end) - 0.8238511282333517) * 2.6250386167932054
-      + -0.11565544842075613 * ((case when f->>'customer_type' = 'Transient-Party' then 1 else 0 end) - 0.1340006420840213) * 2.935538464376003
+      -1.13551875242133
+      + 0.44244619842081234 * ((f->>'lead_time')::double precision - 80.6028701968135) * 0.011644386300050363
+      + 0.02435405591009353 * ((f->>'stays_in_weekend_nights')::double precision - 1.0171274601686973) * 0.974179054131177
+      + 0.09331727721889323 * ((f->>'stays_in_week_nights')::double precision - 2.652893626991565) * 0.49196054032515785
+      + -0.028958244987841962 * ((f->>'adults')::double precision - 1.886082474226804) * 2.0268544022502315
+      + 0.0067530158067291 * ((f->>'children')::double precision - 0.14611059044048735) * 2.15259460623797
+      + 0.7503855209364455 * ((f->>'previous_cancellations')::double precision - 0.029006560449859418) * 2.7377894548742825
+      + -0.6832072807263146 * ((f->>'previous_bookings_not_canceled')::double precision - 0.16914245548266166) * 0.5960453548455211
+      + 0.2656897996102164 * ((f->>'adr')::double precision - 108.56757040767938) * 0.019907172493111597
+      + 0.05046414157071463 * ((case when f->>'arrival_date_month' = 'April' then 1 else 0 end) - 0.09092080599812559) * 3.478303729165253
+      + -0.05168807128054262 * ((case when f->>'arrival_date_month' = 'August' then 1 else 0 end) - 0.12962746016869728) * 2.977137572893121
+      + 0.0495852403749262 * ((case when f->>'arrival_date_month' = 'December' then 1 else 0 end) - 0.05761480787253983) * 4.291594838887592
+      + 0.05026565610641133 * ((case when f->>'arrival_date_month' = 'February' then 1 else 0 end) - 0.06955248359887535) * 3.9309519771735917
+      + 0.02809507817487898 * ((case when f->>'arrival_date_month' = 'January' then 1 else 0 end) - 0.053350515463917524) * 4.449754886941305
+      + -0.05028038812703858 * ((case when f->>'arrival_date_month' = 'July' then 1 else 0 end) - 0.11561621368322399) * 3.1273050255763595
+      + -0.012950206291896096 * ((case when f->>'arrival_date_month' = 'June' then 1 else 0 end) - 0.08949156513589503) * 3.5032163692510907
+      + 0.032601711812411345 * ((case when f->>'arrival_date_month' = 'March' then 1 else 0 end) - 0.08608247422680412) * 3.5652429236144987
+      + 0.0037156520504299426 * ((case when f->>'arrival_date_month' = 'May' then 1 else 0 end) - 0.09597000937207123) * 3.3950080806909373
+      + -0.005362696892046715 * ((case when f->>'arrival_date_month' = 'November' then 1 else 0 end) - 0.056677600749765696) * 4.324781770372493
+      + -0.02019657168960657 * ((case when f->>'arrival_date_month' = 'October' then 1 else 0 end) - 0.07861996251171509) * 3.715473639950236
+      + -0.043611302763864095 * ((case when f->>'arrival_date_month' = 'September' then 1 else 0 end) - 0.07647610121836926) * 3.762816684845263
+      + -0.007484118927335022 * ((case when f->>'meal' = 'BB' then 1 else 0 end) - 0.7775070290534208) * 2.404305724300715
+      + 0.0038428735616141832 * ((case when f->>'meal' = 'FB' then 1 else 0 end) - 0.004029990627928772) * 15.7842827262439
+      + -0.06536634737207163 * ((case when f->>'meal' = 'HB' then 1 else 0 end) - 0.10460402999062793) * 3.2675197706928203
+      + 0.0720130567941238 * ((case when f->>'meal' = 'SC' then 1 else 0 end) - 0.1138589503280225) * 3.148219354198315
+      + 0.010731960790281872 * ((case when f->>'market_segment' = 'Aviation' then 1 else 0 end) - 0.002600749765698219) * 19.63433502912572
+      + -0.016190151964232413 * ((case when f->>'market_segment' = 'Complementary' then 1 else 0 end) - 0.0007146204311152765) * 37.42118353853083
+      + 0.03784756083458908 * ((case when f->>'market_segment' = 'Corporate' then 1 else 0 end) - 0.04845360824742268) * 4.6571685370412155
+      + -0.19816038764163055 * ((case when f->>'market_segment' = 'Direct' then 1 else 0 end) - 0.13523898781630742) * 2.924159067682025
+      + 0.1260415093804985 * ((case when f->>'market_segment' = 'Groups' then 1 else 0 end) - 0.055260074976569824) * 4.376612843581389
+      + -0.1886815004408865 * ((case when f->>'market_segment' = 'Offline TA/TO' then 1 else 0 end) - 0.1595946579194002) * 2.730526669507982
+      + 0.20361624122351948 * ((case when f->>'market_segment' = 'Online TA' then 1 else 0 end) - 0.5981373008434864) * 2.039673757353192
+      + 0.07685957092428856 * ((case when f->>'is_repeated_guest' = '0' then 1 else 0 end) - 0.9658036551077788) * 5.502571993238144
+      + -0.07685957092428945 * ((case when f->>'is_repeated_guest' = '1' then 1 else 0 end) - 0.03419634489222118) * 5.502571993238144
+      + -0.06322099359622123 * ((case when f->>'customer_type' = 'Contract' then 1 else 0 end) - 0.03648078725398313) * 5.333812067315403
+      + -0.035702384728618336 * ((case when f->>'customer_type' = 'Group' then 1 else 0 end) - 0.005962980318650422) * 12.988740277516044
+      + 0.20291229039701594 * ((case when f->>'customer_type' = 'Transient' then 1 else 0 end) - 0.8255623242736645) * 2.6351474534105566
+      + -0.18435328020550412 * ((case when f->>'customer_type' = 'Transient-Party' then 1 else 0 end) - 0.13199390815370196) * 2.954348128268754
   ))))::numeric, 3);
 $$;
 
--- 5. Inputs outside the range the model was trained on
+-- 5. Problems that make a booking impossible to score (same limits as the app)
 create or replace function public.staycertain_warnings(f jsonb)
 returns text[]
 language sql immutable
 as $$
   select array_remove(array[
-    case when (f->>'lead_time')::int > 737 then 'lead_time above training range (737)' end,
-    case when (f->>'stays_in_weekend_nights')::int > 19 then 'weekend nights above training range (19)' end,
-    case when (f->>'stays_in_week_nights')::int > 50 then 'week nights above training range (50)' end,
-    case when (f->>'adults')::int > 55 then 'adults above training range (55)' end,
-    case when (f->>'children')::int > 10 then 'children above training range (10)' end,
-    case when (f->>'adults')::int + (f->>'children')::int = 0 then 'no guests on booking' end,
-    case when (f->>'previous_cancellations')::int > 26 then 'previous cancellations above training range (26)' end,
-    case when (f->>'previous_bookings_not_canceled')::int > 72 then 'previous kept bookings above training range (72)' end,
-    case when (f->>'booking_changes')::int > 18 then 'booking changes above training range (18)' end,
-    case when (f->>'adr')::numeric > 510 then 'room rate above training range (510 EUR)' end,
-    case when (f->>'required_car_parking_spaces')::int > 8 then 'parking above training range (8)' end,
-    case when (f->>'total_of_special_requests')::int > 5 then 'special requests above training range (5)' end
+    case when (f->>'adults')::int < 1 then 'no adults on the booking' end,
+    case when (f->>'adults')::int > 10 then 'more than 10 adults' end,
+    case when (f->>'children')::int > 6 then 'more than 6 children' end,
+    case when (f->>'stays_in_weekend_nights')::int + (f->>'stays_in_week_nights')::int < 1 then 'stay of 0 nights' end,
+    case when (f->>'stays_in_weekend_nights')::int + (f->>'stays_in_week_nights')::int > 30 then 'stay longer than 30 nights' end,
+    case when (f->>'lead_time')::int > 737 then 'booked more than 737 days ahead' end,
+    case when (f->>'adr')::numeric * 90 < 500 or (f->>'adr')::numeric * 90 > 45000 then 'room rate outside Rs 500 - 45,000' end
   ], null);
 $$;
 
--- 6. Score one booking (today) and store it
+-- 6. Score one booking (today) and store it. Impossible bookings are not scored.
 create or replace function public.score_booking(p_booking_id bigint)
 returns void
 language plpgsql
@@ -182,25 +211,37 @@ as $$
 declare
   b public.bookings;
   f jsonb;
+  w text[];
+  p0 numeric;
   p numeric;
+  dleft int;
 begin
   select * into b from public.bookings where id = p_booking_id;
   if not found or b.status <> 'confirmed' or b.checkin_date < current_date then
     return;
   end if;
   f := public.staycertain_features(b);
-  p := public.staycertain_predict(f);
-  insert into public.booking_scores (booking_id, score_date, probability, tier, action, features, warnings)
+  w := public.staycertain_warnings(f);
+  if array_length(w, 1) > 0 then
+    delete from public.booking_scores where booking_id = b.id and score_date = current_date;
+    return;
+  end if;
+  p0 := public.staycertain_predict(f);
+  dleft := b.checkin_date - current_date;
+  p := public.staycertain_risk_today(p0, (f->>'lead_time')::int, dleft);
+  insert into public.booking_scores (booking_id, score_date, probability, probability_at_booking, days_to_arrival, tier, action, features, warnings)
   values (
-    b.id, current_date, p,
-    case when p < 0.30 then 'Low' when p < 0.60 then 'Medium' else 'High' end,
-    case when p < 0.30 then 'No action needed: keep the booking as normal.'
-         when p < 0.60 then 'Send a reminder one week before arrival asking the guest to confirm.'
-         else 'Ask for a deposit, or phone to confirm, before arrival.' end,
-    f, public.staycertain_warnings(f)
+    b.id, current_date, p, p0, dleft,
+    case when p < 0.30 then 'Low' when p < 0.55 then 'Medium' else 'High' end,
+    case when b.deposit_type = 'Non Refund' then 'Fully prepaid - no action needed.'
+         when p < 0.30 then 'No action needed - keep the booking as normal.'
+         when p < 0.55 then 'Send a WhatsApp reconfirmation 7 days before arrival.'
+         else 'Ask for a 50% advance and send a WhatsApp reconfirmation; call if there is no reply.' end,
+    f, w
   )
   on conflict (booking_id, score_date) do update
-    set probability = excluded.probability, tier = excluded.tier, action = excluded.action,
+    set probability = excluded.probability, probability_at_booking = excluded.probability_at_booking,
+        days_to_arrival = excluded.days_to_arrival, tier = excluded.tier, action = excluded.action,
         features = excluded.features, warnings = excluded.warnings, scored_at = now();
 end;
 $$;
@@ -242,17 +283,19 @@ create trigger score_on_change
   after insert or update on public.bookings
   for each row execute function public.bookings_score_trigger();
 
--- 9. Today's action list: upcoming Medium and High risk bookings
-create or replace view public.todays_risk_list
+-- 9. Today's action list: upcoming Medium and High risk bookings that are not prepaid
+drop view if exists public.todays_risk_list;
+create view public.todays_risk_list
 with (security_invoker = true)
 as
-select b.booking_ref, b.guest_name, b.hotel, b.checkin_date, b.checkout_date,
-       s.probability, s.tier, s.action, s.warnings, s.scored_at
+select b.booking_ref, b.guest_name, b.checkin_date, b.checkout_date, s.days_to_arrival,
+       s.probability as risk_today, s.probability_at_booking, s.tier, s.action, s.scored_at
 from public.booking_scores s
 join public.bookings b on b.id = s.booking_id
 where s.score_date = current_date
   and s.tier in ('Medium','High')
   and b.status = 'confirmed'
+  and coalesce(b.deposit_type, '') <> 'Non Refund'
   and b.checkin_date >= current_date
 order by b.checkin_date, s.probability desc;
 
@@ -261,9 +304,9 @@ create extension if not exists pg_cron;
 select cron.schedule(
   'staycertain-daily-score',
   '30 0 * * *',
-  $cron$ select public.score_upcoming_bookings(60); $cron$
+  $cron$ select public.score_upcoming_bookings(120); $cron$
 );
 
 -- Check: select * from cron.job;          (the schedule)
--- Run now: select public.score_upcoming_bookings(60);
+-- Run now: select public.score_upcoming_bookings(120);
 -- See results: select * from public.todays_risk_list;

@@ -26,7 +26,7 @@
       <div class="panel-head">
         <div>
           <h1 id="form-title">Check a booking</h1>
-          <p class="muted">Enter the booking details. Fields marked “pre-filled” can usually stay as they are.</p>
+          <p class="muted">Enter the booking as it was made. This shows the risk at the time of booking; the dashboard also updates it for the days left before arrival.</p>
         </div>
         <div class="tools">
           <label for="example" class="sr-only">Load a test booking</label>
@@ -53,19 +53,18 @@
       <section class="panel guide">
         <h2>How to read the result</h2>
         <ul class="tiers">
-          <li><span class="badge low">Low</span><span>Below 30%. About 1 in 8 similar bookings cancel. No action.</span></li>
-          <li><span class="badge medium">Medium</span><span>30–59%. About 2 in 5 cancel. Send a reminder a week before arrival.</span></li>
-          <li><span class="badge high">High</span><span>60% and above. About 4 in 5 cancel. Ask for a deposit or phone to confirm.</span></li>
+          <li><span class="badge low">Low</span><span>Below 30%. No action needed.</span></li>
+          <li><span class="badge medium">Medium</span><span>30–54%. Send a WhatsApp reconfirmation 7 days before arrival.</span></li>
+          <li><span class="badge high">High</span><span>55% and above. Ask for a 50% advance and send a WhatsApp reconfirmation; call if there is no reply.</span></li>
         </ul>
       </section>
     </aside>
   </main>
 
   <footer class="about">
-    <p><strong>About this tool:</strong> trained on 87,216 bookings from two hotels in Portugal (2015–2017).
-    It has not been tested on Indian hotels. It correctly ranks a cancelled booking above a kept one about 80% of the time,
-    and at the Medium threshold it catches about 7 in 10 cancellations. Costs behind the thresholds are assumptions.
-    Use it as a guide alongside your own judgement.</p>
+    <p><strong>About this tool:</strong> built from 85,370 past bookings at two hotels in Portugal (2015–2017); not yet tested on Indian hotels.
+    It puts a cancelled booking above a kept one about 73% of the time, and from the Medium level it flags about 7 in 10 cancellations.
+    The risk levels come from cost assumptions. Use it as a guide alongside your own judgement.</p>
   </footer>
 
   <script type="module" src="check.js"></script>

@@ -8,8 +8,8 @@
 
 /* KPIs */
 .kpis { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (min-width: 760px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .kpis { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@media (min-width: 760px) { .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
 .kpi .v { font-size: 24px; font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }
 .kpi .l { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
@@ -17,7 +17,7 @@
 .kpi.good { border-color: var(--low); } .kpi.good .v { color: var(--low); }
 
 /* Tabs */
-.tabs { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--line); scrollbar-width: thin; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px 2px; border-bottom: 1px solid var(--line); }
 .tab { flex: none; background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font-size: 14.5px; font-weight: 600; color: var(--muted); border-radius: 0; }
 .tab:hover { color: var(--ink); }
 .tab.active { color: var(--brand); border-bottom-color: var(--brand); }
@@ -112,3 +112,14 @@ pre.prompt { white-space: pre-wrap; background: #0f1b2a; color: #e6edf5; border-
 .drawer .small { word-break: break-all; }
 .drawer-head .close { flex: none; white-space: nowrap; overflow-wrap: normal; }
 [hidden] { display: none !important; }
+
+.kpi { padding: 10px 14px; }
+.kpi .v { font-size: 20px; }
+.kpi-note { margin: -8px 0 0; font-size: 12.5px; color: var(--muted); }
+@media (max-width: 600px) { .tab { padding: 8px 10px; font-size: 13.5px; } .kpi .v { font-size: 18px; } .kpi .l { font-size: 12px; } }
+.next { margin-top: 12px; padding: 12px 14px; background: #fff; border: 1px solid var(--line); border-radius: 8px; display: grid; gap: 2px; }
+.next strong { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+details.more > summary { cursor: pointer; font-weight: 600; color: var(--brand); }
+details.more[open] > summary { margin-bottom: 8px; }
+details.small summary { cursor: pointer; color: var(--muted); }
+p.callout { font-size: 14px; }
